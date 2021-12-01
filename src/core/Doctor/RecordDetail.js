@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReactToPrint from "react-to-print";
 import { isLogin } from "../../model/account";
 import { getRecord } from "../../model/record";
 import Error from "../Error";
@@ -8,7 +9,11 @@ export default function RecordDetail() {
 
   useEffect(() => {
     getRecord(window.location.pathname.split("/")[2])
-      .then((result) => setRecord(result))
+      .then((result) => {
+        result.record
+          ? setRecord(result.record)
+          : (window.location.href = "/error");
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -24,16 +29,23 @@ export default function RecordDetail() {
   if (isLogin !== "doctor") return <Error />;
   else
     return (
-      <div>
-        <div>
+      <div className="home">
+        <div className="menu">
           <a href="/home">Trang chủ</a>
-          <a href="#">Hồ sơ bệnh án</a>
+          <a style={{ color: "#282c34", background: "#61dafb" }} href="#">
+            Hồ sơ bệnh án
+          </a>
           <a href="/">Đăng xuất</a>
         </div>
-        <div>
-          <div>Người bệnh: {record.patientName}</div>
-          <div>Ngày khám: {record.date}</div>
-          <div>Tên bệnh: {record.name}</div>
+
+        <div className="main" id="print">
+          <div>Người bệnh: {record ? record.patientName : ""}</div>
+          <div>Tên bệnh: {record ? record.name : ""}</div>
+          <div>
+            Ngày khám:{" "}
+            {record ? new Date(record.date).toLocaleDateString() : ""}
+          </div>
+          <div className="title">Đơn thuốc</div>
           <table>
             <tr>
               <th>Tên thuốc</th>
@@ -43,8 +55,15 @@ export default function RecordDetail() {
             </tr>
             {/* {prescription} */}
           </table>
-          <button onClick={() => null}>In</button>
         </div>
+        <ReactToPrint
+          trigger={() => (
+            <a className="buttonlink" href="#">
+              In
+            </a>
+          )}
+          content={() => document.getElementById("print")}
+        />
       </div>
     );
 }

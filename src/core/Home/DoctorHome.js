@@ -4,7 +4,7 @@ import { chartByDay, getAmountByDate } from "../../model/record";
 import Chart from "../Doctor/Chart";
 
 export default function DoctorHome() {
-  const [chartDay, setChartDay] = useState();
+  const [chartDay, setChartDay] = useState([]);
 
   useEffect(() => {
     chartByDay()
@@ -13,24 +13,28 @@ export default function DoctorHome() {
   });
 
   return (
-    <div>
-      <div>
-        <a href="#">Trang chủ</a>
+    <div className="home">
+      <div className="menu">
+        <a style={{ color: "#282c34", background: "#61dafb" }} href="#">
+          Trang chủ
+        </a>
         <a href="/record">Hồ sơ bệnh án</a>
         <a href="/">Đăng xuất</a>
       </div>
 
-      <div>
+      <div className="chart">
         Biểu đồ số lượng người khám bệnh
-        <CanvasJSChart
-          options={{
-            title: { text: "Trong ngày" },
-            axisX: { interval: 1 },
-            axisY: { title: "(người)" },
-            data: [{ type: "spline", dataPoints: chartDay }],
-          }}
-        />
-        <Chart />
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <CanvasJSChart
+            options={{
+              title: { text: "Trong ngày" },
+              axisX: { interval: 1 },
+              axisY: { title: "(người)" },
+              data: [{ type: "spline", dataPoints: chartDay }],
+            }}
+          />
+          <Chart />
+        </div>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ export const getAll = async () => {
       API_URL + `/medical-record/${sessionStorage.getItem("id")}/doctor`
     );
     const json = response.json();
-    return json.record;
+    return json;
   } catch (error) {
     console.error(error);
   }
@@ -59,5 +59,21 @@ export const getAmountByDate = async (date) => {
   })
     .then((response) => response.json())
     .then((json) => json.chart)
+    .catch((error) => console.error(error));
+};
+
+export const create = async (patientId, patientName, name, precription) => {
+  return await fetch(API_URL + `/medical-record`, {
+    method: "POST",
+    headers: HEADER,
+    body: JSON.stringify({
+      doctorId: sessionStorage.getItem("id"),
+      patientId: patientId,
+      patientName: patientName,
+      name: name,
+      precription: precription,
+    }),
+  })
+    .then((response) => response.json())
     .catch((error) => console.error(error));
 };

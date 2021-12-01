@@ -6,9 +6,11 @@ export default function Error() {
   }, []);
 
   return (
-    <div>
+    <div className="background">
       <div>Yêu cầu đăng nhập</div>
-      <a href="/">Chuyển đến trang đăng nhập</a>
+      <a className="buttonlink" href="/">
+        Chuyển đến trang đăng nhập
+      </a>
     </div>
   );
 }

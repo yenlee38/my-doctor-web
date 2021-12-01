@@ -45,33 +45,36 @@ export default function Signin(props) {
   };
 
   return (
-    <div>
-      <div>Tên đăng nhập</div>
-      <input
-        name="username"
-        type="text"
-        placeholder="Nhập tên đăng nhập"
-        value={username}
-        onChange={onChange}
-      />
-      <div>Mật khẩu</div>
-      <input
-        name="password"
-        type="password"
-        placeholder="Nhập mật khẩu"
-        value={password}
-        onChange={onChange}
-      />
-      <br />
-      <input
-        name="remember"
-        type="checkbox"
-        checked={remember}
-        onChange={onChange}
-      />
-      Nhớ tài khoản
-      <div>{error}</div>
-      <button onClick={Signin}>Đăng nhập</button>
+    <div className="background">
+      <div className="form">
+        <div>Tên đăng nhập</div>
+        <input
+          name="username"
+          type="text"
+          placeholder="Nhập tên đăng nhập"
+          value={username}
+          onChange={onChange}
+        />
+        <div>Mật khẩu</div>
+        <input
+          name="password"
+          type="password"
+          placeholder="Nhập mật khẩu"
+          value={password}
+          onChange={onChange}
+        />
+        <div style={{ direction: "rtl" }}>
+          Nhớ tài khoản
+          <input
+            name="remember"
+            type="checkbox"
+            checked={remember}
+            onChange={onChange}
+          />
+        </div>
+        <div className="error">{error}</div>
+        <button onClick={Signin}>Đăng nhập</button>
+      </div>
     </div>
   );
 }

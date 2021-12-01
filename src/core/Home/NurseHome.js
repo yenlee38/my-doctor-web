@@ -60,11 +60,16 @@ export default function NurseHome() {
   });
 
   return (
-    <div>
-      <div>
+    <div className="home">
+      <div className="menu">
         <a href="#">Trang chủ</a>
-        <button onClick={() => setHidden(!hidden)}>Khoa</button>
-        <div hidden={hidden}>
+        <button className="dropdown" onClick={() => setHidden(!hidden)}>
+          Khoa
+        </button>
+        <div
+          style={{ display: "flex", flexDirection: "column", opacity: 0.5 }}
+          hidden={hidden}
+        >
           <a href="/position/pediatrics">{DEPARTMENT.pediatrics}</a>
           <a href="/position/dental">{DEPARTMENT.dental}</a>
           <a href="/position/dermatology">{DEPARTMENT.dermatology}</a>
@@ -81,32 +86,35 @@ export default function NurseHome() {
           <a href="/position/pediatrics">{DEPARTMENT.pediatrics}</a>
           <a href="/position/respiratory">{DEPARTMENT.respiratory}</a>
         </div>
+        <a href="/">Đăng xuất</a>
       </div>
 
-      <CanvasJSChart
-        options={{
-          title: { text: "Biểu đồ đặt lịch khám bệnh theo khoa" },
-          data: [
-            {
-              type: "pie",
-              legendText: "{label}",
-              indexLabel: "{label}: {y}%",
-              dataPoints: chart,
-            },
-          ],
-        }}
-      />
+      <div>
+        <CanvasJSChart
+          options={{
+            title: { text: "Biểu đồ đặt lịch khám bệnh theo khoa" },
+            data: [
+              {
+                type: "pie",
+                legendText: "{label}",
+                indexLabel: "{label}: {y}%",
+                dataPoints: chart,
+              },
+            ],
+          }}
+        />
 
-      <table>
-        <tr>
-          <th>Khoa</th>
-          <th>Chưa khám</th>
-          <th>Đã khám</th>
-          <th>Hủy</th>
-          <th>Quá hạn</th>
-        </tr>
-        {table()}
-      </table>
+        <table>
+          <tr>
+            <th>Khoa</th>
+            <th>Chưa khám</th>
+            <th>Đã khám</th>
+            <th>Hủy</th>
+            <th>Quá hạn</th>
+          </tr>
+          {table()}
+        </table>
+      </div>
     </div>
   );
 }
