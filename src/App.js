@@ -17,7 +17,7 @@ function App() {
         <Route path="/" exact element={<Signin />} />
         <Route path="/error" element={<Error />} />
         <Route path="/home" element={<Home />} />
-
+        
         <Route path="/record" element={<Record />} />
         <Route path="/record-detail/:id" element={<RecordDetail />} />
         <Route path="/insert-record/:patientId" element={<InsertRecord />} />
