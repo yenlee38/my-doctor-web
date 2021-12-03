@@ -20,7 +20,7 @@ function App() {
 
         <Route path="/record" element={<Record />} />
         <Route path="/record-detail/:id" element={<RecordDetail />} />
-        <Route path="/insert-record" element={<InsertRecord />} />
+        <Route path="/insert-record/:patientId" element={<InsertRecord />} />
 
         <Route path="/position/:department" element={<Position />} />
       </Routes>

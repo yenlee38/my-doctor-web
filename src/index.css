@@ -105,9 +105,10 @@ input {
   height: 65%;
 }
 
-table {
+.list table {
   width: 100%;
   border-collapse: collapse;
+  height: auto;
 }
 
 .label th {
@@ -168,4 +169,10 @@ select {
   padding: 8px;
   font-size: calc(10px + 2vmin);
   color: #282c34;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  height: 100%;
 }

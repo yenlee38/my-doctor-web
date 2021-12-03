@@ -55,7 +55,12 @@ export default function Record() {
       .then((result) => setData(result.record))
       .catch((err) => console.error(err));
     getAllRoom()
-      .then((result) => setRooms(result.room))
+      .then((result) => {
+        setRooms(result.room);
+        getAllByRoom(result.room[0].name)
+          .then((result) => setPositions(result.position))
+          .catch((err) => console.error(err));
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -77,22 +82,14 @@ export default function Record() {
               Tìm kiếm
               <input
                 type="search"
-                onChange={(event) => {
-                  if (event.target.value === "")
-                    getAll()
-                      .then((result) => {
-                        setData(result.record);
-                        setPage(1);
-                      })
-                      .catch((err) => console.error(err));
-                  else
-                    findByPatientName(search)
-                      .then((result) => {
-                        setData(result);
-                        setPage(1);
-                      })
-                      .catch((err) => console.error(err));
-                }}
+                onChange={(event) =>
+                  findByPatientName(event.target.value)
+                    .then((result) => {
+                      setData(result);
+                      setPage(1);
+                    })
+                    .catch((err) => console.error(err))
+                }
                 placeholder="Nhập tên bệnh nhân"
               />
             </div>
@@ -129,7 +126,9 @@ export default function Record() {
                   onClick={() => {
                     used(position.id)
                       .then(
-                        (result) => (window.location.href = "/insert-record")
+                        (result) =>
+                          (window.location.href =
+                            "/insert-record/" + position.patientId)
                       )
                       .catch((err) => console.error(err));
                   }}
@@ -170,7 +169,11 @@ export default function Record() {
                 setPage(event.target.value > 0 ? event.target.value : 1)
               }
             />
-            <AiFillForward onClick={() => setPage(page + 1)} />
+            <AiFillForward
+              onClick={() => {
+                if (page < data.length / amount) setPage(page + 1);
+              }}
+            />
             <AiFillStepForward
               onClick={() => setPage(parseInt(data.length / amount) + 1)}
             />
