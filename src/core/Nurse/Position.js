@@ -1,22 +1,42 @@
 import { useEffect, useState } from "react";
 import ReactToPrint from "react-to-print";
-import { DEPARTMENT } from "../../constant";
+
+import { DEPARTMENT, NUMBER_STATE } from "../../constant";
 import { isLogin } from "../../model/account";
-import { getAllByDept, create } from "../../model/position";
+import { getAllByDept, create, getCurrent, filter } from "../../model/position";
 import { getRoomsByDept } from "../../model/room";
 import Error from "../Error";
+import {
+  AiFillStepBackward,
+  AiFillBackward,
+  AiFillForward,
+  AiFillStepForward,
+} from "react-icons/ai";
+import { render } from "@testing-library/react";
 
 export default function Position(props) {
+  const [hidden, setHidden] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [show, setShow] = useState(false);
   const [number, setNumber] = useState();
   const [room, setRoom] = useState();
   const [data, setData] = useState([]);
+  const [department, setDepartment] = useState("");
+  const [page, setPage] = useState(1);
+  const amount = 10;
+  const [filterText, setFilter] = useState({ room: "", state: "" });
 
   const Add = () => {
-    setShow(false);
     create(number, room)
-      .then((result) => console.log(result))
+      .then((result) => {
+        if (result.position === null) {
+          setNumber(number + 1);
+          alert("STT đã được đặt");
+        } else {
+          setShow(false);
+          setData([...data, result.position]);
+        }
+      })
       .catch((err) => console.error(err));
   };
 
@@ -29,27 +49,60 @@ export default function Position(props) {
       }
     }
     if (depart === "") window.location.href = "/error";
-    else {
+
+    if (depart !== department) {
       getAllByDept(depart)
         .then((result) => setData(result.position))
         .catch((err) => console.error(err));
       getRoomsByDept(depart)
-        .then((result) => setRooms(result.room))
+        .then((result) => {
+          let rooms = result.room;
+          getCurrent(rooms[0].name)
+            .then((current) => setNumber(current.current + 1))
+            .catch((err) => console.error(err));
+          setRooms(rooms);
+          setRoom(rooms[0].name);
+        })
         .catch((err) => console.error(err));
+
+      setDepartment(depart);
     }
   });
+
+  const paging = () => {
+    let table = [];
+    const last = amount * page;
+    let i = last - amount;
+    while (i < data.length && i < last) {
+      const position = data[i];
+      i++;
+      table.push(
+        <tr className="data">
+          <th>{position.number}</th>
+          <th>{position.room}</th>
+          <th>{position.state}</th>
+          <th>
+            <ReactToPrint
+              trigger={() => <a href="#">In</a>}
+              content={() => document.getElementById("print")}
+            />
+          </th>
+        </tr>
+      );
+    }
+    return table;
+  };
 
   if (isLogin !== "nurse") return <Error />;
   else
     return (
       <div className="home">
         <div className="menu">
-          <a href="#">Trang chủ</a>
-          <button className="dropdown">Khoa</button>
-          <div
-            style={{ display: "flex", flexDirection: "column", opacity: 0.5 }}
-            hidden={true}
-          >
+          <a href="/home">Trang chủ</a>
+          <button className="dropdown" onClick={() => setHidden(!hidden)}>
+            Khoa
+          </button>
+          <div className="department" hidden={hidden}>
             <a href="/position/pediatrics">{DEPARTMENT.pediatrics}</a>
             <a href="/position/dental">{DEPARTMENT.dental}</a>
             <a href="/position/dermatology">{DEPARTMENT.dermatology}</a>
@@ -71,59 +124,123 @@ export default function Position(props) {
           <a href="/">Đăng xuất</a>
         </div>
 
-        <button onClick={() => setShow(true)}>Thêm</button>
-        <dialog open={show}>
-          <div>Phòng khám</div>
-          <select
-            onChange={(event) => {
-              setNumber(1);
-              setRoom(event.target.value);
-            }}
-          >
-            {rooms.map((room) => (
-              <option value={room.name}>{room.name}</option>
-            ))}
-          </select>
-          <div>STT</div>
-          <input name="number" type="number" value={number} disabled={true} />
-          <br />
-          <ReactToPrint
-            trigger={() => <button onClick={Add}>Thêm</button>}
-            content={() => (
-              <div>
-                <div>{number}</div>
-                <div>Phòng khám: {room}</div>
-              </div>
-            )}
-          />
-          <button onClick={() => setShow(false)}>Thoát</button>
-        </dialog>
-        <table>
-          <tr>
-            <th>STT</th>
-            <th>Phòng khám</th>
-            <th>Trạng thái</th>
-            <th></th>
-          </tr>
-          {data.map((position) => (
-            <tr>
-              <th>{position.number}</th>
-              <th>{position.room}</th>
-              <th>{position.state}</th>
-              <th>
-                <ReactToPrint
-                  trigger={() => <a href="#">In</a>}
-                  content={() => (
-                    <div>
-                      <div>{position.number}</div>
-                      <div>Phòng khám: {position.room}</div>
-                    </div>
-                  )}
-                />
-              </th>
-            </tr>
-          ))}
-        </table>
+        <div className="main">
+          <div className="space">
+            <div className="title">Khoa {department}</div>
+            <button className="btn" onClick={() => setShow(true)}>
+              Thêm
+            </button>
+          </div>
+          <dialog open={show}>
+            Phòng khám{" "}
+            <select
+              onChange={(event) => {
+                let room = event.target.value;
+                getCurrent(room)
+                  .then((current) => setNumber(current.current + 1))
+                  .catch((err) => console.error(err));
+                setRoom(room);
+              }}
+            >
+              {rooms.map((room) => (
+                <option value={room.name}>{room.name}</option>
+              ))}
+            </select>
+            <div>STT</div>
+            <input
+              name="number"
+              type="number"
+              value={number}
+              onChange={(event) => setNumber(event.target.value)}
+            />
+            <br />
+            <div className="header">
+              {/* <ReactToPrint
+                trigger={() => <button onClick={Add}>Thêm</button>}
+                content={() => document.getElementById("print")}
+              /> */}
+              <button onClick={Add}>Thêm</button>
+              <button onClick={() => setShow(false)}>Thoát</button>
+            </div>
+          </dialog>
+
+          <div style={{ padding: 15 }}>
+            Phòng khám{" "}
+            <select
+              onChange={(event) => {
+                const text = {
+                  room: event.target.value,
+                  state: filterText.state,
+                };
+                filter(text)
+                  .then((result) => setData(result.position))
+                  .catch((err) => console.error(err));
+                setFilter(text);
+              }}
+            >
+              <option value="">Tất cả</option>
+              {rooms.map((room) => (
+                <option value={room.name}>{room.name}</option>
+              ))}
+            </select>
+            &emsp;Trạng thái{" "}
+            <select
+              onChange={(event) => {
+                const text = {
+                  state: event.target.value,
+                  room: filterText.room,
+                };
+                filter(text)
+                  .then((result) => setData(result.position))
+                  .catch((err) => console.error(err));
+                setFilter(text);
+              }}
+            >
+              <option value="">Tất cả</option>
+              <option value={NUMBER_STATE.USED}>{NUMBER_STATE.USED}</option>
+              <option value={NUMBER_STATE.NOT_USE}>
+                {NUMBER_STATE.NOT_USE}
+              </option>
+              <option value={NUMBER_STATE.CANCEL}>{NUMBER_STATE.CANCEL}</option>
+            </select>
+          </div>
+
+          <div className="list">
+            <table>
+              <tr className="label">
+                <th>STT</th>
+                <th>Phòng khám</th>
+                <th>Trạng thái</th>
+                <th></th>
+              </tr>
+              {paging()}
+            </table>
+          </div>
+
+          <div className="page">
+            <AiFillStepBackward onClick={() => setPage(1)} />
+            <AiFillBackward
+              onClick={() => {
+                if (page > 1) setPage(page - 1);
+              }}
+            />
+            <input
+              value={page}
+              onChange={(event) =>
+                setPage(event.target.value > 0 ? event.target.value : 1)
+              }
+            />
+            <AiFillForward
+              onClick={() => {
+                if (page < data.length / amount) setPage(page + 1);
+              }}
+            />
+            <AiFillStepForward
+              onClick={() => setPage(parseInt(data.length / amount) + 1)}
+            />
+          </div>
+          <div>Tổng: {data.length}</div>
+        </div>
       </div>
     );
 }

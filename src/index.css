@@ -163,16 +163,41 @@ select {
 }
 
 .dropdown {
-  background-color: #61dafb;
+  background-color: #282c34;
   width: 100%;
-  border-radius: 4px;
   padding: 8px;
   font-size: calc(10px + 2vmin);
-  color: #282c34;
+  color: #61dafb;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   height: 100%;
+}
+
+.department {
+  display: flex;
+  opacity: 0.5;
+  font-size: calc(5px + 2vmin);
+  flex-direction: column;
+}
+
+.department a {
+  padding: 5px;
+  text-decoration: none;
+}
+
+.department a:visited {
+  color: #61dafb;
+}
+
+.department a:hover {
+  color: #282c34;
+  background-color: #61dafb;
+}
+
+.space {
+  display: flex;
+  justify-content: space-between;
 }

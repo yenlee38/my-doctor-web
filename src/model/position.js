@@ -29,7 +29,6 @@ export const getAllByDept = async (dept) => {
     console.error(error);
   }
 };
-
 export const getAllByRoom = async (room) => {
   try {
     const response = await fetch(API_URL + `/position/${room}/room`);
@@ -40,12 +39,38 @@ export const getAllByRoom = async (room) => {
   }
 };
 
+export const filter = async (data) => {
+  return await fetch(API_URL + `/position/roomState`, {
+    method: "POST",
+    headers: HEADER,
+    body: JSON.stringify({
+      state: data.state,
+      room: data.room,
+    }),
+  })
+    .then((response) => response.json())
+    .catch((error) => console.error(error));
+};
+
 export const create = async (number, room) => {
   return await fetch(API_URL + `/position`, {
     method: "POST",
     headers: HEADER,
     body: JSON.stringify({
       number: number,
+      room: room,
+      date: new Date().toISOString().split("T")[0],
+    }),
+  })
+    .then((response) => response.json())
+    .catch((error) => console.error(error));
+};
+
+export const getCurrent = async (room) => {
+  return await fetch(API_URL + `/position/current`, {
+    method: "POST",
+    headers: HEADER,
+    body: JSON.stringify({
       room: room,
       date: new Date(),
     }),

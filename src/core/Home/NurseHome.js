@@ -23,7 +23,7 @@ export default function NurseHome() {
     let content = [];
     for (const key in data) {
       content.push(
-        <tr>
+        <tr className="data">
           <th>{key}</th>
           <th>{data[key][NUMBER_STATE.NOT_USE] || 0}</th>
           <th>{data[key][NUMBER_STATE.USED] || 0}</th>
@@ -62,14 +62,13 @@ export default function NurseHome() {
   return (
     <div className="home">
       <div className="menu">
-        <a href="#">Trang chủ</a>
+        <a href="#" style={{ color: "#282c34", background: "#61dafb" }}>
+          Trang chủ
+        </a>
         <button className="dropdown" onClick={() => setHidden(!hidden)}>
           Khoa
         </button>
-        <div
-          style={{ display: "flex", flexDirection: "column", opacity: 0.5 }}
-          hidden={hidden}
-        >
+        <div className="department" hidden={hidden}>
           <a href="/position/pediatrics">{DEPARTMENT.pediatrics}</a>
           <a href="/position/dental">{DEPARTMENT.dental}</a>
           <a href="/position/dermatology">{DEPARTMENT.dermatology}</a>
@@ -89,7 +88,7 @@ export default function NurseHome() {
         <a href="/">Đăng xuất</a>
       </div>
 
-      <div>
+      <div style={{ display: "flex", flexDirection: "row", minWidth: "80%" }}>
         <CanvasJSChart
           options={{
             title: { text: "Biểu đồ đặt lịch khám bệnh theo khoa" },
@@ -105,7 +104,7 @@ export default function NurseHome() {
         />
 
         <table>
-          <tr>
+          <tr className="label">
             <th>Khoa</th>
             <th>Chưa khám</th>
             <th>Đã khám</th>
