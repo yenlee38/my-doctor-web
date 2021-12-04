@@ -74,7 +74,7 @@ export default function Signin(props) {
           width: 350,
         }}
       >
-        <div style = {{justifyContent:'center'}}>
+        <div style={{ justifyContent: "center" }}>
           {" "}
           <div
             style={{
@@ -84,7 +84,7 @@ export default function Signin(props) {
               fontSize: 20,
               fontWeight: "bold",
               color: "#1DB9C3",
-              textAlign:'center'
+              textAlign: "center",
             }}
           >
             MY DOCTOR
@@ -154,6 +154,7 @@ export default function Signin(props) {
         </button>
       </div>
       <img
+        alt="My Doctor"
         src="../../assets/imgs/bgLogin.gif"
         style={{ width: "40%", height: "100%" }}
       />

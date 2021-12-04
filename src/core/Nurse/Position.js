@@ -12,7 +12,6 @@ import {
   AiFillForward,
   AiFillStepForward,
 } from "react-icons/ai";
-import { render } from "@testing-library/react";
 
 export default function Position(props) {
   const [hidden, setHidden] = useState(false);

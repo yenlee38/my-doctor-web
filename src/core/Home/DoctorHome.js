@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
-import { chartByDay, getAmountByDate } from "../../model/record";
+import { chartByDay } from "../../model/record";
 import Chart from "../Doctor/Chart";
 
 export default function DoctorHome() {

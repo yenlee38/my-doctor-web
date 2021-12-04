@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { isLogin } from "../../model/account";
 import DoctorHome from "./DoctorHome";
 import NurseHome from "./NurseHome";

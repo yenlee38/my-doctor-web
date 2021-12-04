@@ -1,6 +1,6 @@
 import { CanvasJSChart } from "canvasjs-react-charts";
 import React, { Component } from "react";
-import { chartByDay, getAmountByDate } from "../../model/record";
+import { getAmountByDate } from "../../model/record";
 
 var chartMonth = [];
 var chartWeek = [];

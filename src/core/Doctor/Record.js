@@ -18,7 +18,6 @@ export default function Record() {
   const [rooms, setRooms] = useState([]);
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
-  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const amount = 10;
 
