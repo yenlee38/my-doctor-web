@@ -62,7 +62,7 @@ export const getAmountByDate = async (date) => {
     .catch((error) => console.error(error));
 };
 
-export const create = async (patientId, patientName, name, precription) => {
+export const create = async (patientId, patientName, name) => {
   return await fetch(API_URL + `/medical-record`, {
     method: "POST",
     headers: HEADER,
@@ -71,7 +71,6 @@ export const create = async (patientId, patientName, name, precription) => {
       patientId: patientId,
       patientName: patientName,
       name: name,
-      precription: precription,
     }),
   })
     .then((response) => response.json())

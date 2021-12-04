@@ -102,7 +102,7 @@ export default function Position(props) {
             Khoa
           </button>
           <div className="department" hidden={hidden}>
-            <a href="/position/pediatrics">{DEPARTMENT.pediatrics}</a>
+            <a href="/position/cardiology">{DEPARTMENT.cardiology}</a>
             <a href="/position/dental">{DEPARTMENT.dental}</a>
             <a href="/position/dermatology">{DEPARTMENT.dermatology}</a>
             <a href="/position/gastroenterology">
@@ -171,10 +171,11 @@ export default function Position(props) {
                   room: event.target.value,
                   state: filterText.state,
                 };
-                filter(text)
+                filter(text, department)
                   .then((result) => setData(result.position))
                   .catch((err) => console.error(err));
                 setFilter(text);
+                setPage(1);
               }}
             >
               <option value="">Tất cả</option>
@@ -189,10 +190,11 @@ export default function Position(props) {
                   state: event.target.value,
                   room: filterText.room,
                 };
-                filter(text)
+                filter(text, department)
                   .then((result) => setData(result.position))
                   .catch((err) => console.error(err));
                 setFilter(text);
+                setPage(1);
               }}
             >
               <option value="">Tất cả</option>

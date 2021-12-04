@@ -39,13 +39,14 @@ export const getAllByRoom = async (room) => {
   }
 };
 
-export const filter = async (data) => {
+export const filter = async (data, department) => {
   return await fetch(API_URL + `/position/roomState`, {
     method: "POST",
     headers: HEADER,
     body: JSON.stringify({
       state: data.state,
       room: data.room,
+      department: department,
     }),
   })
     .then((response) => response.json())

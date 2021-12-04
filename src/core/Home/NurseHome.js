@@ -69,7 +69,7 @@ export default function NurseHome() {
           Khoa
         </button>
         <div className="department" hidden={hidden}>
-          <a href="/position/pediatrics">{DEPARTMENT.pediatrics}</a>
+          <a href="/position/cardiology">{DEPARTMENT.cardiology}</a>
           <a href="/position/dental">{DEPARTMENT.dental}</a>
           <a href="/position/dermatology">{DEPARTMENT.dermatology}</a>
           <a href="/position/gastroenterology">{DEPARTMENT.gastroenterology}</a>

@@ -113,6 +113,7 @@ export default function InsertRecord() {
                   <th>{medicine.name}</th>
                   <th>
                     <input
+                      type="number"
                       value={medicine.amount}
                       style={{ width: 50, textAlign: "left" }}
                       onChange={(event) => {
@@ -154,12 +155,13 @@ export default function InsertRecord() {
                         element.name,
                         element.use
                       )
-                        .then((result) => console.log(result))
+                        .then(
+                          (result) =>
+                            (window.location.href =
+                              "/record-detail/" + result.prescription.recordId)
+                        )
                         .catch((err) => console.error(err));
                     });
-
-                    window.location.href =
-                      "/record-detail/" + result.medicalRecord.id;
                   })
                   .catch((err) => console.error(err))
               }
