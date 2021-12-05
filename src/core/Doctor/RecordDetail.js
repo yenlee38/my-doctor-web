@@ -55,9 +55,9 @@ export default function RecordDetail() {
               {prescription.map((medicine, index) => (
                 <tr className="data">
                   <th>{++index}</th>
-                  <th>{medicine.name}</th>
+                  <th style={{ textAlign: "left" }}>{medicine.name}</th>
                   <th>{medicine.amount}</th>
-                  <th>{medicine.use}</th>
+                  <th style={{ textAlign: "left" }}>{medicine.use}</th>
                 </tr>
               ))}
             </table>

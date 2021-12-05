@@ -33,7 +33,10 @@ export default function Position(props) {
           alert("STT đã được đặt");
         } else {
           setShow(false);
-          setData([...data, result.position]);
+          getAllByDept(department)
+            .then((result) => setData(result.position))
+            .catch((err) => console.error(err));
+          setFilter({ room: "", state: "" });
         }
       })
       .catch((err) => console.error(err));
@@ -166,6 +169,7 @@ export default function Position(props) {
           <div style={{ padding: 15 }}>
             Phòng khám{" "}
             <select
+              value={filterText.room}
               onChange={(event) => {
                 const text = {
                   room: event.target.value,
@@ -185,6 +189,7 @@ export default function Position(props) {
             </select>
             &emsp;Trạng thái{" "}
             <select
+              value={filterText.state}
               onChange={(event) => {
                 const text = {
                   state: event.target.value,
