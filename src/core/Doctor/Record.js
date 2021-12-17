@@ -8,7 +8,8 @@ import {
 } from "react-icons/ai";
 
 import { isLogin } from "../../model/account";
-import { getAllByRoom, used } from "../../model/position";
+import { getPatient } from "../../model/patient";
+import { exist, getAllByRoom, notification, used } from "../../model/position";
 import { findByPatientName, getAll } from "../../model/record";
 import { getAllRoom } from "../../model/room";
 import Error from "../Error";
@@ -47,6 +48,29 @@ export default function Record() {
       );
     }
     return table;
+  };
+
+  const call = async (position) => {
+    try {
+      await used(position.id);
+      const response = await exist(
+        position.room,
+        position.date,
+        position.number + 5
+      );
+      // const json = response.json();
+      if (response.count === 1) {
+        const result = await getPatient(response.position.patientId);
+        await notification(
+          result.patient.token,
+          position.room,
+          position.number + 5
+        );
+      }
+      window.location.href = "/insert-record/" + position.patientId;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -120,18 +144,7 @@ export default function Record() {
               </select>
               <br />
               {positions.map((position) => (
-                <button
-                  className="btn"
-                  onClick={() => {
-                    used(position.id)
-                      .then(
-                        (result) =>
-                          (window.location.href =
-                            "/insert-record/" + position.patientId)
-                      )
-                      .catch((err) => console.error(err));
-                  }}
-                >
+                <button className="btn" onClick={async () => call(position)}>
                   {position.number}
                 </button>
               ))}

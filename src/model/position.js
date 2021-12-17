@@ -88,3 +88,36 @@ export const used = async (id) => {
     .then((response) => response.json())
     .catch((error) => console.error(error));
 };
+
+export const exist = async (room, date, number) => {
+  return await fetch(API_URL + `/position/number`, {
+    method: "POST",
+    headers: HEADER,
+    body: JSON.stringify({
+      room: room,
+      date: date,
+      number: number,
+    }),
+  })
+    .then((response) => response.json())
+    .catch((error) => console.error(error));
+};
+
+export const notification = async (token, room, number) => {
+  return await fetch("https://exp.host/--/api/v2/push/send", {
+    mode: "no-cors",
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "Accept-Encoding": "gzip, deflate",
+    },
+    body: JSON.stringify({
+      to: token,
+      title: "Sắp đến bạn",
+      body: "Phòng khám: " + room + " - STT: " + number,
+    }),
+  })
+    .then((response) => response.json())
+    .catch((error) => console.error(error));
+};

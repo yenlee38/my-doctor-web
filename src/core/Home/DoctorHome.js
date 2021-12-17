@@ -22,9 +22,9 @@ export default function DoctorHome() {
         <a href="/">Đăng xuất</a>
       </div>
 
-      <div className="chart">
-        Biểu đồ số lượng người khám bệnh
-        <div style={{ display: "flex", flexDirection: "row" }}>
+      <div className="main">
+        <div className="title">Biểu đồ số lượng người khám bệnh</div>
+        {/* <div style={{ display: "flex", flexDirection: "row" }}>
           <CanvasJSChart
             options={{
               title: { text: "Trong ngày" },
@@ -32,9 +32,9 @@ export default function DoctorHome() {
               axisY: { title: "(người)" },
               data: [{ type: "spline", dataPoints: chartDay }],
             }}
-          />
-          <Chart />
-        </div>
+          /> */}
+        <Chart />
+        {/* </div> */}
       </div>
     </div>
   );

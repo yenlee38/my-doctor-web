@@ -20,7 +20,7 @@ export default class Chart extends Component {
         <CanvasJSChart
           options={{
             title: { text: "Trong 30 ngày" },
-            dataPointMaxWidth: 60,
+            // dataPointMaxWidth: 60,
             axisX: { valueFormatString: "DD/MM" },
             axisY: { title: "(người)" },
             data: [{ type: "column", dataPoints: chartMonth }],
