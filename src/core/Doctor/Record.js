@@ -14,6 +14,7 @@ import { findByPatientName, getAll } from "../../model/record";
 import { getAllRoom } from "../../model/room";
 import Error from "../Error";
 
+
 export default function Record() {
   const [positions, setPositions] = useState([]);
   const [rooms, setRooms] = useState([]);

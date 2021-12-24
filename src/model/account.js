@@ -1,5 +1,6 @@
 import { API_URL, HEADER } from "../constant";
 
+const BASE_URL = API_URL + "/accounts";
 export const signin = async (username, password, remember) => {
   return await fetch(API_URL + "/accounts/signin", {
     method: "POST",
@@ -14,7 +15,7 @@ export const signin = async (username, password, remember) => {
       if (json.count > 0 && json.account.role !== "patient") {
         //const expirationDate = new Date(new Date().getTime() + 1000000);
         localStorage.setItem("remember", remember);
-        //sessionStorage.setItem("token", json.token);
+        sessionStorage.setItem("token", json.token);
         sessionStorage.setItem("id", json.account.id);
         //sessionStorage.setItem("expirationDate", expirationDate);
         sessionStorage.setItem("role", json.account.role);
@@ -29,3 +30,23 @@ export const signin = async (username, password, remember) => {
 export const isLogin = sessionStorage.getItem("id")
   ? sessionStorage.getItem("role")
   : "guest";
+
+export const getAllAccount = async() =>{
+  const token =  sessionStorage.getItem("token");
+  const header = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+
+  try {
+    return await fetch(BASE_URL, {
+       method: "GET",
+       headers: header
+     }).then(res => res.json()).then(res => {
+       return res.account;
+     })
+   } catch (error) {
+     console.error(error);
+   }
+}
