@@ -3,11 +3,13 @@ import ReactToPrint from "react-to-print";
 import { isLogin } from "../../model/account";
 import { getAll } from "../../model/prescription";
 import { getRecord } from "../../model/record";
+import NavDoctor from "../Component/nav/NavDoctor";
 import Error from "../Error";
 
 export default function RecordDetail() {
   const [record, setRecord] = useState();
   const [prescription, setPrescription] = useState([]);
+  const [inactive, setInactive] = useState(false);
 
   useEffect(() => {
     const recordId = window.location.pathname.split("/")[2];
@@ -27,20 +29,29 @@ export default function RecordDetail() {
   if (isLogin !== "doctor") return <Error />;
   else
     return (
-      <div className="home">
-        <div className="menu">
-          <a href="/home">Trang chủ</a>
-          <a style={{ color: "#282c34", background: "#61dafb" }} href="#">
-            Hồ sơ bệnh án
-          </a>
-          <a href="/">Đăng xuất</a>
-        </div>
-
+    <>
+    <NavDoctor onCollapse={(inactive) => {
+    console.log(inactive);
+    setInactive(inactive);
+  }}
+    />
+   <div className={`container ${inactive ? "inactive" : ""}`}>
+    <div className="home">
         <div className="main" id="print">
+        <div className="div-print">
+        <ReactToPrint
+          trigger={() => (
+            <a className="btn-print" href="#">
+              In
+            </a>
+          )}
+          content={() => document.getElementById("print")}
+        />
+        </div>
           <div className="title">Bệnh án</div>
-          <div>Người bệnh: {record ? record.patientName : ""}</div>
-          <div>Tên bệnh: {record ? record.name : ""}</div>
-          <div>
+          <div className="txt-header-table">Người bệnh: {record ? record.patientName : ""}</div>
+          <div className="txt-header-table">Tên bệnh: {record ? record.name : ""}</div>
+          <div className="txt-header-table">
             Ngày khám:{" "}
             {record ? new Date(record.date).toLocaleDateString() : ""}
           </div>
@@ -62,15 +73,11 @@ export default function RecordDetail() {
               ))}
             </table>
           </div>
+       
         </div>
-        <ReactToPrint
-          trigger={() => (
-            <a className="buttonlink" href="#">
-              In
-            </a>
-          )}
-          content={() => document.getElementById("print")}
-        />
+      
       </div>
+    </div>
+    </>
     );
 }

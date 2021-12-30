@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
 import { DEPARTMENT, NUMBER_STATE } from "../../constant";
 import { chartByState, chartByDept } from "../../model/position";
+import NavSlide from "../Component/nav/NavSlide";
 
 export default function NurseHome() {
   const [hidden, setHidden] = useState(true);
   const [data, setData] = useState([]);
   const [chart, setChart] = useState([]);
+  const [inactive, setInactive] = useState(false);
 
   const groupBy = (objectArray, property) => {
     return objectArray.reduce(function (acc, obj) {
@@ -18,7 +20,7 @@ export default function NurseHome() {
       return acc;
     }, {});
   };
-
+ 
   const table = () => {
     let content = [];
     for (const key in data) {
@@ -60,35 +62,16 @@ export default function NurseHome() {
   });
 
   return (
-    <div className="home">
-      <div className="menu">
-        <a href="#" style={{ color: "#282c34", background: "#61dafb" }}>
-          Trang chủ
-        </a>
-        <button className="dropdown" onClick={() => setHidden(!hidden)}>
-          Khoa
-        </button>
-        <div className="department" hidden={hidden}>
-          <a href="/position/cardiology">{DEPARTMENT.cardiology}</a>
-          <a href="/position/dental">{DEPARTMENT.dental}</a>
-          <a href="/position/dermatology">{DEPARTMENT.dermatology}</a>
-          <a href="/position/gastroenterology">{DEPARTMENT.gastroenterology}</a>
-          <a href="/position/laboratory">{DEPARTMENT.laboratory}</a>
-          <a href="/position/musculoskeletal">{DEPARTMENT.musculoskeletal}</a>
-          <a href="/position/nephrology">{DEPARTMENT.nephrology}</a>
-          <a href="/position/neurology">{DEPARTMENT.neurology}</a>
-          <a href="/position/obstetric">{DEPARTMENT.obstetric}</a>
-          <a href="/position/ophthalmology">{DEPARTMENT.ophthalmology}</a>
-          <a href="/position/otorhinolaryngology">
-            {DEPARTMENT.otorhinolaryngology}
-          </a>
-          <a href="/position/pediatrics">{DEPARTMENT.pediatrics}</a>
-          <a href="/position/respiratory">{DEPARTMENT.respiratory}</a>
-        </div>
-        <a href="/">Đăng xuất</a>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "row", minWidth: "80%" }}>
+    <>
+    <NavSlide onCollapse={(inactive) => {
+    console.log(inactive);
+    setInactive(inactive);
+  }} />
+      <div className={`container ${inactive ? "inactive" : ""}`}>
+      
+    <div className="home-nurse">
+     <div className="main-nurse">
+     {/* <div style={{ display: "flex", flexDirection: "row", minWidth: "80%" }}> */}
         <CanvasJSChart
           options={{
             title: { text: "Biểu đồ đặt lịch khám bệnh theo khoa" },
@@ -103,6 +86,7 @@ export default function NurseHome() {
           }}
         />
 
+        <div className = "list">
         <table>
           <tr className="label">
             <th>Khoa</th>
@@ -113,7 +97,11 @@ export default function NurseHome() {
           </tr>
           {table()}
         </table>
-      </div>
+        </div>
+      {/* </div> */}
+     </div>
     </div>
+    </div>
+    </>
   );
 }

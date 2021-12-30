@@ -395,7 +395,7 @@ export default function Payment() {
             id="tableTitle"
             component="div"
           >
-            Doctor registration managerment
+            Quản lý thanh toán dịch vụ
           </Typography>
       </Toolbar>
     );

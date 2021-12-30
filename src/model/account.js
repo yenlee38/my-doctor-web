@@ -13,6 +13,7 @@ export const signin = async (username, password, remember) => {
     .then((response) => response.json())
     .then((json) => {
       if (json.count > 0 && json.account.role !== "patient") {
+        console.log("role: " + json.account.role);
         //const expirationDate = new Date(new Date().getTime() + 1000000);
         localStorage.setItem("remember", remember);
         sessionStorage.setItem("token", json.token);
@@ -30,6 +31,8 @@ export const signin = async (username, password, remember) => {
 export const isLogin = sessionStorage.getItem("id")
   ? sessionStorage.getItem("role")
   : "guest";
+
+  export const username = localStorage.getItem("username");
 
 export const getAllAccount = async() =>{
   const token =  sessionStorage.getItem("token");

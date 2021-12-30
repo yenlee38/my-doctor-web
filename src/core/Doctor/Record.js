@@ -12,8 +12,10 @@ import { getPatient } from "../../model/patient";
 import { exist, getAllByRoom, notification, used } from "../../model/position";
 import { findByPatientName, getAll } from "../../model/record";
 import { getAllRoom } from "../../model/room";
+import NavDoctor from "../Component/nav/NavDoctor";
 import Error from "../Error";
-
+import { MDBCol, MDBIcon } from "mdbreact";
+import Modal from 'react-bootstrap/Modal';
 
 export default function Record() {
   const [positions, setPositions] = useState([]);
@@ -21,6 +23,7 @@ export default function Record() {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [inactive, setInactive] = useState(false);
   const amount = 10;
 
   const paging = () => {
@@ -91,19 +94,33 @@ export default function Record() {
   if (isLogin !== "doctor") return <Error />;
   else
     return (
-      <div className="home">
-        <div className="menu">
-          <a href="/home">Trang chủ</a>
-          <a style={{ color: "#282c34", background: "#61dafb" }} href="#">
-            Hồ sơ bệnh án
-          </a>
-          <a href="/">Đăng xuất</a>
-        </div>
-
+     <>
+     <NavDoctor onCollapse={(inactive) => {
+    console.log(inactive);
+    setInactive(inactive);
+  }} />
+     <div className={`container ${inactive ? "inactive" : ""}`}>
+     <div className="home">
         <div className="main">
-          <div className="header">
-            <div>
-              Tìm kiếm
+          <div className="header-record">
+          <MDBCol md="6">
+      <form className="form-inline">
+        <MDBIcon icon="search"/>
+       
+        <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Nhập tên bệnh nhân" aria-label="Search"
+        onChange={(event) =>
+          findByPatientName(event.target.value)
+            .then((result) => {
+              setData(result);
+              setPage(1);
+            })
+            .catch((err) => console.error(err))
+        }
+        />
+      </form>
+    </MDBCol>
+            {/* <div className="div-search">
+              <div>Tìm kiếm</div>
               <input
                 type="search"
                 onChange={(event) =>
@@ -116,22 +133,18 @@ export default function Record() {
                 }
                 placeholder="Nhập tên bệnh nhân"
               />
-            </div>
-            <button onClick={() => setShow(true)}>Thêm</button>
+            </div> */}
+            <div className="btn-style" onClick={() => setShow(true)}>Thêm</div>
           </div>
-
           <dialog
-            style={{
-              borderRadius: 10,
-              padding: "0 10px 10px 10px",
-              width: 170,
-            }}
+          className="dialog-add"
+           
             open={show}
           >
-            <div style={{ direction: "rtl", color: "red" }}>
-              <AiOutlineClose onClick={() => setShow(false)} />
+            <div style={{ direction: "rtl", color: "#F44336" }}>
+              <AiOutlineClose style={{cursor: 'pointer' , backgroundColor: "#EF9A9A", borderRadius: "50%", padding: 5, fontSize:25}} onClick={() => setShow(false)} />
             </div>
-            <div style={{ paddingRight: 10 }}>
+            <div style={{ paddingRight: 10, justifyContent: 'center', alignItems:'center', display:'flex', flexDirection: 'column' }}>
               <select
                 onChange={(event) =>
                   getAllByRoom(event.target.value)
@@ -145,18 +158,18 @@ export default function Record() {
               </select>
               <br />
               {positions.map((position) => (
-                <button className="btn" onClick={async () => call(position)}>
+                <button className="btn-style" onClick={async () => call(position)}>
                   {position.number}
                 </button>
               ))}
-              {positions.length === 0 && <div>Trống</div>}
+              {positions.length === 0 && <div className="txt-header-table">Trống</div>}
             </div>
           </dialog>
 
           <div className="title">Danh sách bệnh án </div>
 
           <div className="list">
-            <table>
+            <table style={{marginBottom: 30, borderBottomLeftRadius: 12, borderBottomRightRadius: 12}}>
               <tr className="label">
                 <th>STT</th>
                 <th>Người bệnh</th>
@@ -169,30 +182,56 @@ export default function Record() {
           </div>
 
           <div className="page">
-            <AiFillStepBackward onClick={() => setPage(1)} />
-            <AiFillBackward
+            <div className="txt-header-table">Tổng: {data.length}</div>
+            <div className="paging">
+              {/* <AiFillStepBackward onClick={() => setPage(1)} /> */}
+              <div className="paging-icon" onClick={() => setPage(1)}>
+                <i class="bi bi-chevron-left"></i>
+              </div>
+              {/* <AiFillBackward
               onClick={() => {
                 if (page > 1) setPage(page - 1);
               }}
-            />
-            <input
-              text="number"
-              value={page}
-              onChange={(event) =>
-                setPage(event.target.value > 0 ? event.target.value : 1)
-              }
-            />
-            <AiFillForward
+            /> */}
+
+              <div className="paging-icon"
+                onClick={() => {
+                  if (page > 1) setPage(page - 1);
+                }}
+              >
+                <i class="bi bi-chevron-double-left"></i>
+              </div>
+              <input
+                className="txt-paging"
+                value={page}
+                onChange={(event) =>
+                  setPage(event.target.value > 0 ? event.target.value : 1)
+                }
+              />
+              {/* <AiFillForward
               onClick={() => {
                 if (page < data.length / amount) setPage(page + 1);
               }}
-            />
-            <AiFillStepForward
+            /> */}
+              <div className="paging-icon"
+                onClick={() => {
+                  if (page < data.length / amount) setPage(page + 1);
+                }}
+              >
+                <i class="bi bi-chevron-double-right"></i>
+              </div>
+
+              <div className="paging-icon" onClick={() => setPage(parseInt(data.length / amount) + 1)}>
+                <i class="bi bi-chevron-right"></i>
+              </div>
+              {/* <AiFillStepForward
               onClick={() => setPage(parseInt(data.length / amount) + 1)}
-            />
+            /> */}
+            </div>
           </div>
-          <div>Tổng: {data.length}</div>
         </div>
       </div>
+     </div>
+     </>
     );
 }
