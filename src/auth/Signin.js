@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { signin } from "../model/account";
+import { useNavigate } from 'react-router-dom';
+import Loading from "../core/Component/common/Loading";
 
 export default function Signin(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     sessionStorage.clear();
@@ -14,7 +19,8 @@ export default function Signin(props) {
       setUsername(localStorage.getItem("username"));
       setPassword(localStorage.getItem("password"));
     }
-  }, []);
+  },[]);
+
 
   const onChange = (event) => {
     switch (event.target.name) {
@@ -33,18 +39,24 @@ export default function Signin(props) {
   };
 
   const Signin = () => {
+    setIsLoading(true);
     username || password
       ? signin(username, password, remember)
           .then((result) =>
+           {
             result
-              ? (window.location.href = "/home")
-              : setError("Tên đăng nhập hoặc tài khoản không đúng")
+            ? (window.location.href = "/")
+           //? (navigate('/home', { replace: true }))
+            : setError("Tên đăng nhập hoặc tài khoản không đúng");   
+            setIsLoading(false);
+           }
           )
           .catch((err) => console.error(err))
       : setError("Tên đăng nhập hoặc mật khẩu trống");
   };
 
   return (
+   <>
     <div
       className="background"
       style={{
@@ -159,5 +171,8 @@ export default function Signin(props) {
         style={{ width: "40%", height: "100%" }}
       />
     </div>
+
+          <Loading visible = {isLoading}/>
+   </>
   );
 }

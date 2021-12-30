@@ -4,6 +4,7 @@ import { getAll, getByName } from "../../model/medicine";
 import { getPatient } from "../../model/patient";
 import { createPrescription } from "../../model/prescription";
 import { create } from "../../model/record";
+import NavDoctor from "../Component/nav/NavDoctor";
 import Error from "../Error";
 
 export default function InsertRecord() {
@@ -11,6 +12,7 @@ export default function InsertRecord() {
   const [prescription, setprescription] = useState([]);
   const [patientName, setPatientName] = useState();
   const [name, setName] = useState();
+  const [inactive, setInactive] = useState(false);
 
   useEffect(() => {
     getAll()
@@ -35,43 +37,45 @@ export default function InsertRecord() {
     }
   };
 
-  if (isLogin !== "doctor") return <Error />;
+  if (isLogin !== "doctor") return <Error />; 
   else
     return (
-      <div className="home">
-        <div className="menu">
-          <a href="/home">Trang chủ</a>
-          <a style={{ color: "#282c34", background: "#61dafb" }} href="#">
-            Hồ sơ bệnh án
-          </a>
-          <a href="/">Đăng xuất</a>
-        </div>
+     <>
+      <NavDoctor onCollapse={(inactive) => {
+    console.log(inactive);
+    setInactive(inactive);
+  }} />
+     <div className={`container ${inactive ? "inactive" : ""}`}>
+     <div className="home">
         <div className="main">
-          <div className="header">
-            <div>
-              Tên bệnh nhân
+          <div className="header-insert-record">
+            <div className="div-input">
+              <div className="title">Tên bệnh nhân</div>
               <input
                 name="patientName"
                 type="text"
                 placeholder="Nhập tên bệnh nhân"
                 value={patientName}
                 onChange={onChange}
+                className="txt-info-record"
               />
             </div>
-            <div>
-              Tên bệnh
+            <div className="div-input">
+             <div className="title"> Tên bệnh</div>
               <input
                 name="name"
                 type="text"
                 placeholder="Nhập tên bệnh"
                 value={name}
                 onChange={onChange}
+                className="txt-info-record"
               />
             </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{ display: "flex", flexDirection: "row", marginTop: 10}}>
             <div>
               <input
+              // className="txt-info-record"
                 type="search"
                 onChange={(event) => {
                   getByName(event.target.value)
@@ -138,9 +142,9 @@ export default function InsertRecord() {
               ))}
             </table>
           </div>
-          <div style={{ direction: "rtl" }}>
-            <button
-              className="btn"
+          {/* <div style={{ direction: "rtl" }}> */}
+           <div className="div-btn-end"> <div
+              className="btn-style"
               onClick={() =>
                 create(
                   window.location.pathname.split("/")[2],
@@ -167,9 +171,11 @@ export default function InsertRecord() {
               }
             >
               Lưu
-            </button>
-          </div>
+            </div></div>
+          {/* </div> */}
         </div>
       </div>
+     </div>
+     </>
     );
 }

@@ -6,12 +6,8 @@ import { isLogin } from "../../model/account";
 import { getAllByDept, create, getCurrent, filter } from "../../model/position";
 import { getRoomsByDept } from "../../model/room";
 import Error from "../Error";
-import {
-  AiFillStepBackward,
-  AiFillBackward,
-  AiFillForward,
-  AiFillStepForward,
-} from "react-icons/ai";
+import '../../App.css';
+import NavSlide from "../Component/nav/NavSlide";
 
 export default function Position(props) {
   const [hidden, setHidden] = useState(false);
@@ -24,6 +20,7 @@ export default function Position(props) {
   const [page, setPage] = useState(1);
   const amount = 10;
   const [filterText, setFilter] = useState({ room: "", state: "" });
+  const [inactive, setInactive] = useState(false);
 
   const Add = () => {
     create(number, room)
@@ -85,7 +82,7 @@ export default function Position(props) {
           <th>{position.state}</th>
           <th>
             <ReactToPrint
-              trigger={() => <a href="#">In</a>}
+              trigger={() => <a href="#" className="btn-print">In</a>}
               content={() => document.getElementById("print")}
             />
           </th>
@@ -98,8 +95,14 @@ export default function Position(props) {
   if (isLogin !== "nurse") return <Error />;
   else
     return (
+      <>
+      <NavSlide   onCollapse={(inactive) => {
+            console.log(inactive);
+            setInactive(inactive);
+          }}/>
+      <div className={`container ${inactive ? "inactive" : ""}`}>
       <div className="home">
-        <div className="menu">
+        {/* <div className="menu">
           <a href="/home">Trang chủ</a>
           <button className="dropdown" onClick={() => setHidden(!hidden)}>
             Khoa
@@ -124,17 +127,19 @@ export default function Position(props) {
             <a href="/position/respiratory">{DEPARTMENT.respiratory}</a>
           </div>
           <a href="/">Đăng xuất</a>
-        </div>
+        </div> */}
 
         <div className="main">
           <div className="space">
             <div className="title">Khoa {department}</div>
-            <button className="btn" onClick={() => setShow(true)}>
+            <button className="btn-style" onClick={() => setShow(true)}>
               Thêm
             </button>
           </div>
-          <dialog open={show}>
-            Phòng khám{" "}
+          <dialog className="dialog-add" open={show}>
+           {" "}
+            <div style={{display: 'flex', flexDirection:'row', alignItems:'center'}}>
+            <div className="txt-header-table"> Phòng khám</div>
             <select
               onChange={(event) => {
                 let room = event.target.value;
@@ -148,8 +153,10 @@ export default function Position(props) {
                 <option value={room.name}>{room.name}</option>
               ))}
             </select>
-            <div>STT</div>
+            </div>
+            <div className="txt-header-table">STT</div>
             <input
+            className="txt-info-stt"
               name="number"
               type="number"
               value={number}
@@ -161,13 +168,14 @@ export default function Position(props) {
                 trigger={() => <button onClick={Add}>Thêm</button>}
                 content={() => document.getElementById("print")}
               /> */}
-              <button onClick={Add}>Thêm</button>
-              <button onClick={() => setShow(false)}>Thoát</button>
+              <div className="btn-style" onClick={Add}>Thêm</div>
+              <div className="btn-style-cancel" onClick={() => setShow(false)}>Thoát</div>
             </div>
           </dialog>
 
           <div style={{ padding: 15 }}>
-            Phòng khám{" "}
+            {" "}
+            <span className="txt-header-table">Phòng khám</span>
             <select
               value={filterText.room}
               onChange={(event) => {
@@ -187,7 +195,8 @@ export default function Position(props) {
                 <option value={room.name}>{room.name}</option>
               ))}
             </select>
-            &emsp;Trạng thái{" "}
+            &emsp;
+            <span className="txt-header-table"> Trạng thái </span>
             <select
               value={filterText.state}
               onChange={(event) => {
@@ -224,29 +233,56 @@ export default function Position(props) {
           </div>
 
           <div className="page">
-            <AiFillStepBackward onClick={() => setPage(1)} />
-            <AiFillBackward
+            <div className="txt-header-table">Tổng: {data.length}</div>
+            <div className="paging">
+              {/* <AiFillStepBackward onClick={() => setPage(1)} /> */}
+              <div className="paging-icon" onClick={() => setPage(1)}>
+                <i class="bi bi-chevron-left"></i>
+              </div>
+              {/* <AiFillBackward
               onClick={() => {
                 if (page > 1) setPage(page - 1);
               }}
-            />
-            <input
-              value={page}
-              onChange={(event) =>
-                setPage(event.target.value > 0 ? event.target.value : 1)
-              }
-            />
-            <AiFillForward
+            /> */}
+
+              <div className="paging-icon"
+                onClick={() => {
+                  if (page > 1) setPage(page - 1);
+                }}
+              >
+                <i class="bi bi-chevron-double-left"></i>
+              </div>
+              <input
+                className="txt-paging"
+                value={page}
+                onChange={(event) =>
+                  setPage(event.target.value > 0 ? event.target.value : 1)
+                }
+              />
+              {/* <AiFillForward
               onClick={() => {
                 if (page < data.length / amount) setPage(page + 1);
               }}
-            />
-            <AiFillStepForward
+            /> */}
+              <div className="paging-icon"
+                onClick={() => {
+                  if (page < data.length / amount) setPage(page + 1);
+                }}
+              >
+                <i class="bi bi-chevron-double-right"></i>
+              </div>
+
+              <div className="paging-icon" onClick={() => setPage(parseInt(data.length / amount) + 1)}>
+                <i class="bi bi-chevron-right"></i>
+              </div>
+              {/* <AiFillStepForward
               onClick={() => setPage(parseInt(data.length / amount) + 1)}
-            />
+            /> */}
+            </div>
           </div>
-          <div>Tổng: {data.length}</div>
         </div>
       </div>
+      </div>
+      </>
     );
 }

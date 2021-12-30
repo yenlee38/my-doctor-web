@@ -29,7 +29,7 @@ export default function Error() {
         direction:'none',
         textDecoration:'none',
         fontSize: 20, marginRight: 10
-      }} href="/">
+      }} href="/login">
         Chuyển đến trang đăng nhập
       </a>
 
