@@ -11,6 +11,8 @@ import InsertRecord from "./core/Doctor/InsertRecord";
 import Position from "./core/Nurse/Position";
 import NurseHome from './core/Home/NurseHome';
 import "./App.css"
+import PatientService from './core/Doctor/PatientService';
+import PatientServiceDetail from './core/Doctor/PatientServiceDetail';
 export default function App () {
     const [inactive, setInactive] = useState(false);
 
@@ -45,9 +47,9 @@ export default function App () {
         <Route path="/record" element={<Record />} />
         <Route path="/record-detail/:id" element={<RecordDetail />} />
         <Route path="/insert-record/:patientId" element={<InsertRecord />} />
-
         <Route path="/position/:department" element={<Position />} />
-    
+        <Route path="/doctor/patient" element={<PatientService />} />
+        <Route path="/patient/:patientId" element={<PatientServiceDetail />} />
             </Routes>
           {/* ))} */}
           {/* </div> */}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./nav.css";
 import {DEPARTMENT} from "../../../constant";
 import MenuItem from "./MenuItem";
+import {isLogin, username} from "../../../model/account";
 export const menuItems = [
   {
     name: "Trang chủ",
@@ -44,16 +45,13 @@ const NavSlide = (props) => {
     props.onCollapse(inactive);
   }, [inactive]);
 
-  //just an improvment and it is not recorded in video :(
   const removeActiveClassFromSubMenu = () => {
     document.querySelectorAll(".sub-menu").forEach((el) => {
       el.classList.remove("active");
     });
   };
 
-  /*just a little improvement over click function of menuItem
-    Now no need to use expand state variable in MenuItem component
-  */
+
   useEffect(() => {
     let menuItems = document.querySelectorAll(".menu-item");
     menuItems.forEach((el) => {
@@ -103,27 +101,6 @@ const NavSlide = (props) => {
             }}
           />
         ))}
-
-        {/* <li>
-          <a className="menu-item">
-            <div className="menu-icon">
-              <i class="bi bi-speedometer2"></i>
-            </div>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <MenuItem
-          name={"Content"}
-          subMenus={[{ name: "Courses" }, { name: "Videos" }]}
-        />
-        <li>
-          <a className="menu-item">
-            <div className="menu-icon">
-              <i class="bi bi-vector-pen"></i>
-            </div>
-            <span>Design</span>
-          </a>
-        </li> */}
       </ul>
     </div>
 
@@ -132,9 +109,10 @@ const NavSlide = (props) => {
         <img src="../../../../assets/imgs/logo.png" alt="user" />
       </div>
       <div className="user-info">
-        <h5>Rizwan Khan</h5>
-        <p>rizwankhan@gmail.com</p>
+      <h5>{username}</h5>
+        <p>{isLogin}</p>
       </div>
+      <a href="/login" style={{cursor:'pointer', color: '#212121', fontWeight: 'bold'}}><i class="bi bi-box-arrow-right"></i></a>
     </div>
   </div>
   );

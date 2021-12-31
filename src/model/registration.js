@@ -15,6 +15,19 @@ export const getAllRegistration = async () => {
   }
 };
 
+export const getAllRegistrationByDoctor = async (doctorId) => {
+  try {
+   return await fetch(BASE_URL + "/doctor/" + doctorId,{
+      method: "GET",
+      headers: HEADER
+    }).then(res => res.json()).then(res => {
+      return res.doctorRegistration;
+    })
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const updateRegistration = async (id, name, status) => {
   return await fetch(BASE_URL + "/update/" + id, {
     method: "POST",
