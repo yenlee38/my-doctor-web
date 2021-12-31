@@ -33,7 +33,7 @@ export const isLogin = sessionStorage.getItem("id")
   : "guest";
 
   export const username = localStorage.getItem("username");
-
+export const getId = sessionStorage.getItem("id");
 export const getAllAccount = async() =>{
   const token =  sessionStorage.getItem("token");
   const header = {
@@ -44,6 +44,26 @@ export const getAllAccount = async() =>{
 
   try {
     return await fetch(BASE_URL, {
+       method: "GET",
+       headers: header
+     }).then(res => res.json()).then(res => {
+       return res.account;
+     })
+   } catch (error) {
+     console.error(error);
+   }
+}
+
+export const getAccount = async(id) =>{
+  const token =  sessionStorage.getItem("token");
+  const header = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+
+  try {
+    return await fetch(BASE_URL + "/" + id, {
        method: "GET",
        headers: header
      }).then(res => res.json()).then(res => {

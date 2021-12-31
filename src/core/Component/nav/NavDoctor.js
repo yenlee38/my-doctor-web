@@ -100,7 +100,9 @@ const NavDoctor = (props) => {
       <div className="user-info">
         <h5>{username}</h5>
         <p>{isLogin}</p>
+        
       </div>
+      <a href="/login" style={{cursor:'pointer', color: '#212121', fontWeight: 'bold'}}><i class="bi bi-box-arrow-right"></i></a>
     </div>
   </div>
   );

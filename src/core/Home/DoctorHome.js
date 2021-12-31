@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { CanvasJSChart } from "canvasjs-react-charts";
 import { chartByDay } from "../../model/record";
 import Chart from "../Doctor/Chart";
 import NavDoctor from "../Component/nav/NavDoctor";

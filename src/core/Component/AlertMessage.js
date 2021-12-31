@@ -32,11 +32,11 @@ const AlertMessage = function (props) {
           keyboard={false}
         >
           <Modal.Header closeButton style = {{backgroundColor: '#71DFE7'}}>
-            <Modal.Title style = {{fontSize: 20, fontWeight: 500}}>Update status [{props.nameAction}]</Modal.Title>
+            <Modal.Title style = {{fontSize: 20, fontWeight: 500}}>Thay đổi trạng thái [{props.nameAction}]</Modal.Title>
           </Modal.Header>
           <Modal.Body>
           <div style = {{fontSize: 20, fontWeight: 500, textAlign:'center'}}>
-            <span>Change status doctor registration to </span>
+            <span>Thay đổi trạng thái đăng kí dịch vụ sang </span>
           </div>
           <div style = {{fontSize: 20, fontWeight: 500, textAlign:'center'}}>
             <span>"{props.name}"</span>

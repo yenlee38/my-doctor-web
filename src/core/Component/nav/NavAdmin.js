@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./nav.css";
 import MenuItem from "./MenuItem";
+import {isLogin, username} from "../../../model/account";
 export const menuItems = [
   {
     name: "Trang chủ",
     exact: true,
-    to: "/admin/payment",
+    to: "/",
     iconClassName: "bi bi-speedometer2",
   },
   {
     name: "Thanh toán dịch vụ",
     exact: true,
-    to: `/admin/payment`,
+    to: `/`,
     iconClassName: "bi bi-wallet2"
   }
 ];
@@ -93,9 +94,10 @@ const NavDoctor = (props) => {
         <img src="../../../../assets/imgs/logo.png" alt="user" />
       </div>
       <div className="user-info">
-        <h5>Rizwan Khan</h5>
-        <p>rizwankhan@gmail.com</p>
+      <h5>{username}</h5>
+        <p>{isLogin}</p>
       </div>
+      <a href="/login" style={{cursor:'pointer', color: '#212121', fontWeight: 'bold'}}><i class="bi bi-box-arrow-right"></i></a>
     </div>
   </div>
   );

@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  AiFillStepBackward,
-  AiFillBackward,
-  AiFillForward,
-  AiFillStepForward,
   AiOutlineClose,
 } from "react-icons/ai";
 
@@ -15,7 +11,6 @@ import { getAllRoom } from "../../model/room";
 import NavDoctor from "../Component/nav/NavDoctor";
 import Error from "../Error";
 import { MDBCol, MDBIcon } from "mdbreact";
-import Modal from 'react-bootstrap/Modal';
 
 export default function Record() {
   const [positions, setPositions] = useState([]);
@@ -119,21 +114,6 @@ export default function Record() {
         />
       </form>
     </MDBCol>
-            {/* <div className="div-search">
-              <div>Tìm kiếm</div>
-              <input
-                type="search"
-                onChange={(event) =>
-                  findByPatientName(event.target.value)
-                    .then((result) => {
-                      setData(result);
-                      setPage(1);
-                    })
-                    .catch((err) => console.error(err))
-                }
-                placeholder="Nhập tên bệnh nhân"
-              />
-            </div> */}
             <div className="btn-style" onClick={() => setShow(true)}>Thêm</div>
           </div>
           <dialog

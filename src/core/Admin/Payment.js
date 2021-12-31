@@ -20,12 +20,18 @@ import { getAllService } from "../../model/service";
 import { getAllAccount } from "../../model/account";
 import { balanceFormat, changeColorDoctorRegistration, formatDateTime } from "../../utils/formats";
 import AlertMessage from "../Component/AlertMessage";
-
+import { MDBCol, MDBIcon } from "mdbreact";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 export default function Payment() {
   const [registrations, setRegistrations] = React.useState([]);
   const [doctors, setDoctors] = React.useState([]);
   const [patients, setPatients] = React.useState([]);
   const [regDatas, setRegDatas] = React.useState([]);
+  const [list, setList] = React.useState([]);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -33,6 +39,8 @@ export default function Payment() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [isVisitedAlert, setIsVisitedAlert] = React.useState(false);
+  const [status, setStatus] = React.useState('');
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -127,6 +135,7 @@ export default function Payment() {
       );
     });
     setRegDatas(datas);
+    setList(datas);
   };
 
   const headCells = [
@@ -193,6 +202,12 @@ export default function Payment() {
     }
     return phone;
   };
+
+  const findByPhone = (phone) => {
+    if(phone !== "")
+    return list.filter(d => d.phone.includes(phone));
+    else return list;
+  }
 
   const getNamePatientById = (lPatients, id) => {
     let name = id;
@@ -352,10 +367,6 @@ export default function Payment() {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -397,6 +408,7 @@ export default function Payment() {
           >
             Quản lý thanh toán dịch vụ
           </Typography>
+         
       </Toolbar>
     );
   };
@@ -408,6 +420,15 @@ export default function Payment() {
   const colorStatus = (status) => {
       return changeColorDoctorRegistration(status);
   }
+
+  const handleChangeStatus = (event) => {
+    let s = event.target.value;
+    setStatus(event.target.value);
+    if(s === "") setRegDatas(list);
+    else {
+      setRegDatas(list.filter(l => l.status === s));
+    }
+  };
 
   return (
 
@@ -422,6 +443,43 @@ export default function Payment() {
     onCancel = {onCancel}
     onCancelNotUpdate = {onCancelNotUpdate}
   />
+ 
+  <div style={{display: 'flex', flexDirection: 'row', alignItems:'center', justifyContent:'space-between'}}>
+
+      <MDBCol md="6">
+      <form className="form-inline">
+        <MDBIcon icon="search"/>
+       
+        <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Nhập số điện thoại" aria-label="Search"
+        onChange={(event) =>
+         setRegDatas(findByPhone(event.target.value))
+        }
+        />
+      </form>
+
+    </MDBCol>
+    <FormControl sx={{ m: 1, minWidth: 120, height: 50, fontSize: 15 }}>
+        <InputLabel id="demo-simple-select-helper-label">Status</InputLabel>
+        <Select
+          style = {{fontSize: 15}}
+          labelId="demo-simple-select-helper-label"
+          id="demo-simple-select-helper"
+          value={status}
+          label="Status"
+          onChange={handleChangeStatus}
+        >
+
+       <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={"CONFIRMED"}>Confirmed</MenuItem>
+          <MenuItem value={"CREATED"}>Created</MenuItem>
+          <MenuItem value={"PENDDING"}>Pendding</MenuItem>
+          <MenuItem value={"EXPIRED"}>Expired</MenuItem>
+          <MenuItem value={"CANCEL"}>Cancel</MenuItem>
+        </Select>
+      </FormControl>
+  </div>
       <div>
     
         <EnhancedTableToolbar numSelected={selected.length} />
@@ -440,8 +498,7 @@ export default function Payment() {
               rowCount={regDatas.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                     rows.slice().sort(getComparator(order, orderBy)) */}
+
               {stableSort(regDatas, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {

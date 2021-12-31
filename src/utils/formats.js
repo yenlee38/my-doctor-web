@@ -8,7 +8,7 @@ export const formatDateTime = (date) => {
 
 export const balanceFormat = (price) => {
     var price_format = '';
-    if (price == 0) return '0 Đ';
+    if (price === 0) return '0 Đ';
     if (price < 1000) return price + ' Đ';
   
     var priceString = price + '';
@@ -22,11 +22,11 @@ export const balanceFormat = (price) => {
   }
 
   export const changeColorDoctorRegistration = (status) => {
-    if (status == "CONFIRMED") return "#00A19D";
-    if (status == "CREATED") return "#34BE82";
-    if (status == "PENDDING") return "#FF5F7E";
-    if (status == "EXPIRED") return "#FFCA03";
-    if (status == "CANCEL") return "#F90716";
+    if (status === "CONFIRMED") return "#00A19D";
+    if (status === "CREATED") return "#34BE82";
+    if (status === "PENDDING") return "#FF5F7E";
+    if (status === "EXPIRED") return "#FFCA03";
+    if (status === "CANCEL") return "#F90716";
    
     return "#fff";
    }
