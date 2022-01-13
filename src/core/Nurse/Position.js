@@ -234,9 +234,6 @@ export default function Position(props) {
               <div className="paging-icon" onClick={() => setPage(parseInt(data.length / amount) + 1)}>
                 <i class="bi bi-chevron-right"></i>
               </div>
-              {/* <AiFillStepForward
-              onClick={() => setPage(parseInt(data.length / amount) + 1)}
-            /> */}
             </div>
           </div>
         </div>

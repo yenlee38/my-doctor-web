@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { signin } from "../model/account";
-import { useNavigate } from 'react-router-dom';
 import Loading from "../core/Component/common/Loading";
 
 export default function Signin(props) {
@@ -9,7 +8,6 @@ export default function Signin(props) {
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -45,7 +43,7 @@ export default function Signin(props) {
           .then((result) =>
            {
             result
-            ? (window.location.href = "/")
+            ? (window.location.href = "/home")
            //? (navigate('/home', { replace: true }))
             : setError("Tên đăng nhập hoặc tài khoản không đúng");   
             setIsLoading(false);
