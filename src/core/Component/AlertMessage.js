@@ -6,10 +6,8 @@ import { updateRegistration } from "../../model/registration";
 const AlertMessage = function (props) {
 
     const [show, setShow] = React.useState(false);
-    const [nameAction, setNameAction] = React.useState("");
     React.useEffect(() => {
         setShow(props.isVisited)
-       // setNameAction(props.nameAction);
     })
 
     const onClick  = () => {
@@ -17,13 +15,7 @@ const AlertMessage = function (props) {
         props.onCancel();
       })
     }
-
-    const onCancelNotUpdate = () => {
-      props.onCancelNotUpdate();
-    }
     const handleClose = () => {setShow(false); props.onCancelNotUpdate()}
-    const handleShow = () => setShow(true);
-  
     return (
         <Modal
           show={show}

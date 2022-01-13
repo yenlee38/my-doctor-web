@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useState } from "react";
+import {Link } from "react-router-dom";
 
 import "./nav.css";
 
 const MenuItem = (props) => {
-    const { name, subMenus, iconClassName, onClick, to, exact } = props;
+    const { name, subMenus, iconClassName, to, exact } = props;
     const [expand, setExpand] = useState(false);
 
     return (

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ReactToPrint from "react-to-print";
 import { isLogin,getId, getAccount } from "../../model/account";
 import { getAllByDoctorId } from "../../model/message";
 import NavDoctor from "../Component/nav/NavDoctor";

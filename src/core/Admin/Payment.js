@@ -23,13 +23,9 @@ import AlertMessage from "../Component/AlertMessage";
 import { MDBCol, MDBIcon } from "mdbreact";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 export default function Payment() {
-  const [registrations, setRegistrations] = React.useState([]);
-  const [doctors, setDoctors] = React.useState([]);
-  const [patients, setPatients] = React.useState([]);
   const [regDatas, setRegDatas] = React.useState([]);
   const [list, setList] = React.useState([]);
   const [order, setOrder] = React.useState("asc");
@@ -53,17 +49,15 @@ export default function Payment() {
   let lAccount = [];
   React.useEffect(() => {
     getAllDoctor().then((res) => {
-      setDoctors(res);
       lDoctors = res;
       getAllPatient().then((res) => {
-        setPatients(res);
         lPatients = res;
         getAllService().then((res) => {
           lService = res;
           getAllAccount().then((res) => {
             lAccount = res;
             getAllRegistration().then((res) => {
-              if (res) setRegistrations(res);
+             
               convertListRegistration(
                 res,
                 lPatients,
@@ -187,7 +181,7 @@ export default function Payment() {
     let price = id;
     if (lService.length > 0) {
       lService.forEach((p) => {
-        if (p.id == id) price = p.price;
+        if (p.id === id) price = p.price;
       });
     }
     return price;
@@ -197,7 +191,7 @@ export default function Payment() {
     let phone = id;
     if (lAccount.length > 0) {
       lAccount.forEach((p) => {
-        if (p.id == id) phone = p.username;
+        if (p.id === id) phone = p.username;
       });
     }
     return phone;
@@ -213,7 +207,7 @@ export default function Payment() {
     let name = id;
     if (lPatients.length > 0) {
       lPatients.forEach((p) => {
-        if (p.id == id) {
+        if (p.id === id) {
           name = p.fullName;
         }
       });
@@ -226,7 +220,7 @@ export default function Payment() {
     let nameDoctor = id;
     if (lDoctors.length > 0) {
       lDoctors.forEach((p) => {
-        if (p.id == id) nameDoctor = p.fullname;
+        if (p.id === id) nameDoctor = p.fullname;
       });
     }
     return nameDoctor;
@@ -369,7 +363,6 @@ export default function Payment() {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - regDatas.length) : 0;
 
@@ -503,12 +496,9 @@ export default function Payment() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
                   return (
                     <TableRow
                       hover
-                    //   onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -548,15 +538,8 @@ export default function Payment() {
                       </TableCell>
                       <TableCell align="right">
                         <div
-                          style={
-                            {
-                              // justifyContent: "center",
-                              // alignItems: "center",
-                              // flexDirection: "row",
-                            }
-                          }
                         >
-                          { row.status == "PENDDING" ? (<div>
+                          { row.status === "PENDDING" ? (<div>
                             <div
                             style={{
                               padding: 5,
@@ -603,7 +586,7 @@ export default function Payment() {
                             </div>
                           
                           ):null}
-                          {row.status == "CONFIRMED" ? (
+                          {row.status === "CONFIRMED" ? (
                             <div
                             style={{
                               padding: 5,

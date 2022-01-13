@@ -10,7 +10,6 @@ import '../../App.css';
 import NavSlide from "../Component/nav/NavSlide";
 
 export default function Position(props) {
-  const [hidden, setHidden] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [show, setShow] = useState(false);
   const [number, setNumber] = useState();
