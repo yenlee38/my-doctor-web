@@ -43,7 +43,7 @@ export default function Signin(props) {
           .then((result) =>
            {
             result
-            ? (window.location.href = "/home")
+            ? (window.location.href = "/")
            //? (navigate('/home', { replace: true }))
             : setError("Tên đăng nhập hoặc tài khoản không đúng");   
             setIsLoading(false);
