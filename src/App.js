@@ -17,9 +17,9 @@ export default function App () {
         <div className="App">
            <Router>
             <Routes>
-        <Route path="/login" exact element={<Signin />} />
+        <Route path="/" exact element={<Signin />} />
         <Route path="/error" element={<Error />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/record" element={<Record />} />
         <Route path="/record-detail/:id" element={<RecordDetail />} />
         <Route path="/insert-record/:patientId" element={<InsertRecord />} />
