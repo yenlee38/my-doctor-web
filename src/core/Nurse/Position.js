@@ -21,7 +21,7 @@ export default function Position(props) {
   const amount = 10;
   const [filterText, setFilter] = useState({ room: "", state: "" });
   const [inactive, setInactive] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   const Add = () => {
     create(number, room)
       .then((result) => {
@@ -51,7 +51,7 @@ export default function Position(props) {
 
     if (depart !== department) {
       getAllByDept(depart)
-        .then((result) => setData(result.position))
+        .then((result) => {setData(result.position); setIsLoading(false)})
         .catch((err) => console.error(err));
       getRoomsByDept(depart)
         .then((result) => {
@@ -102,33 +102,6 @@ export default function Position(props) {
           }}/>
       <div className={`container ${inactive ? "inactive" : ""}`}>
       <div className="home">
-        {/* <div className="menu">
-          <a href="/home">Trang chủ</a>
-          <button className="dropdown" onClick={() => setHidden(!hidden)}>
-            Khoa
-          </button>
-          <div className="department" hidden={hidden}>
-            <a href="/position/cardiology">{DEPARTMENT.cardiology}</a>
-            <a href="/position/dental">{DEPARTMENT.dental}</a>
-            <a href="/position/dermatology">{DEPARTMENT.dermatology}</a>
-            <a href="/position/gastroenterology">
-              {DEPARTMENT.gastroenterology}
-            </a>
-            <a href="/position/laboratory">{DEPARTMENT.laboratory}</a>
-            <a href="/position/musculoskeletal">{DEPARTMENT.musculoskeletal}</a>
-            <a href="/position/nephrology">{DEPARTMENT.nephrology}</a>
-            <a href="/position/neurology">{DEPARTMENT.neurology}</a>
-            <a href="/position/obstetric">{DEPARTMENT.obstetric}</a>
-            <a href="/position/ophthalmology">{DEPARTMENT.ophthalmology}</a>
-            <a href="/position/otorhinolaryngology">
-              {DEPARTMENT.otorhinolaryngology}
-            </a>
-            <a href="/position/pediatrics">{DEPARTMENT.pediatrics}</a>
-            <a href="/position/respiratory">{DEPARTMENT.respiratory}</a>
-          </div>
-          <a href="/">Đăng xuất</a>
-        </div> */}
-
         <div className="main">
           <div className="space">
             <div className="title">Khoa {department}</div>
@@ -164,10 +137,6 @@ export default function Position(props) {
             />
             <br />
             <div className="header">
-              {/* <ReactToPrint
-                trigger={() => <button onClick={Add}>Thêm</button>}
-                content={() => document.getElementById("print")}
-              /> */}
               <div className="btn-style" onClick={Add}>Thêm</div>
               <div className="btn-style-cancel" onClick={() => setShow(false)}>Thoát</div>
             </div>
@@ -229,22 +198,18 @@ export default function Position(props) {
                 <th></th>
               </tr>
               {paging()}
+             
             </table>
+            {(!isLoading && data.length === 0)?(<div className = "div-loading"><span className= "txt-nodata">Không có dữ liệu về STT</span></div>):null}
+           {isLoading?(<div className = "div-loading"><img className = "img-loading" src = "../../../assets/imgs/loadComponent.gif"/></div>):null}
           </div>
 
           <div className="page">
             <div className="txt-header-table">Tổng: {data.length}</div>
             <div className="paging">
-              {/* <AiFillStepBackward onClick={() => setPage(1)} /> */}
               <div className="paging-icon" onClick={() => setPage(1)}>
                 <i class="bi bi-chevron-left"></i>
               </div>
-              {/* <AiFillBackward
-              onClick={() => {
-                if (page > 1) setPage(page - 1);
-              }}
-            /> */}
-
               <div className="paging-icon"
                 onClick={() => {
                   if (page > 1) setPage(page - 1);
@@ -259,11 +224,6 @@ export default function Position(props) {
                   setPage(event.target.value > 0 ? event.target.value : 1)
                 }
               />
-              {/* <AiFillForward
-              onClick={() => {
-                if (page < data.length / amount) setPage(page + 1);
-              }}
-            /> */}
               <div className="paging-icon"
                 onClick={() => {
                   if (page < data.length / amount) setPage(page + 1);

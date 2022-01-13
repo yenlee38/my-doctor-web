@@ -36,7 +36,7 @@ const AlertMessage = function (props) {
           </Modal.Header>
           <Modal.Body>
           <div style = {{fontSize: 20, fontWeight: 500, textAlign:'center'}}>
-            <span>Thay đổi trạng thái đăng kí dịch vụ sang </span>
+            <span>Thay đổi trạng thái đăng kí dịch vụ</span>
           </div>
           <div style = {{fontSize: 20, fontWeight: 500, textAlign:'center'}}>
             <span>"{props.name}"</span>
