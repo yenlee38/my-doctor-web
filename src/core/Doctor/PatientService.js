@@ -11,8 +11,6 @@ export default function PatientService() {
   const [data, setData] = useState([]);
   const [dataStatic, setDataStatic] = useState([]);
   const [page, setPage] = useState(1);
-  const [registrations, setRegistrations] = useState([]);
-  const [patients, setPatients] = useState([]);
   const [inactive, setInactive] = useState(false);
   const amount = 10;
 
@@ -20,12 +18,10 @@ export default function PatientService() {
   let lAccount = [];
   useEffect(() => {
     getAllPatient().then((res) => {
-      setPatients(res);
       lPatients = res;
       getAllAccount().then((res) => {
         lAccount = res;
         getAllRegistrationByDoctor(getId).then((res) => {
-          if (res) setRegistrations(res);
           convertListRegistration(res, lPatients, lAccount);
         });
       });
@@ -63,7 +59,7 @@ export default function PatientService() {
     let phone = id;
     if (lAccount.length > 0) {
       lAccount.forEach((p) => {
-        if (p.id == id) phone = p.username;
+        if (p.id === id) phone = p.username;
       });
     }
     return phone;
@@ -73,7 +69,7 @@ export default function PatientService() {
     let name = id;
     if (lPatients.length > 0) {
       lPatients.forEach((p) => {
-        if (p.id == id) {
+        if (p.id === id) {
           name = p.fullName;
         }
       });
@@ -167,9 +163,6 @@ export default function PatientService() {
                     />
                   </form>
                 </MDBCol>
-                {/* <div className="btn-style" onClick={() => setShow(true)}>
-                  Thêm
-                </div> */}
               </div>
               <div className="title">Danh sách bệnh nhân</div>
 

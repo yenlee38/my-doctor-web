@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
-import { DEPARTMENT, NUMBER_STATE } from "../../constant";
+import {  NUMBER_STATE } from "../../constant";
 import { chartByState, chartByDept } from "../../model/position";
 import NavSlide from "../Component/nav/NavSlide";
 
 export default function NurseHome() {
-  const [hidden, setHidden] = useState(true);
   const [data, setData] = useState([]);
   const [chart, setChart] = useState([]);
   const [inactive, setInactive] = useState(false);
@@ -64,14 +63,12 @@ export default function NurseHome() {
   return (
     <>
     <NavSlide onCollapse={(inactive) => {
-    console.log(inactive);
     setInactive(inactive);
   }} />
       <div className={`container ${inactive ? "inactive" : ""}`}>
       
     <div className="home-nurse">
      <div className="main-nurse">
-     {/* <div style={{ display: "flex", flexDirection: "row", minWidth: "80%" }}> */}
         <CanvasJSChart
           options={{
             title: { text: "Biểu đồ đặt lịch khám bệnh theo khoa" },
@@ -98,7 +95,7 @@ export default function NurseHome() {
           {table()}
         </table>
         </div>
-      {/* </div> */}
+
      </div>
     </div>
     </div>
