@@ -10,5 +10,5 @@ Deploy lên heroku:
 Trang web: https://my-doctor-web.herokuapp.com/
 
 Dùng vercel:
-Link Web: https://my-doctor-web.vercel.app/
+Link Web: https://my-doctor.vercel.app/
 
