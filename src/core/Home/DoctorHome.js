@@ -11,33 +11,24 @@ export default function DoctorHome() {
     chartByDay()
       .then((result) => setChartDay(result.chart))
       .catch((err) => console.error(err));
-  },[]);
+  }, []);
 
   return (
     <>
-    <NavDoctor onCollapse={(inactive) => {
-    console.log(inactive);
-    setInactive(inactive);
-  }} />
-    <div className={`container ${inactive ? "inactive" : ""}`}>
-
-    <div className="home">
-      <div className="main">
-        <div className="title">Biểu đồ số lượng người khám bệnh</div>
-        {/* <div style={{ display: "flex", flexDirection: "row" }}>
-          <CanvasJSChart
-            options={{
-              title: { text: "Trong ngày" },
-              axisX: { interval: 1 },
-              axisY: { title: "(người)" },
-              data: [{ type: "spline", dataPoints: chartDay }],
-            }}
-          /> */}
-        <Chart />
-        {/* </div> */}
+      <NavDoctor
+        onCollapse={(inactive) => {
+          console.log(inactive);
+          setInactive(inactive);
+        }}
+      />
+      <div className={`container ${inactive ? "inactive" : ""}`}>
+        <div className="home">
+          <div className="main">
+            <div className="title">Biểu đồ số lượng người khám bệnh</div>
+            <Chart />
+          </div>
+        </div>
       </div>
-    </div>
-    </div>
     </>
   );
 }

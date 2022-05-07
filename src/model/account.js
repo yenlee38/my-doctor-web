@@ -32,10 +32,33 @@ export const isLogin = sessionStorage.getItem("id")
   ? sessionStorage.getItem("role")
   : "guest";
 
-  export const username = localStorage.getItem("username");
+export const username = localStorage.getItem("username");
 export const getId = sessionStorage.getItem("id");
-export const getAllAccount = async() =>{
-  const token =  sessionStorage.getItem("token");
+
+export const getAllAccountByAdmin = async () => {
+  const token = sessionStorage.getItem("token");
+  const header = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+
+  try {
+    return await fetch(BASE_URL + "/getAll/admin", {
+      method: "GET",
+      headers: header,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        return res.account;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getAllAccount = async () => {
+  const token = sessionStorage.getItem("token");
   const header = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -44,18 +67,59 @@ export const getAllAccount = async() =>{
 
   try {
     return await fetch(BASE_URL, {
-       method: "GET",
-       headers: header
-     }).then(res => res.json()).then(res => {
-       return res.account;
-     })
-   } catch (error) {
-     console.error(error);
-   }
-}
+      method: "GET",
+      headers: header,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        return res.account;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+// export const updateProfile = async (
+//   id,
+//   fullName,
+//   birthDate,
+//   gender,
+//   address
+// ) => {
+//   return await fetch(BASE_URL + "/patient/" + id, {
+//     method: "PUT",
+//     headers: header,
+//     body: JSON.stringify({
+//       avatar: avatar,
+//       fullName: fullName,
+//       birthDate: birthDate,
+//       gender: gender,
+//       address: address,
+//     }),
+//   })
+//     .then((response) => response.json())
+//     .then((result) => console.log(result.message))
+//     .catch((err) => console.log(err));
+// };
 
-export const getAccount = async(id) =>{
-  const token =  sessionStorage.getItem("token");
+// export const signup = async (username, password, role) => {
+//   return await fetch(BASE_URL + "/accounts", {
+//     method: "POST",
+//     headers: header,
+//     body: JSON.stringify({
+//       username: username,
+//       password: password,
+//       role: role,
+//     }),
+//   })
+//     .then((response) => response.json())
+//     .then((result) => {
+//       return result;
+//     })
+//     .catch((err) => console.error(err));
+// };
+
+export const getAccount = async (id) => {
+  const token = sessionStorage.getItem("token");
   const header = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -64,12 +128,14 @@ export const getAccount = async(id) =>{
 
   try {
     return await fetch(BASE_URL + "/" + id, {
-       method: "GET",
-       headers: header
-     }).then(res => res.json()).then(res => {
-       return res.account;
-     })
-   } catch (error) {
-     console.error(error);
-   }
-}
+      method: "GET",
+      headers: header,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        return res.account;
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
