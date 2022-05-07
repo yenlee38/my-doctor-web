@@ -20,7 +20,28 @@
 
 .container.inactive{
   padding-left: 0px;
-  margin-left: 120px!important;
+  margin-left: 100px!important;
+  margin-right: 0px !important;
+  padding-right: 0px;
+ 
+}
+
+
+
+.container-main-chat {
+margin-right: 20px !important;
+padding-right: 0px;
+padding-left: 20px;
+width: 100% !important;
+transition: padding-left .2s ease-in;
+background-color: white;
+border-radius: 0px;
+/* opacity: 0.3; */
+}
+
+.container-main-chat.inactive {
+  padding-left: 0px;
+  margin-left: 115px !important;
   margin-right: 0px !important;
   padding-right: 0px;
 }

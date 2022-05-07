@@ -37,145 +37,152 @@ export default function InsertRecord() {
     }
   };
 
-  if (isLogin !== "doctor") return <Error />; 
+  if (isLogin !== "doctor") return <Error />;
   else
     return (
-     <>
-      <NavDoctor onCollapse={(inactive) => {
-    console.log(inactive);
-    setInactive(inactive);
-  }} />
-     <div className={`container ${inactive ? "inactive" : ""}`}>
-     <div className="home">
-        <div className="main">
-          <div className="header-insert-record">
-            <div className="div-input">
-              <div className="title">Tên bệnh nhân</div>
-              <input
-                name="patientName"
-                type="text"
-                placeholder="Nhập tên bệnh nhân"
-                value={patientName}
-                onChange={onChange}
-                className="txt-info-record"
-              />
-            </div>
-            <div className="div-input">
-             <div className="title"> Tên bệnh</div>
-              <input
-                name="name"
-                type="text"
-                placeholder="Nhập tên bệnh"
-                value={name}
-                onChange={onChange}
-                className="txt-info-record"
-              />
-            </div>
-          </div>
-          <div style={{ display: "flex", flexDirection: "row", marginTop: 10}}>
-            <div>
-              <input
-              // className="txt-info-record"
-                type="search"
-                onChange={(event) => {
-                  getByName(event.target.value)
-                    .then((result) => setMedicines(result.medicine))
-                    .catch((err) => console.error(err));
-                }}
-                placeholder="Nhập tên thuốc"
-              />
-              <div style={{ width: 300, height: 400, overflow: "scroll" }}>
-                {medicines.map((medicine) => (
-                  <button
-                    className="dropdown"
-                    onClick={() =>
-                      setprescription([
-                        ...prescription,
-                        {
-                          name: medicine.name,
-                          amount: 1,
-                          use: "",
-                        },
-                      ])
-                    }
-                  >
-                    {medicine.name}
-                  </button>
-                ))}
+      <>
+        <NavDoctor
+          onCollapse={(inactive) => {
+            setInactive(inactive);
+          }}
+        />
+        <div className={`container ${inactive ? "inactive" : ""}`}>
+          <div className="home">
+            <div className="main">
+              <div className="header-insert-record">
+                <div className="div-input">
+                  <div className="title">Tên bệnh nhân</div>
+                  <input
+                    name="patientName"
+                    type="text"
+                    placeholder="Nhập tên bệnh nhân"
+                    value={patientName}
+                    onChange={onChange}
+                    className="txt-info-record"
+                  />
+                </div>
+                <div className="div-input">
+                  <div className="title"> Tên bệnh</div>
+                  <input
+                    name="name"
+                    type="text"
+                    placeholder="Nhập tên bệnh"
+                    value={name}
+                    onChange={onChange}
+                    className="txt-info-record"
+                  />
+                </div>
               </div>
-            </div>
-            <table>
-              <tr className="label">
-                <th>STT</th>
-                <th>Tên thuốc</th>
-                <th>Liều lượng</th>
-                <th>Cách dùng</th>
-              </tr>
-              {prescription.map((medicine, index) => (
-                <tr className="data">
-                  <th>{++index}</th>
-                  <th>{medicine.name}</th>
-                  <th>
-                    <input
-                      type="number"
-                      value={medicine.amount}
-                      style={{ width: 50, textAlign: "left" }}
-                      onChange={(event) => {
-                        let array = [...prescription];
-                        array[index - 1].amount = event.target.value;
-                        setprescription(array);
-                      }}
-                    />
-                  </th>
-                  <th>
-                    <input
-                      value={medicine.use}
-                      style={{ width: 400 }}
-                      onChange={(event) => {
-                        let array = [...prescription];
-                        array[index - 1].use = event.target.value;
-                        setprescription(array);
-                      }}
-                    />
-                  </th>
-                </tr>
-              ))}
-            </table>
-          </div>
-          {/* <div style={{ direction: "rtl" }}> */}
-           <div className="div-btn-end"> <div
-              className="btn-style"
-              onClick={() =>
-                create(
-                  window.location.pathname.split("/")[2],
-                  patientName,
-                  name
-                )
-                  .then((result) => {
-                    prescription.forEach((element) => {
-                      createPrescription(
-                        result.medicalRecord.id,
-                        element.amount,
-                        element.name,
-                        element.use
-                      )
-                        .then(
-                          (result) =>
-                            (window.location.href =
-                              "/record-detail/" + result.prescription.recordId)
-                        )
+              <div
+                style={{ display: "flex", flexDirection: "row", marginTop: 10 }}
+              >
+                <div>
+                  <input
+                    // className="txt-info-record"
+                    type="search"
+                    onChange={(event) => {
+                      getByName(event.target.value)
+                        .then((result) => setMedicines(result.medicine))
                         .catch((err) => console.error(err));
-                    });
-                  })
-                  .catch((err) => console.error(err))
-              }
-            >
-              Lưu
-            </div></div>
-          {/* </div> */}
+                    }}
+                    placeholder="Nhập tên thuốc"
+                  />
+                  <div style={{ width: 300, height: 400, overflow: "scroll" }}>
+                    {medicines.map((medicine) => (
+                      <button
+                        className="dropdown"
+                        onClick={() =>
+                          setprescription([
+                            ...prescription,
+                            {
+                              name: medicine.name,
+                              amount: 1,
+                              use: "",
+                            },
+                          ])
+                        }
+                      >
+                        {medicine.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <table>
+                  <tr className="label">
+                    <th>STT</th>
+                    <th>Tên thuốc</th>
+                    <th>Liều lượng</th>
+                    <th>Cách dùng</th>
+                  </tr>
+                  {prescription.map((medicine, index) => (
+                    <tr className="data">
+                      <th>{++index}</th>
+                      <th>{medicine.name}</th>
+                      <th>
+                        <input
+                          type="number"
+                          value={medicine.amount}
+                          style={{ width: 50, textAlign: "left" }}
+                          onChange={(event) => {
+                            let array = [...prescription];
+                            array[index - 1].amount = event.target.value;
+                            setprescription(array);
+                          }}
+                        />
+                      </th>
+                      <th>
+                        <input
+                          value={medicine.use}
+                          style={{ width: 400 }}
+                          onChange={(event) => {
+                            let array = [...prescription];
+                            array[index - 1].use = event.target.value;
+                            setprescription(array);
+                          }}
+                        />
+                      </th>
+                    </tr>
+                  ))}
+                </table>
+              </div>
+              {/* <div style={{ direction: "rtl" }}> */}
+              <div className="div-btn-end">
+                {" "}
+                <div
+                  className="btn-style"
+                  onClick={() =>
+                    create(
+                      window.location.pathname.split("/")[2],
+                      patientName,
+                      name
+                    )
+                      .then((result) => {
+                        prescription.forEach((element) => {
+                          createPrescription(
+                            result.medicalRecord.id,
+                            element.amount,
+                            element.name,
+                            element.use
+                          )
+                            .then(
+                              (result) =>
+                                (window.location.href =
+                                  "/record-detail/" +
+                                  result.prescription.recordId)
+                            )
+                            .catch((err) => console.error(err));
+                        });
+                      })
+                      .catch((err) => console.error(err))
+                  }
+                >
+                  Lưu
+                </div>
+              </div>
+              {/* </div> */}
+            </div>
+          </div>
         </div>
-      </div>
-     </div>
-     </>
+      </>
     );
 }
