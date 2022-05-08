@@ -104,20 +104,16 @@ export const exist = async (room, date, number) => {
 };
 
 export const notification = async (token, room, number) => {
-  return await fetch("https://exp.host/--/api/v2/push/send", {
-    mode: "no-cors",
+  return await fetch(API_URL + "/notification", {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "Accept-Encoding": "gzip, deflate",
-    },
+    headers: HEADER,
     body: JSON.stringify({
-      to: token,
-      title: "Sắp đến bạn",
-      body: "Phòng khám: " + room + " - STT: " + number,
+      token: token,
+      room: room,
+      number: number,
     }),
   })
     .then((response) => response.json())
-    .catch((error) => console.error(error));
+    .then((json) => alert(json))
+    .catch((error) => alert(error));
 };
