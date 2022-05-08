@@ -13,8 +13,13 @@ const DEPARTMENT = {
   respiratory: "Hô hấp",
   nephrology: "Thận",
 };
-const API_URL = "https://fast-cliffs-01542.herokuapp.com";
+
+//const API_URL = "https://fast-cliffs-01542.herokuapp.com";
 // const API_URL = "https://still-wave-21655.herokuapp.com";
+
+
+const API_URL = "https://fast-cliffs-01542.herokuapp.com";
+
 
 const HEADER = {
   Accept: "application/json",
