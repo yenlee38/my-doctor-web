@@ -14,13 +14,18 @@ const DEPARTMENT = {
   nephrology: "Thận",
 };
 
+//const API_URL = "https://fast-cliffs-01542.herokuapp.com";
+// const API_URL = "https://still-wave-21655.herokuapp.com";
+
+
 const API_URL = "https://fast-cliffs-01542.herokuapp.com";
+
 
 const HEADER = {
   Accept: "application/json",
   "Content-Type": "application/json",
-  'Access-Control-Allow-Origin': 'http://localhost:3000',
-  'Access-Control-Allow-Credentials':'true'
+  "Access-Control-Allow-Origin": "http://localhost:3000",
+  "Access-Control-Allow-Credentials": "true",
 };
 
 const NUMBER_STATE = {
