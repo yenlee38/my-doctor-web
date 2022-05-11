@@ -6,10 +6,10 @@ import "./styles.css";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { MDBCol, MDBIcon } from "mdbreact";
 import InputLabel from "@mui/material/InputLabel";
 import ButtonCustom from "./button-custom";
 import { DEPARTMENT } from "../../../constant";
+import { updateAvatarDoctor } from "../../../model/doctor";
 const ModalAddDoctor = function ({ isVisited, onCancel }) {
   const [show, setShow] = React.useState(false);
   const [fullName, setFullName] = useState("");
@@ -18,7 +18,18 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
   const [department, setDepartment] = useState(DEPARTMENT.pediatrics);
   const [usename, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileSelectedHandle = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  const fileUploadHandler = () => {
+    const fd = new FormData();
+    fd.append("image", selectedFile, selectedFile.name);
+    updateAvatarDoctor(fd).then((res) => {
+      if (res) console.log("ok nha");
+      else console.log("khong dc nha");
+    });
+  };
   React.useEffect(() => {
     setShow(isVisited);
   });
@@ -63,7 +74,11 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
             Thêm bác sĩ
           </div>
 
-          <img src="../../../../../assets/imgs/add_doctor.png" />
+          <div>
+            {" "}
+            <img src="../../../../../assets/imgs/add_doctor.png" />
+            <input type="file" onChange={fileSelectedHandle} />
+          </div>
         </div>
         <div>
           <InputCustom
@@ -208,7 +223,7 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
               marginTop: 20,
             }}
           >
-            <ButtonCustom title={"Thêm bác sĩ"} onPress={onCancel} />
+            <ButtonCustom title={"Thêm bác sĩ"} onPress={fileUploadHandler} />
           </div>
         </div>
       </Modal.Body>
