@@ -133,57 +133,73 @@ export default function Record() {
               </div>
 
               <dialog class="dialog-add" open={show}>
-                <div class="item1">
-                  <strong>Chọn số thứ tự vào khám</strong>
-                  <p style={{ fontSize: 13 }}>
-                    ngày {new Date().toLocaleDateString()}
-                  </p>
-                </div>
-                <div class="item2"></div>
-                <div class="item3">
-                  <strong>Phòng khám:</strong>
-                </div>
-                <div class="item4">
-                  <select
-                    onChange={(event) => {
-                      getAllByRoom(event.target.value)
-                        .then((result) => setPositions(result.position))
-                        .catch((err) => console.error(err));
-                      getCurrent(event.target.value)
-                        .then((current) => setCurrentPosition(current.current))
-                        .catch((err) => console.error(err));
+                <div style={{ direction: "rtl", color: "#F44336" }}>
+                  <AiOutlineClose
+                    style={{
+                      cursor: "pointer",
+                      backgroundColor: "#EF9A9A",
+                      borderRadius: "50%",
+                      padding: 5,
+                      fontSize: 25,
                     }}
-                  >
-                    {rooms.map((room) => (
-                      <option value={room.name}>{room.name}</option>
+                    onClick={() => setShow(false)}
+                  />
+                </div>
+                <div class="grid-container">
+                  <div class="item1">
+                    <strong>Chọn số thứ tự vào khám</strong>
+                    <p style={{ fontSize: 13 }}>
+                      ngày {new Date().toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div class="item2"></div>
+                  <div class="item3">
+                    <strong>Phòng khám:</strong>
+                  </div>
+                  <div class="item4">
+                    <select
+                      onChange={(event) => {
+                        getAllByRoom(event.target.value)
+                          .then((result) => setPositions(result.position))
+                          .catch((err) => console.error(err));
+                        getCurrent(event.target.value)
+                          .then((current) =>
+                            setCurrentPosition(current.current)
+                          )
+                          .catch((err) => console.error(err));
+                      }}
+                    >
+                      {rooms.map((room) => (
+                        <option value={room.name}>{room.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div class="item6">
+                    <strong>STT khám:</strong>
+                  </div>
+                  <div class="item7">
+                    {positions.length === 0 && (
+                      <p style={{ textAlign: "center" }}>Trống</p>
+                    )}
+                    {positions.map((position, index) => (
+                      <button onClick={async () => call(position)}>
+                        <img src="../../assets/imgs/position.png" />
+                        <br />
+                        <font color="red">{position.number}</font>
+                      </button>
                     ))}
-                  </select>
-                </div>
-                <div class="item6">
-                  <strong>STT khám:</strong>
-                </div>
-                <div class="item7">
-                  {positions.length === 0 && (
-                    <p style={{ textAlign: "center" }}>Trống</p>
-                  )}
-                  {positions.map((position, index) => (
-                    <button onClick={async () => call(position)}>
-                      <img src="../../assets/imgs/position.png" />
-                      <br />
-                      <font color="red">{position.number}</font>
-                    </button>
-                  ))}
-                </div>
-                <div class="item5" style={{ padding: 10 }}>
-                  <strong>STT đang khám</strong>
-                  <div>{currentPosition}</div>
-                </div>
-                <div class="item8">
-                  <label style={{ fontSize: 10 }}>
-                    <font color="red">*Lưu ý: </font>Sau khi chọn số thứ tự
-                    khám, thì STT sau đó 5 số sẽ được nhận thông báo về app của
-                    bệnh nhân là gần tới STT khác của mình
-                  </label>
+                  </div>
+                  <div class="item5" style={{ padding: 10 }}>
+                    <strong>STT đang khám</strong>
+                    <div>{currentPosition}</div>
+                  </div>
+                  <div class="item8">
+                    <label style={{ fontSize: 10 }}>
+                      <font color="red">*Lưu ý: </font>Sau khi chọn số thứ tự
+                      khám, thì STT sau đó 5 số sẽ được nhận thông báo về app
+                      của bệnh nhân là gần tới STT khác của mình
+                    </label>
+                  </div>
                 </div>
               </dialog>
 

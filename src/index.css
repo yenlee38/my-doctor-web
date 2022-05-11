@@ -510,6 +510,12 @@ table {
 }
 
 .dialog-add {
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: 400px;
+}
+
+.grid-container {
   display: grid;
   grid-template-areas:
     "empty header image"
@@ -517,12 +523,9 @@ table {
     "lblPosition table present"
     "footer footer present";
   gap: 10px;
-  padding: 20px;
-  border-radius: 10px;
-  margin-left: 400px;
 }
 
-.dialog-add > div {
+.grid-container > div {
   padding: 10px 0;
   font-family: sans-serif;
   font-size: 20px;
