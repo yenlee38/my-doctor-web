@@ -1,20 +1,18 @@
-
 .txt-header-table {
   font-size: 15px;
   padding-left: 10px;
   padding-right: 10px;
   font-weight: 600;
-
 }
 
 select {
-  background-color: #EDE7F6;
+  background-color: #ede7f6;
   border-radius: 4px;
   text-align: center;
   padding-left: 5px;
   padding-right: 5px;
-  color: #5E35B1;
-  border: 0.1px solid #B39DDB;
+  color: #5e35b1;
+  border: 0.1px solid #b39ddb;
   padding-top: 3px;
   padding-bottom: 3px;
   font-size: 15px !important;
@@ -81,7 +79,7 @@ code {
   font-size: calc(10px + 2vmin);
   min-height: 100vh;
   width: 100%;
-  background-color: #E3F2FD;
+  background-color: #e3f2fd;
   border-radius: 12px;
   justify-content: center;
 }
@@ -91,11 +89,10 @@ code {
   font-size: 15px;
   min-height: 200vh;
   width: 100%;
-  background-color: #E3F2FD;
+  background-color: #e3f2fd;
   border-radius: 12px;
   justify-content: center;
 }
-
 
 .main {
   padding: 20px;
@@ -104,7 +101,7 @@ code {
   border-radius: 12px;
   background-color: #fff;
   margin: 20px;
-  border: 0.5px solid #90CAF9;
+  border: 0.5px solid #90caf9;
   box-shadow: 0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%);
 }
 
@@ -115,7 +112,7 @@ code {
   border-radius: 12px;
   background-color: #fff;
   margin: 20px;
-  border: 0.5px solid #90CAF9;
+  border: 0.5px solid #90caf9;
   box-shadow: 0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%);
 }
 
@@ -140,7 +137,6 @@ code {
   background-color: #61dafb;
 }
 
-
 .header {
   display: flex;
   justify-content: space-around;
@@ -158,14 +154,14 @@ code {
 .title {
   text-align: center;
   font-weight: 600;
-  color: #4527A0;
+  color: #4527a0;
   font-size: 20px;
   line-height: 40px;
 }
 
 .list {
   height: 65%;
-  border: 1px solid #EDE7F6;
+  border: 1px solid #ede7f6;
   margin: 5px;
   box-sizing: border-box;
   border-radius: 12px;
@@ -191,15 +187,15 @@ tr {
 .label th {
   font-size: 15px;
   font-weight: bold;
-  background-color: #4527A0;
-  color: #EDE7F6;
+  background-color: #4527a0;
+  color: #ede7f6;
   border: none;
   padding: 5px;
   text-align: center;
 }
 
 .data th {
-  border: 1px solid #EDE7F6;
+  border: 1px solid #ede7f6;
   font-size: 15px;
   font-weight: 600;
   padding: 5px 5px;
@@ -214,23 +210,23 @@ tr {
 .paging-icon {
   font-size: 15px;
   padding: 5px;
-  color: #B39DDB;
+  color: #b39ddb;
   cursor: pointer;
   transition: 1s all;
 }
 
 .paging-icon:hover {
-  background-color: #B39DDB;
+  background-color: #b39ddb;
   font-size: 15px;
   padding: 5px;
-  color: #5E35B1;
+  color: #5e35b1;
   cursor: pointer;
   border-radius: 3px;
 }
 
 .txt-paging {
-  background-color: #EDE7F6;
-  color: #5E35B1;
+  background-color: #ede7f6;
+  color: #5e35b1;
   padding: 10px;
   font-size: 12px !important;
   outline: none;
@@ -252,48 +248,48 @@ tr {
 }
 
 .btn-style {
-  background-color: #E3F2FD;
+  background-color: #e3f2fd;
   border-radius: 4px;
-  font-size:  15px;
-  color: #2196F3;
+  font-size: 15px;
+  color: #2196f3;
   align-self: center;
   padding: 5px 12px;
   border: none;
- font-weight: bold;
+  font-weight: bold;
   cursor: pointer;
-  transform: color .2s ease-in;
+  transform: color 0.2s ease-in;
   transition: 1s all;
 }
 
 .btn-style:hover {
-  background-color: #90CAF9;
-  color: #E3F2FD;
+  background-color: #90caf9;
+  color: #e3f2fd;
   box-shadow: 0 2px 5px 0 rgb(0 0 0 /10%), 0 2px 10px 0 rgb(0 0 0 /10%);
 }
 
 .btn-style-cancel {
-  background-color: #EF9A9A;
+  background-color: #ef9a9a;
   border-radius: 4px;
-  font-size:  15px;
-  color: #F44336;
+  font-size: 15px;
+  color: #f44336;
   align-self: center;
   padding: 5px 12px;
   border: none;
- font-weight: bold;
+  font-weight: bold;
   cursor: pointer;
-  transform: color .2s ease-in;
+  transform: color 0.2s ease-in;
   transition: 1s all;
 }
 
 .btn-style-cancel:hover {
-  background-color: #F44336;
-  color: #E3F2FD;
+  background-color: #f44336;
+  color: #e3f2fd;
   box-shadow: 0 2px 5px 0 rgb(0 0 0 /10%), 0 2px 10px 0 rgb(0 0 0 /10%);
 }
 
 .btn-print {
-  background-color: #EDE7F6;
-  color: #5E35B1;
+  background-color: #ede7f6;
+  color: #5e35b1;
   text-decoration: none;
   padding: 5px;
   border-radius: 3px;
@@ -304,8 +300,8 @@ tr {
 }
 
 .btn-print:hover {
-  background-color: #5E35B1;
-  color: #EDE7F6;
+  background-color: #5e35b1;
+  color: #ede7f6;
 }
 
 .chart {
@@ -382,11 +378,9 @@ table {
   display: flex;
   justify-content: space-between;
   padding: 5px;
-  
 }
 
 .div-input {
-  
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -404,7 +398,7 @@ table {
   padding: 5px;
   margin-left: 5px;
   margin-right: 5px;
-  border: 0.5px solid #E3F2FD;
+  border: 0.5px solid #e3f2fd;
   outline: none;
 }
 
@@ -420,16 +414,16 @@ table {
   font-weight: bold;
 }
 
-.dialog-add {
+/* .dialog-add {
   border-radius: 12px;
-  padding: 10px 10px 10px 10px;
+  padding: 10px;
   width: 300px;
   justify-content: center;
   align-items: center;
   margin-left: 45vw;
-  border: 1px solid #FBE9E7;
+  border: 1px solid #fbe9e7;
   box-shadow: 0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%);
-}
+} */
 
 .div-loading {
   justify-content: center;
@@ -447,4 +441,89 @@ table {
 .txt-nodata {
   font-size: 20px;
   font-weight: bold;
+}
+
+.item1 {
+  grid-area: header;
+  text-align: center;
+}
+.item2 {
+  grid-area: image;
+  background-image: url("asset/record.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.item3 {
+  grid-area: lblRoom;
+}
+.item4 {
+  grid-area: button;
+}
+.item4 select {
+  background-color: #0ed3ee;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+.item5 {
+  grid-area: present;
+  background-color: white;
+  border: #f80e0e 1px solid;
+  border-radius: 10px;
+}
+.item6 {
+  grid-area: lblPosition;
+  margin-top: 50%;
+}
+.item7 {
+  grid-area: table;
+  height: 150px;
+  overflow-y: auto;
+  width: 250px;
+}
+
+.item7 button {
+  background-color: white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: #0888e4 solid 1px;
+  padding: 5px;
+  text-align: center;
+  margin: 3px;
+}
+.item8 {
+  grid-area: footer;
+  width: 400px;
+}
+.item5 div {
+  background-color: red;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  font-size: 30px;
+  margin: 15%;
+  padding: 30%;
+  color: white;
+}
+
+.dialog-add {
+  display: grid;
+  grid-template-areas:
+    "empty header image"
+    "lblRoom button present"
+    "lblPosition table present"
+    "footer footer present";
+  gap: 10px;
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: 400px;
+}
+
+.dialog-add > div {
+  padding: 10px 0;
+  font-family: sans-serif;
+  font-size: 20px;
 }

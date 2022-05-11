@@ -3,7 +3,13 @@ import { AiOutlineClose } from "react-icons/ai";
 
 import { isLogin } from "../../model/account";
 import { getPatient } from "../../model/patient";
-import { exist, getAllByRoom, notification, used } from "../../model/position";
+import {
+  exist,
+  getAllByRoom,
+  notification,
+  used,
+  getCurrent,
+} from "../../model/position";
 import { findByPatientName, getAll } from "../../model/record";
 import { getAllRoom } from "../../model/room";
 import NavDoctor from "../Component/nav/NavDoctor";
@@ -17,6 +23,7 @@ export default function Record() {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [inactive, setInactive] = useState(false);
+  const [currentPosition, setCurrentPosition] = useState(0);
   const amount = 10;
 
   const paging = () => {
@@ -55,7 +62,6 @@ export default function Record() {
         position.date,
         position.number + 5
       );
-      // const json = response.json();
       if (response.count === 1) {
         const result = await getPatient(response.position.patientId);
         await notification(
@@ -79,6 +85,9 @@ export default function Record() {
         setRooms(result.room);
         getAllByRoom(result.room[0].name)
           .then((result) => setPositions(result.position))
+          .catch((err) => console.error(err));
+        getCurrent(result.room[0].name)
+          .then((current) => setCurrentPosition(current.current))
           .catch((err) => console.error(err));
       })
       .catch((err) => console.error(err));
@@ -122,7 +131,63 @@ export default function Record() {
                   Thêm
                 </div>
               </div>
-              <dialog className="dialog-add" open={show}>
+
+              <dialog class="dialog-add" open={show}>
+                <div class="item1">
+                  <strong>Chọn số thứ tự vào khám</strong>
+                  <p style={{ fontSize: 13 }}>
+                    ngày {new Date().toLocaleDateString()}
+                  </p>
+                </div>
+                <div class="item2"></div>
+                <div class="item3">
+                  <strong>Phòng khám:</strong>
+                </div>
+                <div class="item4">
+                  <select
+                    onChange={(event) => {
+                      getAllByRoom(event.target.value)
+                        .then((result) => setPositions(result.position))
+                        .catch((err) => console.error(err));
+                      getCurrent(event.target.value)
+                        .then((current) => setCurrentPosition(current.current))
+                        .catch((err) => console.error(err));
+                    }}
+                  >
+                    {rooms.map((room) => (
+                      <option value={room.name}>{room.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div class="item6">
+                  <strong>STT khám:</strong>
+                </div>
+                <div class="item7">
+                  {positions.length === 0 && (
+                    <p style={{ textAlign: "center" }}>Trống</p>
+                  )}
+                  {positions.map((position, index) => (
+                    <button onClick={async () => call(position)}>
+                      <img src="../../assets/imgs/position.png" />
+                      <br />
+                      <font color="red">{position.number}</font>
+                    </button>
+                  ))}
+                </div>
+                <div class="item5" style={{ padding: 10 }}>
+                  <strong>STT đang khám</strong>
+                  <div>{currentPosition}</div>
+                </div>
+                <div class="item8">
+                  <label style={{ fontSize: 10 }}>
+                    <font color="red">*Lưu ý: </font>Sau khi chọn số thứ tự
+                    khám, thì STT sau đó 5 số sẽ được nhận thông báo về app của
+                    bệnh nhân là gần tới STT khác của mình
+                  </label>
+                </div>
+              </dialog>
+
+              {/* <dialog className="dialog-add" open={show}>
                 <div style={{ direction: "rtl", color: "#F44336" }}>
                   <AiOutlineClose
                     style={{
@@ -168,7 +233,7 @@ export default function Record() {
                     <div className="txt-header-table">Trống</div>
                   )}
                 </div>
-              </dialog>
+              </dialog> */}
 
               <div className="title">Danh sách bệnh án </div>
 
