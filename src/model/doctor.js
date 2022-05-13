@@ -20,7 +20,7 @@ export const getAllDoctor = async () => {
 export const updateAvatarDoctor = async (formData) => {
   return await axios
     .post(
-      BASE_URL + "/upload/" + "099f459d-561c-400c-8f99-271e9465efe4",
+      BASE_URL + "/image/" + "099f459d-561c-400c-8f99-271e9465efe4",
       formData
     )
     .then((res) => {
