@@ -33,6 +33,7 @@ const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
   const [isHidden, setIsHidden] = useState(0);
   const [changePass, setChangePass] = useState("");
   React.useEffect(() => {
+    console.log({ doctor });
     setFullName(doctor?.fullname);
     setPhone(doctor?.phone);
     setEducation(doctor?.education);
