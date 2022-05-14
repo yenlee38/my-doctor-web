@@ -1,19 +1,83 @@
+.radio-form{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    flex-direction: row;
+}
+
+.label-radius {
+    font-weight: 500;
+    justify-content: center;
+}
+
+.radio-container{
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.radio {
+    align-items: center !important;
+    flex-direction: row !important;
+    display: flex;
+    padding: 5px;
+}
 .button-container{
     background-color: #0ED3EE;
     color: white;
-    font-size: 18px;
+    font-size: 15px;
     border-radius: 5px;
     justify-content: center;
     align-items: center;
     text-align: center;
     cursor: pointer;
     font-weight: 500;
-    padding: 5px 10px;
-    box-shadow: 0 2px 5px 0 rgb(0 0 0 /10%),
-        0 2px 10px 0 rgb(0 0 0 /10%);
+    padding: 10px 20px;
+   
             
 }
 
 .modal-width {
     width: 800px !important;
+}
+
+#input[type="file"] {
+    display: none;
+}
+
+.label {
+    width: 100%;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.image-upload {
+   
+    border-radius:5px;
+    padding: 6px 20px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px dashed #0ED3EE;
+    color: #0ED3EE;
+    font-weight: 500;
+}
+
+.img-avatar{
+    height: 100px;
+    width: 100px;
+    border-radius: 100px;
+    border: 1px dashed #0ED3EE;
+    object-fit:fill;
+}
+
+.close-icon {
+    cursor: pointer;
+    
+}
+
+.modal-backdrop{
+    background-color: rgba(52, 52, 52, 0.3) !important;
 }

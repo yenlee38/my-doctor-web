@@ -57,6 +57,48 @@ export const getAllAccountByAdmin = async () => {
   }
 };
 
+export const disableAccount = async (id) => {
+  const token = sessionStorage.getItem("token");
+  const header = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+  try {
+    return await fetch(`${BASE_URL}/disable/${id}`, {
+      method: "PUT",
+      headers: header,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        return res.account;
+      });
+  } catch (error) {
+    return null;
+  }
+};
+
+export const enableAccount = async (id) => {
+  const token = sessionStorage.getItem("token");
+  const header = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  };
+  try {
+    return await fetch(`${BASE_URL}/enable/${id}`, {
+      method: "PUT",
+      headers: header,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        return res.account;
+      });
+  } catch (error) {
+    return null;
+  }
+};
+
 export const getAllAccount = async () => {
   const token = sessionStorage.getItem("token");
   const header = {
@@ -78,45 +120,42 @@ export const getAllAccount = async () => {
     console.error(error);
   }
 };
-// export const updateProfile = async (
-//   id,
-//   fullName,
-//   birthDate,
-//   gender,
-//   address
-// ) => {
-//   return await fetch(BASE_URL + "/patient/" + id, {
-//     method: "PUT",
-//     headers: header,
-//     body: JSON.stringify({
-//       avatar: avatar,
-//       fullName: fullName,
-//       birthDate: birthDate,
-//       gender: gender,
-//       address: address,
-//     }),
-//   })
-//     .then((response) => response.json())
-//     .then((result) => console.log(result.message))
-//     .catch((err) => console.log(err));
-// };
 
-// export const signup = async (username, password, role) => {
-//   return await fetch(BASE_URL + "/accounts", {
-//     method: "POST",
-//     headers: header,
-//     body: JSON.stringify({
-//       username: username,
-//       password: password,
-//       role: role,
-//     }),
-//   })
-//     .then((response) => response.json())
-//     .then((result) => {
-//       return result;
-//     })
-//     .catch((err) => console.error(err));
-// };
+export const resetPass = async (username, newPassword) => {
+  return await fetch(BASE_URL + "/forgotPass", {
+    method: "PUT",
+    headers: HEADER,
+    body: JSON.stringify({
+      username: username,
+      password: newPassword,
+    }),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      return result.message;
+    })
+    .catch((err) => {
+      console.log({ err });
+      return null;
+    });
+};
+
+export const signup = async (username, password, role) => {
+  return await fetch(BASE_URL, {
+    method: "POST",
+    headers: HEADER,
+    body: JSON.stringify({
+      username: username,
+      password: password,
+      role: role,
+    }),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      return result.account;
+    })
+    .catch((err) => console.error(err));
+};
 
 export const getAccount = async (id) => {
   const token = sessionStorage.getItem("token");

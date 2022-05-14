@@ -1,7 +1,5 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import { alpha } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,12 +9,16 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import { visuallyHidden } from "@mui/utils";
-import { getAllDoctor } from "../../../model/doctor";
 import Tooltip from "@mui/material/Tooltip";
-import ButtonCustom from "../components/button-custom";
-import { getAllAccountByAdmin, getAllAccount } from "../../../model/account";
+import { visuallyHidden } from "@mui/utils";
+import PropTypes from "prop-types";
+import * as React from "react";
+import { getAllAccountByAdmin } from "../../../model/account";
+import { getAllDoctor } from "../../../model/doctor";
 import ModalAddDoctor from "../components/account.add";
+import ModalEditDoctor from "../components/account.edit";
+import ButtonCustom from "../components/button-custom";
+import "./styles.css";
 export default function DoctorManagerHome() {
   const [doctors, setDoctors] = React.useState([]);
   const [listDoctor, setListDoctor] = React.useState([]);
@@ -28,6 +30,8 @@ export default function DoctorManagerHome() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [status, setStatus] = React.useState("");
   const [isShowModal, setIsShowModal] = React.useState(false);
+  const [isShowModalEdit, setIsShowModalEdit] = React.useState(false);
+  const [doctorSelected, setDoctorSelected] = React.useState();
   const dense = false;
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -36,12 +40,27 @@ export default function DoctorManagerHome() {
   };
 
   React.useEffect(() => {
-    getAllAccount().then((listAccount) => {
+    getAllAccountByAdmin().then((listAccount) => {
       setAccounts(listAccount);
       getAllDoctor().then((res) => {
         if (res) {
-          setDoctors(res);
-          setListDoctor(res);
+          console.log(res);
+          console.log(
+            res.sort(function (x, y) {
+              return y.updatedAt - x.updatedAt;
+            })
+          );
+
+          setDoctors(
+            res.sort(function (x, y) {
+              return x.updatedAt - y.updatedAt;
+            })
+          );
+          setListDoctor(
+            res.sort(function (x, y) {
+              return x.updatedAt - y.updatedAt;
+            })
+          );
         }
       });
     });
@@ -276,6 +295,13 @@ export default function DoctorManagerHome() {
   return (
     <div>
       <ModalAddDoctor isVisited={isShowModal} onCancel={showModalAddDoctor} />
+      <ModalEditDoctor
+        isVisited={isShowModalEdit}
+        onCancel={() => {
+          setIsShowModalEdit(false);
+        }}
+        doctor={doctorSelected}
+      />
       <div
         style={{
           display: "flex",
@@ -355,25 +381,51 @@ export default function DoctorManagerHome() {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell>{row.id}</TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {row.fullname}
-                      </TableCell>
-                      <TableCell align="center">{row.phone}</TableCell>
-                      <TableCell align="center">{row.department}</TableCell>
-                      <TableCell align="center">{row.education}</TableCell>
-                      <TableCell align="center">
-                        <CustomAccount doctorId={row.id} />
-                      </TableCell>
-                    </TableRow>
+                    <>
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
+                      >
+                        <TableCell>{row.id}</TableCell>
+                        <TableCell component="th" scope="row" padding="none">
+                          <div
+                            style={{
+                              flexDirection: "row",
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            <img
+                              style={{
+                                height: 40,
+                                width: 40,
+                                borderRadius: 40,
+                                margin: 5,
+                              }}
+                              src={row.avatar}
+                            />{" "}
+                            <div>{row.fullname}</div>
+                          </div>
+                        </TableCell>
+                        <TableCell align="center">{row.phone}</TableCell>
+                        <TableCell align="center">{row.department}</TableCell>
+                        <TableCell align="center">{row.education}</TableCell>
+                        <TableCell
+                          align="center"
+                          className="pointer"
+                          onClick={() => {
+                            setDoctorSelected(row);
+                            setIsShowModalEdit(true);
+                          }}
+                        >
+                          <CustomAccount doctorId={row.id} />
+                        </TableCell>
+                      </TableRow>
+                    </>
                   );
                 })}
               {emptyRows > 0 && (
