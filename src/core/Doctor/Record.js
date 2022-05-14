@@ -19,7 +19,7 @@ import { MDBCol, MDBIcon } from "mdbreact";
 export default function Record() {
   const [positions, setPositions] = useState([]);
   const [rooms, setRooms] = useState([]);
-  const [show, setShow] = useState(false);
+  const [hidden, setHidden] = useState(true);
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [inactive, setInactive] = useState(false);
@@ -103,6 +103,77 @@ export default function Record() {
             setInactive(inactive);
           }}
         />
+        <div class="dialog-background" hidden={hidden}>
+          <div class="dialog-content">
+            <div style={{ direction: "rtl", color: "#F44336" }}>
+              <AiOutlineClose
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#EF9A9A",
+                  borderRadius: "50%",
+                  padding: 5,
+                  fontSize: 25,
+                }}
+                onClick={() => setHidden(true)}
+              />
+            </div>
+            <div class="grid-container">
+              <div class="item1">
+                <strong>Chọn số thứ tự vào khám</strong>
+                <p style={{ fontSize: 13 }}>
+                  ngày {new Date().toLocaleDateString()}
+                </p>
+              </div>
+              <div class="item2"></div>
+              <div class="item3">
+                <strong>Phòng khám:</strong>
+              </div>
+              <div class="item4">
+                <select
+                  onChange={(event) => {
+                    getAllByRoom(event.target.value)
+                      .then((result) => setPositions(result.position))
+                      .catch((err) => console.error(err));
+                    getCurrent(event.target.value)
+                      .then((current) => setCurrentPosition(current.current))
+                      .catch((err) => console.error(err));
+                  }}
+                >
+                  {rooms.map((room) => (
+                    <option value={room.name}>{room.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div class="item6">
+                <strong>STT khám:</strong>
+              </div>
+              <div class="item7">
+                {positions.length === 0 && (
+                  <p style={{ textAlign: "center" }}>Trống</p>
+                )}
+                {positions.map((position, index) => (
+                  <button onClick={async () => call(position)}>
+                    <img src="../../assets/imgs/position.png" />
+                    <br />
+                    <font color="red">{position.number}</font>
+                  </button>
+                ))}
+              </div>
+              <div class="item5" style={{ padding: 10 }}>
+                <strong>STT đang khám</strong>
+                <div>{currentPosition}</div>
+              </div>
+              <div class="item8">
+                <label style={{ fontSize: 10 }}>
+                  <font color="red">*Lưu ý: </font>Sau khi chọn số thứ tự khám,
+                  thì STT sau đó 5 số sẽ được nhận thông báo về app của bệnh
+                  nhân là gần tới STT khác của mình
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className={`container ${inactive ? "inactive" : ""}`}>
           <div className="home">
             <div className="main">
@@ -127,129 +198,10 @@ export default function Record() {
                     />
                   </form>
                 </MDBCol>
-                <div className="btn-style" onClick={() => setShow(true)}>
+                <div className="btn-style" onClick={() => setHidden(false)}>
                   Thêm
                 </div>
               </div>
-
-              <dialog class="dialog-add" open={show}>
-                <div style={{ direction: "rtl", color: "#F44336" }}>
-                  <AiOutlineClose
-                    style={{
-                      cursor: "pointer",
-                      backgroundColor: "#EF9A9A",
-                      borderRadius: "50%",
-                      padding: 5,
-                      fontSize: 25,
-                    }}
-                    onClick={() => setShow(false)}
-                  />
-                </div>
-                <div class="grid-container">
-                  <div class="item1">
-                    <strong>Chọn số thứ tự vào khám</strong>
-                    <p style={{ fontSize: 13 }}>
-                      ngày {new Date().toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div class="item2"></div>
-                  <div class="item3">
-                    <strong>Phòng khám:</strong>
-                  </div>
-                  <div class="item4">
-                    <select
-                      onChange={(event) => {
-                        getAllByRoom(event.target.value)
-                          .then((result) => setPositions(result.position))
-                          .catch((err) => console.error(err));
-                        getCurrent(event.target.value)
-                          .then((current) =>
-                            setCurrentPosition(current.current)
-                          )
-                          .catch((err) => console.error(err));
-                      }}
-                    >
-                      {rooms.map((room) => (
-                        <option value={room.name}>{room.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div class="item6">
-                    <strong>STT khám:</strong>
-                  </div>
-                  <div class="item7">
-                    {positions.length === 0 && (
-                      <p style={{ textAlign: "center" }}>Trống</p>
-                    )}
-                    {positions.map((position, index) => (
-                      <button onClick={async () => call(position)}>
-                        <img src="../../assets/imgs/position.png" />
-                        <br />
-                        <font color="red">{position.number}</font>
-                      </button>
-                    ))}
-                  </div>
-                  <div class="item5" style={{ padding: 10 }}>
-                    <strong>STT đang khám</strong>
-                    <div>{currentPosition}</div>
-                  </div>
-                  <div class="item8">
-                    <label style={{ fontSize: 10 }}>
-                      <font color="red">*Lưu ý: </font>Sau khi chọn số thứ tự
-                      khám, thì STT sau đó 5 số sẽ được nhận thông báo về app
-                      của bệnh nhân là gần tới STT khác của mình
-                    </label>
-                  </div>
-                </div>
-              </dialog>
-
-              {/* <dialog className="dialog-add" open={show}>
-                <div style={{ direction: "rtl", color: "#F44336" }}>
-                  <AiOutlineClose
-                    style={{
-                      cursor: "pointer",
-                      backgroundColor: "#EF9A9A",
-                      borderRadius: "50%",
-                      padding: 5,
-                      fontSize: 25,
-                    }}
-                    onClick={() => setShow(false)}
-                  />
-                </div>
-                <div
-                  style={{
-                    paddingRight: 10,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <select
-                    onChange={(event) =>
-                      getAllByRoom(event.target.value)
-                        .then((result) => setPositions(result.position))
-                        .catch((err) => console.error(err))
-                    }
-                  >
-                    {rooms.map((room) => (
-                      <option value={room.name}>{room.name}</option>
-                    ))}
-                  </select>
-                  <br />
-                  {positions.map((position) => (
-                    <button
-                      className="btn-style"
-                      onClick={async () => call(position)}
-                    >
-                      {position.number}
-                    </button>
-                  ))}
-                  {positions.length === 0 && (
-                    <div className="txt-header-table">Trống</div>
-                  )}
-                </div>
-              </dialog> */}
 
               <div className="title">Danh sách bệnh án </div>
 

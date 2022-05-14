@@ -509,10 +509,20 @@ table {
   color: white;
 }
 
-.dialog-add {
+.dialog-background {
+  position: fixed; /* Stay in place */
+  padding-top: 50px; /* Location of the box */
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.dialog-content {
   padding: 20px;
   border-radius: 10px;
-  margin-left: 400px;
+  background-color: #fefefe;
+  margin: auto;
+  width: 50%;
 }
 
 .grid-container {
