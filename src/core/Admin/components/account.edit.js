@@ -61,7 +61,7 @@ const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleUpdateAvatarDoctor = (doctorId) => {
+  const handleUpdateAvatarDoctor = () => {
     setIsAdding(true);
     if (doctor.avatar != profileImg) {
       const fd = new FormData();
@@ -98,7 +98,7 @@ const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
   };
 
   const updateDoctor = (id) => {
-    handleUpdateAvatarDoctor(id);
+    handleUpdateAvatarDoctor();
   };
 
   const handleCreateAccount = () => {
