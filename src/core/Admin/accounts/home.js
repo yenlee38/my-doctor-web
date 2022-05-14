@@ -40,17 +40,14 @@ export default function DoctorManagerHome() {
   };
 
   React.useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
     getAllAccountByAdmin().then((listAccount) => {
       setAccounts(listAccount);
       getAllDoctor().then((res) => {
         if (res) {
-          console.log(res);
-          console.log(
-            res.sort(function (x, y) {
-              return y.updatedAt - x.updatedAt;
-            })
-          );
-
           setDoctors(
             res.sort(function (x, y) {
               return x.updatedAt - y.updatedAt;
@@ -64,7 +61,7 @@ export default function DoctorManagerHome() {
         }
       });
     });
-  }, []);
+  };
 
   const headCells = [
     {
@@ -277,6 +274,7 @@ export default function DoctorManagerHome() {
 
   const showModalAddDoctor = () => {
     setIsShowModal((prev) => !prev);
+    getData();
   };
 
   EnhancedTableToolbar.propTypes = {
@@ -299,6 +297,7 @@ export default function DoctorManagerHome() {
         isVisited={isShowModalEdit}
         onCancel={() => {
           setIsShowModalEdit(false);
+          getData();
         }}
         doctor={doctorSelected}
       />
