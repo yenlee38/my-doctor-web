@@ -17,12 +17,9 @@ export const getAllDoctor = async () => {
   }
 };
 
-export const updateAvatarDoctor = async (formData) => {
+export const updateAvatarDoctor = async (doctorId, formData) => {
   return await axios
-    .post(
-      BASE_URL + "/image/" + "099f459d-561c-400c-8f99-271e9465efe4",
-      formData
-    )
+    .post(BASE_URL + "/image/" + doctorId, formData)
     .then((res) => {
       if (res.data.count > 0) {
         console.log(res.data.doctor);
@@ -32,4 +29,27 @@ export const updateAvatarDoctor = async (formData) => {
         return null;
       }
     });
+};
+
+export const updateProfile = async (
+  id,
+  fullname,
+  department,
+  phone,
+  education
+) => {
+  return await fetch(BASE_URL + "/profile/update", {
+    method: "PUT",
+    headers: HEADER,
+    body: JSON.stringify({
+      id: id,
+      fullname: fullname,
+      department: department,
+      phone: phone,
+      education: education,
+    }),
+  })
+    .then((response) => response.json())
+    .then((result) => result.count)
+    .catch((err) => console.log(err));
 };

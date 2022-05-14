@@ -1,36 +1,60 @@
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { DEPARTMENT } from "../../../constant";
+import {
+  disableAccount,
+  enableAccount,
+  getAccount,
+  resetPass,
+} from "../../../model/account";
+import { updateAvatarDoctor, updateProfile } from "../../../model/doctor";
+import ButtonCustom from "./button-custom";
 import InputCustom from "./input.custom";
 import "./styles.css";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
-import ButtonCustom from "./button-custom";
-import { DEPARTMENT } from "../../../constant";
-import { updateAvatarDoctor, updateProfile } from "../../../model/doctor";
-import { signup } from "../../../model/account";
-import { ROLES } from "../../../asset/constants";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-const ModalAddDoctor = function ({ isVisited, onCancel }) {
+const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
   const [show, setShow] = React.useState(false);
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [education, setEducation] = useState("");
-  const [department, setDepartment] = useState(DEPARTMENT.pediatrics);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState(doctor?.fullname);
+  const [phone, setPhone] = useState(doctor?.phone);
+  const [education, setEducation] = useState(doctor?.education);
+  const [department, setDepartment] = useState(doctor?.department);
+  const [doctorId, setDoctorId] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
   const [selectedFile, setSelectedFile] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [isHidden, setIsHidden] = useState(0);
+  const [changePass, setChangePass] = useState("");
+  React.useEffect(() => {
+    setFullName(doctor?.fullname);
+    setPhone(doctor?.phone);
+    setEducation(doctor?.education);
+    setDepartment(doctor?.department);
+    setProfileImg(doctor?.avatar);
+    getAccount(doctor?.id).then((account) => {
+      if (account) {
+        setDoctorId(account.id);
+        setPassword(account.password);
+        setUsername(account.username);
+        setIsHidden(account.isHidden);
+      }
+    });
+  }, [doctor]);
+
   const notify = (message) => toast(message);
   const fileSelectedHandle = (event) => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
         setProfileImg(reader.result);
+        console.log(reader.result);
       }
     };
     reader.readAsDataURL(event.target.files[0]);
@@ -39,29 +63,42 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
 
   const handleUpdateAvatarDoctor = (doctorId) => {
     setIsAdding(true);
-    const fd = new FormData();
-    fd.append("image", selectedFile, selectedFile.name);
-    updateAvatarDoctor(doctorId, fd).then((res) => {
-      if (res) {
-        //TODO: update info
-        updateProfile(doctorId, fullName, department, phone, education).then(
-          (result) => {
-            setIsAdding(false);
-
-            result
-              ? notify("Thêm bác sĩ thành công!")
-              : notify("Lỗi không thêm được bác sĩ");
-            setTimeout(() => {
-              handleClose();
-            }, 3000);
-          }
-        );
-      }
-    });
+    if (doctor.avatar != profileImg) {
+      const fd = new FormData();
+      fd.append("image", selectedFile, selectedFile.name);
+      updateAvatarDoctor(doctorId, fd).then((res) => {
+        if (res) {
+          //TODO: update info
+          updateProfile(doctorId, fullName, department, phone, education).then(
+            (result) => {
+              setIsAdding(false);
+              result
+                ? notify("Chỉnh sửa bác sĩ thành công!")
+                : notify("Lỗi không sửa được bác sĩ");
+              setTimeout(() => {
+                handleClose();
+              }, 3000);
+            }
+          );
+        }
+      });
+    } else {
+      updateProfile(doctorId, fullName, department, phone, education).then(
+        (result) => {
+          setIsAdding(false);
+          result
+            ? notify("Chỉnh sửa bác sĩ thành công!")
+            : notify("Lỗi không sửa được bác sĩ");
+          setTimeout(() => {
+            handleClose();
+          }, 3000);
+        }
+      );
+    }
   };
 
-  const createDoctor = (account) => {
-    handleUpdateAvatarDoctor(account.id);
+  const updateDoctor = (id) => {
+    handleUpdateAvatarDoctor(id);
   };
 
   const handleCreateAccount = () => {
@@ -75,15 +112,20 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
       !profileImg
     );
   };
-  const createAccount = () => {
+  const editAccount = () => {
+    isHidden == 1 ? disableAccount(doctorId) : enableAccount(doctorId);
     if (handleCreateAccount()) {
       setIsAdding(true);
-      signup(username, password, ROLES.DOCTOR).then((account) => {
-        setIsAdding(false);
-        account
-          ? createDoctor(account)
-          : notify("Tạo tài khoản không thành công nha!");
-      });
+      if (changePass) {
+        resetPass(username, changePass).then((account) => {
+          setIsAdding(false);
+          account
+            ? updateDoctor(account)
+            : notify("Chỉnh sửa tài khoản không thành công!");
+        });
+      } else {
+        updateDoctor(doctorId);
+      }
     } else notify("Chưa điền đầy đủ thông tin!");
   };
   React.useEffect(() => {
@@ -98,14 +140,23 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
   const handleChangeDeparment = (event) => {
     setDepartment(event.target.value);
   };
+
+  const formSubmit = (event) => {
+    //event.preventDefault();
+  };
+
+  const onValueRadiusChange = (event) => {
+    setIsHidden(event.target.value);
+  };
+
   return (
     <Modal
       show={show}
       onHide={handleClose}
-      backdrop="static"
       centered={true}
       keyboard={false}
       contentClassName="modal-width"
+      backdropClassName="modal-backdrop"
     >
       <Modal.Body>
         <div onClick={handleClose} className="close-icon">
@@ -131,14 +182,7 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
             }}
           >
             {" "}
-            <img
-              className="img-avatar"
-              src={
-                profileImg
-                  ? profileImg
-                  : "../../../../../assets/imgs/add_doctor.png"
-              }
-            />
+            <img className="img-avatar" src={profileImg} />
             <input
               id="input"
               accept="image/*"
@@ -148,7 +192,7 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
             />
             <div className="label">
               <label className="image-upload" htmlFor="input">
-                add avatar
+                edit avatar
               </label>
             </div>
           </div>
@@ -260,10 +304,43 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
             </div>
           </div>
           <div style={{ height: 20 }}></div>
-          <div style={{ fontSize: 15, color: "black", fontWeight: 500 }}>
-            Tài khoản để đăng nhập
+          <div
+            style={{
+              flexDirection: "row",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ fontSize: 15, color: "black", fontWeight: 500 }}>
+              Tài khoản để đăng nhập
+            </div>
+            <form className="radio-form" onSubmit={formSubmit}>
+              <div className="radio">
+                <div className="radio-container">
+                  {" "}
+                  <input
+                    type="radio"
+                    value={0}
+                    checked={isHidden == 0}
+                    onChange={onValueRadiusChange}
+                  />
+                </div>
+                <label className="label-radius">enable</label>
+              </div>
+              <div className="radio">
+                <div className="radio-container">
+                  <input
+                    type="radio"
+                    value={1}
+                    checked={isHidden == 1}
+                    onChange={onValueRadiusChange}
+                  />
+                </div>
+                <label className="label-radius">disable</label>
+              </div>
+            </form>
           </div>
-          <div style={{ height: 20 }}></div>
+          <div style={{ height: 10 }}></div>
           <div
             style={{
               display: "flex",
@@ -275,18 +352,28 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
               title={"Username:"}
               placeholder={"Nhập username"}
               onChangeText={setUsername}
-              width={180}
+              width={290}
               textInput={username}
+              disabled={true}
             />
             <div style={{ width: 20 }}></div>
             <InputCustom
               title={"Password:"}
               placeholder={"Nhập password"}
               onChangeText={setPassword}
-              width={180}
+              width={290}
               textInput={password}
+              disabled={true}
             />
           </div>
+          <div style={{ fontSize: 15, color: "black", fontWeight: 500 }}></div>
+          <InputCustom
+            title={"Reset password:"}
+            placeholder={"Nhập password mới mà bạn muốn thay đổi"}
+            onChangeText={setChangePass}
+            width={600}
+            textInput={changePass}
+          />
           <div
             style={{
               display: "flex",
@@ -297,8 +384,8 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
             }}
           >
             <ButtonCustom
-              title={isAdding ? "Đang thêm..." : "Thêm bác sĩ"}
-              onPress={createAccount}
+              title={isAdding ? "Đang chỉnh sửa..." : "Sửa thông tin bác sĩ"}
+              onPress={editAccount}
             />
           </div>
         </div>
@@ -307,4 +394,4 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
   );
 };
 
-export default ModalAddDoctor;
+export default ModalEditDoctor;
