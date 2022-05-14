@@ -133,6 +133,5 @@ export const notification = async (token, room, number) => {
     }),
   })
     .then((response) => response.json())
-    .then((json) => alert(json))
     .catch((error) => alert(error));
 };

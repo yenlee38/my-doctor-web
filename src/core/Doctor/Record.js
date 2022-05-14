@@ -213,7 +213,7 @@ export default function Record() {
                     borderBottomRightRadius: 12,
                   }}
                 >
-                  <tr className="label">
+                  <tr className="col-name">
                     <th>STT</th>
                     <th>Người bệnh</th>
                     <th>Tên bệnh</th>

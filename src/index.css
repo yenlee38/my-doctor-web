@@ -174,17 +174,12 @@ code {
   border-radius: 12px;
 }
 
-tr {
+/* tr {
   border-top-left-radius: 12px !important;
   border-top-right-radius: 12px !important;
-}
+} */
 
-.label {
-  border-top-left-radius: 12px !important;
-  border-top-right-radius: 12px !important;
-}
-
-.label th {
+.col-name th {
   font-size: 15px;
   font-weight: bold;
   background-color: #4527a0;
