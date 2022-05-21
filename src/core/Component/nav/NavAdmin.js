@@ -21,6 +21,12 @@ export const menuItems = [
     to: `/admin/doctor/index`,
     iconClassName: "bi bi-person-plus",
   },
+  {
+    name: "Quản lý dịch vụ",
+    exact: true,
+    to: `/admin/doctor/index`,
+    iconClassName: "bi bi-kanban",
+  },
 ];
 
 const NavDoctor = (props) => {
@@ -33,16 +39,11 @@ const NavDoctor = (props) => {
     props.onCollapse(inactive);
   }, [inactive]);
 
-  //just an improvment and it is not recorded in video :(
   const removeActiveClassFromSubMenu = () => {
     document.querySelectorAll(".sub-menu").forEach((el) => {
       el.classList.remove("active");
     });
   };
-
-  /*just a little improvement over click function of menuItem
-    Now no need to use expand state variable in MenuItem component
-  */
   useEffect(() => {
     let menuItems = document.querySelectorAll(".menu-item");
     menuItems.forEach((el) => {
