@@ -45,6 +45,7 @@ const ChatScreen = () => {
           });
         });
         setReceiverId(listPatient[0].id);
+        setIsLoading(false);
         listPatient.forEach((patient) => {
           onSnapshot(
             query(
@@ -68,20 +69,6 @@ const ChatScreen = () => {
       });
     });
   }, [db]);
-
-  const getPatientsByRegistration = (lAccount, lRes) => {
-    let listPatient = [];
-    lRes?.forEach((res) => {
-      lAccount.some((account) => {
-        if (res.patientId === account.id && res.status === "CONFIRMED") {
-          listPatient.push(account);
-          return;
-        }
-      });
-    });
-    setReceiverId(listPatient[0].id);
-    return listPatient;
-  };
   useEffect(() => {
     onSnapshot(
       query(
@@ -131,15 +118,19 @@ const ChatScreen = () => {
     return receiverId === id;
   };
 
-  const setNewListDateSend = (isHave, date) => {
-    console.log("first, isHave", isHave);
-    if (isHave < 0) {
-      let dateSendsNew = dateSends;
-      dateSendsNew.push(date);
-      setDateSends(dateSendsNew);
-    }
+  const EmptyChat = () => {
+    return (
+      <div className="empty-chat-view">
+        <div className="empty-chat-container">
+          <img
+            style={{ height: 200, width: 200 }}
+            src="../../../../../assets/imgs/patient.gif"
+          />
+          <div className="txtEmpty">Hãy bắt đầu tin nhắn mới!</div>
+        </div>
+      </div>
+    );
   };
-
   const EmptyItem = () => {
     if (isLoading === true && patients.length === 0) {
       return (
@@ -152,8 +143,22 @@ const ChatScreen = () => {
           <MyChatLoader />
         </div>
       );
-    }
-    return null;
+    } else if ((isLoading === false && patients.length) === 0)
+      return (
+        <div
+          style={{
+            flexDirection: "row",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <img
+            style={{ height: 50, width: 50 }}
+            src="../../../../../assets/imgs/icon_user.png"
+          />
+          <div className="txtEmpty">Bạn hiện chưa có bệnh nhân đăng ký</div>
+        </div>
+      );
   };
   return (
     <>
@@ -188,6 +193,7 @@ const ChatScreen = () => {
           <div className="chat-container">
             <div className="header-chat"></div>
             <ScrollToBottom className="chat-content-container">
+              {messages.length === 0 ? <EmptyChat /> : null}
               {messages.map((mess) => {
                 return mess.senderId == userId ? (
                   <>
@@ -213,7 +219,6 @@ const ChatScreen = () => {
                   </>
                 );
               })}
-              {/* <DateMessage date={"12/12/2022"} /> */}
             </ScrollToBottom>
             <div className="input-send-container">
               <input

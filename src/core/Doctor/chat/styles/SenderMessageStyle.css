@@ -1,3 +1,26 @@
+.txtEmpty {
+    font-size: 16px;
+    font-weight: 500;
+    color: #646FD4;
+    padding: 10px 20px;
+}
+.empty-chat-view {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.empty-chat-container {
+    justify-content: center;
+   
+    flex-direction: column;
+    align-items: center;
+   display: flex;
+    margin: 100;
+}
+
 .main-patient-container{
     display: flex;
     flex-direction: row;
