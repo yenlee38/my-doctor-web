@@ -159,6 +159,7 @@ const ChatScreen = () => {
           <div className="txtEmpty">Bạn hiện chưa có bệnh nhân đăng ký</div>
         </div>
       );
+    return null;
   };
   return (
     <>
