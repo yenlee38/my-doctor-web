@@ -9,29 +9,25 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import * as React from "react";
-import { getAllAccountByAdmin } from "../../../model/account";
 import { getAllDoctor } from "../../../model/doctor";
-import ModalAddDoctor from "../components/account.add";
-import ModalEditDoctor from "../components/account.edit";
+import { getAllService } from "../../../model/service";
 import ButtonCustom from "../components/button-custom";
-import "./styles.css";
-export default function DoctorManagerHome() {
-  const [doctors, setDoctors] = React.useState([]);
-  const [listDoctor, setListDoctor] = React.useState([]);
-  const [accounts, setAccounts] = React.useState([]);
+import { balanceFormat } from "../../../utils/formats";
+import ModalAddService from "./components/service.modelAdd";
+export default function ServiceManager() {
+  const [services, setServices] = React.useState([]);
+  const [listServices, setListServices] = React.useState([]);
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [status, setStatus] = React.useState("");
   const [isShowModal, setIsShowModal] = React.useState(false);
   const [isShowModalEdit, setIsShowModalEdit] = React.useState(false);
-  const [doctorSelected, setDoctorSelected] = React.useState();
+  const [serviceSelected, setServiceSelected] = React.useState();
   const dense = false;
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -44,23 +40,64 @@ export default function DoctorManagerHome() {
   }, []);
 
   const getData = () => {
-    getAllAccountByAdmin().then((listAccount) => {
-      setAccounts(listAccount);
-      getAllDoctor().then((res) => {
-        if (res) {
-          setDoctors(
-            res.sort(function (x, y) {
-              return x.updatedAt - y.updatedAt;
-            })
-          );
-          setListDoctor(
-            res.sort(function (x, y) {
-              return x.updatedAt - y.updatedAt;
-            })
-          );
-        }
+    getAllDoctor().then((lDoctor) => {
+      getAllService().then((lService) => {
+        convertDataTolist(lDoctor, lService);
       });
     });
+  };
+
+  function createData(
+    id,
+    name,
+    doctorName,
+    doctorId,
+    duration,
+    description,
+    price,
+    createdAt,
+    updatedAt
+  ) {
+    return {
+      id,
+      name,
+      doctorName,
+      doctorId,
+      duration,
+      description,
+      price,
+      createdAt,
+      updatedAt,
+    };
+  }
+
+  const convertDataTolist = async (lDoctor, lService) => {
+    let listServiceTemp = [];
+    await lService.forEach((service) => {
+      listServiceTemp.push(
+        createData(
+          service.id,
+          service.name,
+          getDoctorNameByDoctorId(lDoctor, service.doctorId),
+          service.doctorId,
+          service.duration,
+          service.description,
+          service.price,
+          service.createdAt,
+          service.updatedAt
+        )
+      );
+    });
+    setServices([...listServiceTemp]);
+    setListServices([...listServiceTemp]);
+  };
+
+  const getDoctorNameByDoctorId = (lDoctors, doctorId) => {
+    let name = "";
+    lDoctors.forEach((doctor) => {
+      if (doctorId === doctor.id) name = doctor.fullname;
+    });
+    return name;
   };
 
   const headCells = [
@@ -71,59 +108,36 @@ export default function DoctorManagerHome() {
       label: "ID",
     },
     {
-      id: "fullname",
+      id: "name",
       numeric: false,
       disablePadding: false,
-      label: "Họ và tên",
+      label: "Tên dịch vụ",
     },
     {
-      id: "phone",
+      id: "doctorName",
       numeric: true,
       disablePadding: false,
-      label: "Số điện thoại",
+      label: "Bác sĩ phụ trách",
     },
     {
-      id: "department",
-      numeric: false,
+      id: "duration",
+      numeric: true,
       disablePadding: false,
-      label: "Chuyên khoa",
+      label: "Thời gian",
     },
 
     {
-      id: "education",
-      numeric: false,
+      id: "price",
+      numeric: true,
       disablePadding: false,
-      label: "Chứng chỉ",
-    },
-    {
-      id: "account",
-      numeric: false,
-      disablePadding: false,
-      label: "Tài khoản",
+      label: "Giá tiền",
     },
   ];
 
-  const CustomAccount = ({ doctorId }) => {
-    return getAccountByDoctorId(doctorId)?.isHidden ? (
-      <Tooltip title={"Ngừng hoạt động"} placement="right">
-        <img src="../../../../assets/imgs/account_unable.png" />
-      </Tooltip>
-    ) : (
-      <Tooltip title={"Còn hoạt động"} placement="right">
-        <img src="../../../../assets/imgs/account.png" />
-      </Tooltip>
-    );
-  };
-
-  const getAccountByDoctorId = (doctorId) => {
-    const account = accounts.filter((account) => account.id === doctorId)[0];
-    console.log({ account });
-    return account;
-  };
-
-  const findByName = (name) => {
-    if (name !== "") return listDoctor.filter((d) => d.fullname.includes(name));
-    else return listDoctor;
+  const findById = (name) => {
+    if (name !== "")
+      return listServices.filter((d) => d.fullname.includes(name));
+    else return listServices;
   };
 
   function descendingComparator(a, b, orderBy) {
@@ -200,7 +214,7 @@ export default function DoctorManagerHome() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = doctors.map((n) => n.fullname);
+      const newSelecteds = services.map((n) => n.fullname);
       setSelected(newSelecteds);
       return;
     }
@@ -219,7 +233,7 @@ export default function DoctorManagerHome() {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - doctors.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - services.length) : 0;
 
   EnhancedTableHead.propTypes = {
     numSelected: PropTypes.number.isRequired,
@@ -247,12 +261,12 @@ export default function DoctorManagerHome() {
           }),
         }}
       >
-        <ButtonCustom title={"Thêm bác sĩ"} onPress={showModalAddDoctor} />
+        <ButtonCustom title={"Thêm dịch vụ"} onPress={showModalAddService} />
       </Toolbar>
     );
   };
 
-  const showModalAddDoctor = () => {
+  const showModalAddService = () => {
     setIsShowModal((prev) => !prev);
     getData();
   };
@@ -261,17 +275,13 @@ export default function DoctorManagerHome() {
     numSelected: PropTypes.number.isRequired,
   };
 
+  const formatPrice = (price) => {
+    return balanceFormat(price);
+  };
+
   return (
     <div>
-      <ModalAddDoctor isVisited={isShowModal} onCancel={showModalAddDoctor} />
-      <ModalEditDoctor
-        isVisited={isShowModalEdit}
-        onCancel={() => {
-          setIsShowModalEdit(false);
-          getData();
-        }}
-        doctor={doctorSelected}
-      />
+      <ModalAddService isVisited={isShowModal} onCancel={showModalAddService} />
       <div
         style={{
           display: "flex",
@@ -289,7 +299,7 @@ export default function DoctorManagerHome() {
           }}
         >
           <img
-            src={"../../../../assets/imgs/doctor.png"}
+            src={"../../../../../assets/imgs/service.png"}
             style={{ width: 70, height: 70 }}
           />
           <div
@@ -300,7 +310,7 @@ export default function DoctorManagerHome() {
               marginRight: 10,
             }}
           >
-            Quản lý tài khoản bác sĩ
+            Quản lý dịch vụ bệnh nhân
           </div>
         </div>
         <div
@@ -319,9 +329,9 @@ export default function DoctorManagerHome() {
               outline: "none",
             }}
             type="text"
-            placeholder="Nhập tên bác sĩ"
+            placeholder="Nhập id bác sĩ"
             aria-label="Search"
-            onChange={(event) => setDoctors(findByName(event.target.value))}
+            onChange={(event) => setServices(findById(event.target.value))}
           />
           <img
             src={"../../../../assets/imgs/search.png"}
@@ -343,10 +353,10 @@ export default function DoctorManagerHome() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={doctors.length}
+              rowCount={services.length}
             />
             <TableBody>
-              {stableSort(doctors, getComparator(order, orderBy))
+              {stableSort(services, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
@@ -369,31 +379,22 @@ export default function DoctorManagerHome() {
                               alignItems: "center",
                             }}
                           >
-                            <img
-                              style={{
-                                height: 40,
-                                width: 40,
-                                borderRadius: 40,
-                                margin: 5,
-                              }}
-                              src={row.avatar}
-                            />{" "}
-                            <div>{row.fullname}</div>
+                            <div>{row.name}</div>
                           </div>
                         </TableCell>
-                        <TableCell align="center">{row.phone}</TableCell>
-                        <TableCell align="center">{row.department}</TableCell>
-                        <TableCell align="center">{row.education}</TableCell>
+                        <TableCell align="center">{row.doctorName}</TableCell>
+                        <TableCell align="center">{row.duration}</TableCell>
+                        <TableCell align="center">
+                          {formatPrice(row.price)}
+                        </TableCell>
                         <TableCell
                           align="center"
                           className="pointer"
                           onClick={() => {
-                            setDoctorSelected(row);
+                            setServiceSelected(row);
                             setIsShowModalEdit(true);
                           }}
-                        >
-                          <CustomAccount doctorId={row.id} />
-                        </TableCell>
+                        ></TableCell>
                       </TableRow>
                     </>
                   );
@@ -413,7 +414,7 @@ export default function DoctorManagerHome() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={doctors.length}
+          count={services.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

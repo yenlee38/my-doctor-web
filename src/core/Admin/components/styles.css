@@ -1,3 +1,8 @@
+.title-add{
+    color: black;
+    font-weight: 500;
+    font-size: 20;
+}
 .radio-form{
     display: flex;
     justify-content: space-between;
@@ -24,6 +29,19 @@
     display: flex;
     padding: 5px;
 }
+
+.button-check {
+    background-color: #3CC8B4;
+    color: white;
+    font-size: 15px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 10px 20px;
+}
 .button-container{
     background-color: #0ED3EE;
     color: white;
@@ -34,9 +52,7 @@
     text-align: center;
     cursor: pointer;
     font-weight: 500;
-    padding: 10px 20px;
-   
-            
+    padding: 10px 20px;      
 }
 
 .modal-width {

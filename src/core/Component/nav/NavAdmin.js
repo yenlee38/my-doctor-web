@@ -24,7 +24,7 @@ export const menuItems = [
   {
     name: "Quản lý dịch vụ",
     exact: true,
-    to: `/admin/doctor/index`,
+    to: `/admin/service`,
     iconClassName: "bi bi-kanban",
   },
 ];

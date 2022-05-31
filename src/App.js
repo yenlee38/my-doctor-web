@@ -13,6 +13,7 @@ import PatientService from "./core/Doctor/PatientService";
 import PatientServiceDetail from "./core/Doctor/PatientServiceDetail";
 import ChatScreen from "./core/Doctor/chat/ChatScreen";
 import DoctorManagerment from "./core/Admin/accounts";
+import AdminServiceHome from "./core/Admin/service";
 export default function App() {
   return (
     <div className="App">
@@ -33,6 +34,7 @@ export default function App() {
           />
           <Route path="/admin/doctor/index" element={<DoctorManagerment />} />
           <Route path="/account" element={<PatientServiceDetail />} />
+          <Route path="/admin/service" element={<AdminServiceHome />} />
         </Routes>
       </Router>
     </div>
