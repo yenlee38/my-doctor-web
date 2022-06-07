@@ -49,3 +49,7 @@ border-radius: 0px;
 #input[type="file"] {
   display: none;
 }
+
+.pointer {
+  cursor: pointer
+}

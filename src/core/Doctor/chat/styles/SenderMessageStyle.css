@@ -1,3 +1,13 @@
+
+
+.image-send {
+    width: 400px;
+   height: 300px;
+    border-radius: 15px;
+    contain: size;
+    margin: 10px;
+}
+
 .txtEmpty {
     font-size: 16px;
     font-weight: 500;

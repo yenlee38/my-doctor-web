@@ -18,13 +18,17 @@ import { getAllPatient } from "../../model/patient";
 import { getAllRegistration } from "../../model/registration";
 import { getAllService } from "../../model/service";
 import { getAllAccount } from "../../model/account";
-import { balanceFormat, changeColorDoctorRegistration, formatDateTime } from "../../utils/formats";
+import {
+  balanceFormat,
+  changeColorDoctorRegistration,
+  formatDateTime,
+} from "../../utils/formats";
 import AlertMessage from "../Component/AlertMessage";
 import { MDBCol, MDBIcon } from "mdbreact";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 export default function Payment() {
   const [regDatas, setRegDatas] = React.useState([]);
   const [list, setList] = React.useState([]);
@@ -35,7 +39,7 @@ export default function Payment() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [isVisitedAlert, setIsVisitedAlert] = React.useState(false);
-  const [status, setStatus] = React.useState('');
+  const [status, setStatus] = React.useState("");
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -57,7 +61,6 @@ export default function Payment() {
           getAllAccount().then((res) => {
             lAccount = res;
             getAllRegistration().then((res) => {
-             
               convertListRegistration(
                 res,
                 lPatients,
@@ -70,32 +73,29 @@ export default function Payment() {
         });
       });
     });
-  },[]);
-
+  }, []);
 
   const onCancel = () => {
     setIsVisitedAlert(false);
     window.location.reload();
-  }
+  };
 
   const onCancelNotUpdate = () => {
     setIsVisitedAlert(false);
-  }
+  };
 
   const [idUpdate, setIdUpdate] = React.useState("");
-  const[nameUpdate, setNameUpdate] = React.useState("");
-  const[statusUpdate, setStatusUpdate] = React.useState("");
-  const[nameAction, setNameAction] = React.useState("");
+  const [nameUpdate, setNameUpdate] = React.useState("");
+  const [statusUpdate, setStatusUpdate] = React.useState("");
+  const [nameAction, setNameAction] = React.useState("");
 
   const updateStatus = (id, name, status) => {
-   
     setNameAction(status);
     setStatusUpdate(status);
     setNameUpdate(name);
     setIdUpdate(id);
     setIsVisitedAlert(true);
-  }
-
+  };
 
   let datas = [];
 
@@ -114,7 +114,7 @@ export default function Payment() {
     services,
     accounts
   ) => {
-    await list.forEach((item) => {
+    await list?.forEach((item) => {
       datas.push(
         createData(
           item.id,
@@ -198,10 +198,9 @@ export default function Payment() {
   };
 
   const findByPhone = (phone) => {
-    if(phone !== "")
-    return list.filter(d => d.phone.includes(phone));
+    if (phone !== "") return list.filter((d) => d.phone.includes(phone));
     else return list;
-  }
+  };
 
   const getNamePatientById = (lPatients, id) => {
     let name = id;
@@ -244,7 +243,7 @@ export default function Payment() {
       nameService,
       updatedAt,
       price,
-      status
+      status,
     };
   }
 
@@ -292,9 +291,7 @@ export default function Payment() {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-
-          </TableCell>
+          <TableCell padding="checkbox"></TableCell>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
@@ -392,16 +389,14 @@ export default function Payment() {
           }),
         }}
       >
-       
-          <Typography
-            sx={{ flex: "1 1 100%" }}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            Quản lý thanh toán dịch vụ
-          </Typography>
-         
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          Quản lý thanh toán dịch vụ
+        </Typography>
       </Toolbar>
     );
   };
@@ -411,70 +406,73 @@ export default function Payment() {
   };
 
   const colorStatus = (status) => {
-      return changeColorDoctorRegistration(status);
-  }
+    return changeColorDoctorRegistration(status);
+  };
 
   const handleChangeStatus = (event) => {
     let s = event.target.value;
     setStatus(event.target.value);
-    if(s === "") setRegDatas(list);
+    if (s === "") setRegDatas(list);
     else {
-      setRegDatas(list.filter(l => l.status === s));
+      setRegDatas(list.filter((l) => l.status === s));
     }
   };
 
   return (
-
-
     <div>
-          <AlertMessage 
-    isVisited = {isVisitedAlert}
-    id = {idUpdate}
-    name = {nameUpdate}
-    status = {statusUpdate}
-    nameAction = {nameAction}
-    onCancel = {onCancel}
-    onCancelNotUpdate = {onCancelNotUpdate}
-  />
- 
-  <div style={{display: 'flex', flexDirection: 'row', alignItems:'center', justifyContent:'space-between'}}>
+      <AlertMessage
+        isVisited={isVisitedAlert}
+        id={idUpdate}
+        name={nameUpdate}
+        status={statusUpdate}
+        nameAction={nameAction}
+        onCancel={onCancel}
+        onCancelNotUpdate={onCancelNotUpdate}
+      />
 
-      <MDBCol md="6">
-      <form className="form-inline">
-        <MDBIcon icon="search"/>
-       
-        <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Nhập số điện thoại" aria-label="Search"
-        onChange={(event) =>
-         setRegDatas(findByPhone(event.target.value))
-        }
-        />
-      </form>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <MDBCol md="6">
+          <form className="form-inline">
+            <MDBIcon icon="search" />
 
-    </MDBCol>
-    <FormControl sx={{ m: 1, minWidth: 120, height: 50, fontSize: 15 }}>
-        <InputLabel id="demo-simple-select-helper-label">Status</InputLabel>
-        <Select
-          style = {{fontSize: 15}}
-          labelId="demo-simple-select-helper-label"
-          id="demo-simple-select-helper"
-          value={status}
-          label="Status"
-          onChange={handleChangeStatus}
-        >
-
-       <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={"CONFIRMED"}>Confirmed</MenuItem>
-          <MenuItem value={"CREATED"}>Created</MenuItem>
-          <MenuItem value={"PENDDING"}>Pendding</MenuItem>
-          <MenuItem value={"EXPIRED"}>Expired</MenuItem>
-          <MenuItem value={"CANCEL"}>Cancel</MenuItem>
-        </Select>
-      </FormControl>
-  </div>
+            <input
+              className="form-control form-control-sm ml-3 w-75"
+              type="text"
+              placeholder="Nhập số điện thoại"
+              aria-label="Search"
+              onChange={(event) => setRegDatas(findByPhone(event.target.value))}
+            />
+          </form>
+        </MDBCol>
+        <FormControl sx={{ m: 1, minWidth: 120, height: 50, fontSize: 15 }}>
+          <InputLabel id="demo-simple-select-helper-label">Status</InputLabel>
+          <Select
+            style={{ fontSize: 15 }}
+            labelId="demo-simple-select-helper-label"
+            id="demo-simple-select-helper"
+            value={status}
+            label="Status"
+            onChange={handleChangeStatus}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={"CONFIRMED"}>Confirmed</MenuItem>
+            <MenuItem value={"CREATED"}>Created</MenuItem>
+            <MenuItem value={"PENDDING"}>Pendding</MenuItem>
+            <MenuItem value={"EXPIRED"}>Expired</MenuItem>
+            <MenuItem value={"CANCEL"}>Cancel</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
       <div>
-    
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
@@ -491,7 +489,6 @@ export default function Payment() {
               rowCount={regDatas.length}
             />
             <TableBody>
-
               {stableSort(regDatas, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
@@ -513,103 +510,106 @@ export default function Payment() {
                       <TableCell align="right">{row.nameDoctor}</TableCell>
                       <TableCell align="right">{row.nameService}</TableCell>
                       <TableCell align="right">
-                        <div>
-                        {formatDate(row.updatedAt)}
-                        
-                        </div>
-                        <div  style={{
-                              padding: 5,
-                              backgroundColor: colorStatus(row.status),
-                              borderRadius: 8,
-                              color: "white",
-                              alignItems: "center",
-                              justifyContent:'center',
-                              textAlign:'center',
-                              fontWeight:'400',
-                              boxShadow:
-                                "0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%)",
-                              cursor: "pointer",
-                            }}>
-                            {row.status}
+                        <div>{formatDate(row.updatedAt)}</div>
+                        <div
+                          style={{
+                            padding: 5,
+                            backgroundColor: colorStatus(row.status),
+                            borderRadius: 8,
+                            color: "white",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            fontWeight: "400",
+                            boxShadow:
+                              "0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%)",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {row.status}
                         </div>
                       </TableCell>
                       <TableCell align="right">
                         {formatPrice(row.price)}
                       </TableCell>
                       <TableCell align="right">
-                        <div
-                        >
-                          { row.status === "PENDDING" ? (<div>
-                            <div
-                            style={{
-                              padding: 5,
-                              backgroundColor: "#1EE494",
-                              borderRadius: 5,
-                              color: "white",
-                              alignItems: "center",
-                              justifyContent:'center',
-                              textAlign:'center',
-                              fontWeight:'bold',
-                              boxShadow:
-                                "0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%)",
-                              cursor: "pointer",
-                            }}
-
-                            onClick = {() => {
-                              updateStatus(row.id, row.nameService, "CONFIRMED");
-                            }}
-                          >
-                            Confirmed
-                          </div> 
-                           <div
-                           style={{
-                             padding: 5,
-                             backgroundColor: "#FF0000",
-                             borderRadius: 5,
-                             color: "white",
-                             alignItems: "center",
-                             justifyContent:'center',
-                             textAlign:'center',
-                             fontWeight:'bold',
-                             boxShadow:
-                               "0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%)",
-                             cursor: "pointer",
-                             marginTop: 5
-                           }}
-
-                           onClick = {() => {
-                             updateStatus(row.id, row.nameService, "CANCEL");
-                           }}
-                         >
-                           Denied
-                         </div>
+                        <div>
+                          {row.status === "PENDDING" ? (
+                            <div>
+                              <div
+                                style={{
+                                  padding: 5,
+                                  backgroundColor: "#1EE494",
+                                  borderRadius: 5,
+                                  color: "white",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  textAlign: "center",
+                                  fontWeight: "bold",
+                                  boxShadow:
+                                    "0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%)",
+                                  cursor: "pointer",
+                                }}
+                                onClick={() => {
+                                  updateStatus(
+                                    row.id,
+                                    row.nameService,
+                                    "CONFIRMED"
+                                  );
+                                }}
+                              >
+                                Confirmed
+                              </div>
+                              <div
+                                style={{
+                                  padding: 5,
+                                  backgroundColor: "#FF0000",
+                                  borderRadius: 5,
+                                  color: "white",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  textAlign: "center",
+                                  fontWeight: "bold",
+                                  boxShadow:
+                                    "0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%)",
+                                  cursor: "pointer",
+                                  marginTop: 5,
+                                }}
+                                onClick={() => {
+                                  updateStatus(
+                                    row.id,
+                                    row.nameService,
+                                    "CANCEL"
+                                  );
+                                }}
+                              >
+                                Denied
+                              </div>
                             </div>
-                          
-                          ):null}
+                          ) : null}
                           {row.status === "CONFIRMED" ? (
                             <div
-                            style={{
-                              padding: 5,
-                              backgroundColor: "#FF0000",
-                              borderRadius: 5,
-                              color: "white",
-                              alignItems: "center",
-                              justifyContent:'center',
-                              textAlign:'center',
-                              fontWeight:'bold',
-                              boxShadow:
-                                "0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%)",
-                              cursor: "pointer",
-                              marginTop: 5
-                            }}
-
-                            onClick = {() => {
-                              updateStatus(row.id, row.nameService, "CANCEL");
-                            }}
-                          >
-                            Denied
-                          </div>
-                          ): null}
+                              style={{
+                                padding: 5,
+                                backgroundColor: "#FF0000",
+                                borderRadius: 5,
+                                color: "white",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textAlign: "center",
+                                fontWeight: "bold",
+                                boxShadow:
+                                  "0 2px 5px 0 rgb(0 0 0 /20%), 0 2px 10px 0 rgb(0 0 0 /10%)",
+                                cursor: "pointer",
+                                marginTop: 5,
+                              }}
+                              onClick={() => {
+                                updateStatus(row.id, row.nameService, "CANCEL");
+                              }}
+                            >
+                              Denied
+                            </div>
+                          ) : null}
                         </div>
                       </TableCell>
                     </TableRow>
@@ -636,10 +636,7 @@ export default function Payment() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-    
-      
-    </div>
-   
+      </div>
     </div>
   );
 }

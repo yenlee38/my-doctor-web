@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles.css";
-const ButtonCustom = ({ title, onPress }) => {
+const ButtonCustom = ({ title, onPress, classStyle = "button-container" }) => {
   return (
-    <div className="button-container" onMouseDown={onPress}>
+    <div className={classStyle} onMouseDown={onPress}>
       {title}
     </div>
   );
