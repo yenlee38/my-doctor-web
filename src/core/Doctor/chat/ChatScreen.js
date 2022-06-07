@@ -10,6 +10,7 @@ import {
 import NavDoctor from "../../Component/nav/NavDoctor";
 import SenderMessage from "./components/SenderMessage";
 import "./styles/SenderMessageStyle.css";
+import "../../Admin/components/styles.css";
 import ReceiverMessage from "./components/ReceiverMessage";
 import ScrollToBottom from "react-scroll-to-bottom";
 import PatientChatComponent from "./components/PatientChatComponent";
@@ -18,7 +19,7 @@ import { getAllPatient } from "../../../model/patient";
 import { getAllRegistrationByDoctor } from "../../../model/registration";
 import { convertTimestampToDate } from "../../../utils/formats";
 import { Facebook } from "react-content-loader";
-import SearchComponent from "./components/SearchComponent";
+import { sendImageToCloud } from "../../../model/message";
 
 const ChatScreen = () => {
   const [inactive, setInactive] = useState(false);
@@ -26,6 +27,9 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const [messageSend, setMessageSend] = useState("");
   const [dateSends, setDateSends] = useState([]);
+  const [imgToSend, setImgToSend] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const userId = getId;
   const [patients, setPatients] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -100,18 +104,44 @@ const ChatScreen = () => {
     }
   };
 
-  const sendMessage = () => {
-    if (messageSend) {
+  const sendMessage = (isImage = false, url = null) => {
+    if (messageSend || isImage === true) {
       addDoc(collection(db, "message"), {
         senderId: userId,
         receiverId: receiverId,
         createdAt: new Date(),
         updatedAt: new Date(),
         users: [userId, receiverId],
-        message: messageSend,
+        message: !isImage ? messageSend : "(hình ảnh)",
+        isImage: isImage,
+        urlImage: url,
       });
     }
     setMessageSend("");
+  };
+
+  const fileSelectedHandle = (event) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImgToSend(reader.result);
+      }
+    };
+    reader.readAsDataURL(event.target.files[0]);
+    setSelectedFile(event.target.files[0]);
+    sendImage(event.target.files[0]);
+  };
+
+  const sendImage = (image) => {
+    const fd = new FormData();
+    fd.append("image", image, image.name);
+    sendImageToCloud(fd).then((url) => {
+      console.log({ url });
+
+      if (url) {
+        sendMessage(true, url);
+      }
+    });
   };
 
   const checkIsSelected = (id) => {
@@ -186,6 +216,7 @@ const ChatScreen = () => {
                 createdAt={
                   convertTimestampToDate(patient.lastSend?.createdAt).time
                 }
+                avatar={patient.avatar}
                 isSelected={checkIsSelected(patient.id)}
                 setReceiverId={() => setReceiverId(patient.id)}
               />
@@ -200,6 +231,8 @@ const ChatScreen = () => {
                   <>
                     <SenderMessage
                       message={mess.message}
+                      isImage={mess.isImage}
+                      url={mess.urlImage}
                       datetime={
                         convertTimestampToDate(mess.createdAt).date +
                         " " +
@@ -211,6 +244,8 @@ const ChatScreen = () => {
                   <>
                     <ReceiverMessage
                       message={mess.message}
+                      isImage={mess.isImage}
+                      url={mess.urlImage}
                       datetime={
                         convertTimestampToDate(mess.createdAt).date +
                         " " +
@@ -222,6 +257,21 @@ const ChatScreen = () => {
               })}
             </ScrollToBottom>
             <div className="input-send-container">
+              <input
+                id="input"
+                accept="image/*"
+                name="image-upload"
+                type="file"
+                onChange={fileSelectedHandle}
+              />
+              <div>
+                <label htmlFor="input">
+                  <i
+                    style={{ marginLeft: 5, marginRight: 5, color: "#79DAE8" }}
+                    class="bi bi-image pointer"
+                  ></i>
+                </label>
+              </div>
               <input
                 className="input-send"
                 value={messageSend}

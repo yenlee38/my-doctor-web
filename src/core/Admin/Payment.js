@@ -114,7 +114,7 @@ export default function Payment() {
     services,
     accounts
   ) => {
-    await list.forEach((item) => {
+    await list?.forEach((item) => {
       datas.push(
         createData(
           item.id,

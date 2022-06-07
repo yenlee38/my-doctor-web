@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 const PatientChatComponent = ({
   name,
   lastSend,
+  avatar,
   createdAt,
   isSelected,
   setReceiverId,
@@ -27,7 +28,10 @@ const PatientChatComponent = ({
       onMouseMove={onSeleted}
     >
       <div className="avatar-container">
-        <img className="img-patient" src="../../../assets/imgs/logo.png" />
+        <img
+          className="img-patient"
+          src={avatar ?? "../../../assets/imgs/logo.png"}
+        />
       </div>
       <div className="info-container">
         <div className="name-message-component">{name}</div>
@@ -40,4 +44,4 @@ const PatientChatComponent = ({
   );
 };
 
-export default PatientChatComponent;
+export default React.memo(PatientChatComponent);
