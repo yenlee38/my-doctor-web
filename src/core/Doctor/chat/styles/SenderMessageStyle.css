@@ -1,5 +1,6 @@
-
-
+.button-add-container {
+    margin: 10px 10px;
+}
 .image-send {
     width: 400px;
    height: 300px;

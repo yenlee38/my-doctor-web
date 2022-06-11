@@ -2,7 +2,6 @@ import React from "react";
 import "../styles/SenderMessageStyle.css";
 import Tooltip from "@mui/material/Tooltip";
 const SenderMessage = ({ message, datetime, isImage = false, url = null }) => {
-  console.log("render", isImage);
   return !isImage ? (
     <div className="main-sender-container">
       <Tooltip title={datetime} placement="left">
