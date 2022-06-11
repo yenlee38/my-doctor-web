@@ -1,7 +1,14 @@
+.name-doctor-check {
+    color: #3CC8B4;
+    font-size: 14px;
+    font-weight: 400;
+}
+
 .title-add{
     color: black;
     font-weight: 500;
     font-size: 20;
+    text-transform: uppercase;
 }
 .radio-form{
     display: flex;

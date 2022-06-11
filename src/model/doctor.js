@@ -17,6 +17,21 @@ export const getAllDoctor = async () => {
   }
 };
 
+export const getDoctorById = async (id) => {
+  try {
+    return await fetch(`${BASE_URL}/${id}`, {
+      method: "GET",
+      headers: HEADER,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        return res.doctor;
+      });
+  } catch (error) {
+    return null;
+  }
+};
+
 export const updateAvatarDoctor = async (doctorId, formData) => {
   return await axios
     .post(BASE_URL + "/image/" + doctorId, formData)
