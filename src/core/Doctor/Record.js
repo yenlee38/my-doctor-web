@@ -11,7 +11,7 @@ import {
   getCurrent,
 } from "../../model/position";
 import { findByPatientName, getAll } from "../../model/record";
-import { getAllRoom } from "../../model/room";
+import { getAllRoomActive } from "../../model/room";
 import NavDoctor from "../Component/nav/NavDoctor";
 import Error from "../Error";
 import { MDBCol, MDBIcon } from "mdbreact";
@@ -80,7 +80,7 @@ export default function Record() {
     getAll()
       .then((result) => setData(result.record))
       .catch((err) => console.error(err));
-    getAllRoom()
+    getAllRoomActive()
       .then((result) => {
         setRooms(result.room);
         getAllByRoom(result.room[0].name)

@@ -103,25 +103,6 @@ export const exist = async (room, date, number) => {
     .catch((error) => console.error(error));
 };
 
-// export const notification = async (token, room, number) => {
-//   return await fetch("https://exp.host/--/api/v2/push/send", {
-//     mode: "no-cors",
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//       "Accept-Encoding": "gzip, deflate",
-//     },
-//     body: JSON.stringify({
-//       to: token,
-//       title: "Sắp đến bạn",
-//       body: "Phòng khám: " + room + " - STT: " + number,
-//     }),
-//   })
-//     .then((response) => response.json())
-//     .catch((error) => console.error(error));
-// };
-
 export const notification = async (token, room, number) => {
   return await fetch(API_URL + "/notification", {
     method: "POST",
@@ -134,4 +115,17 @@ export const notification = async (token, room, number) => {
   })
     .then((response) => response.json())
     .catch((error) => alert(error));
+};
+
+export const changeRoom = async (roomOld, roomNew) => {
+  return await fetch(API_URL + `/position/room`, {
+    method: "PUT",
+    headers: HEADER,
+    body: JSON.stringify({
+      roomOld: roomOld,
+      roomNew: roomNew,
+    }),
+  })
+    .then((response) => response.json())
+    .catch((error) => console.error(error));
 };

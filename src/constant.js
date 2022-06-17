@@ -17,9 +17,7 @@ const DEPARTMENT = {
 //const API_URL = "https://fast-cliffs-01542.herokuapp.com";
 // const API_URL = "https://still-wave-21655.herokuapp.com";
 
-
 const API_URL = "https://fast-cliffs-01542.herokuapp.com";
-
 
 const HEADER = {
   Accept: "application/json",
@@ -35,4 +33,15 @@ const NUMBER_STATE = {
   EXPIRED: "quá hạn",
 };
 
-module.exports = { DEPARTMENT, API_URL, HEADER, NUMBER_STATE };
+const GENDER = {
+  MALE: "nam",
+  FEMALE: "nữ",
+};
+
+const ROLES = {
+  DOCTOR: "doctor",
+  NURSE: "nurse",
+  PATIENT: "patient",
+};
+
+module.exports = { DEPARTMENT, API_URL, HEADER, NUMBER_STATE, GENDER, ROLES };
