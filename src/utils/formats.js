@@ -5,6 +5,16 @@ export const formatDateTime = (date) => {
   return Moment(date).format("DD/MM/YYYY, h:mm:ss a");
 };
 
+export const formatDateSQL = (date) => {
+  Moment.locale("en");
+  return Moment(date).format("yyyy-MM-DD");
+};
+
+export const formatDate = (date) => {
+  Moment.locale("en");
+  return Moment(date).format("DD/MM/yyyy");
+};
+
 export const balanceFormat = (price) => {
   var price_format = "";
   if (price === 0) return "0 Đ";

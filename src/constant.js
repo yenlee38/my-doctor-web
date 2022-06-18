@@ -33,4 +33,15 @@ const NUMBER_STATE = {
   EXPIRED: "quá hạn",
 };
 
-module.exports = { DEPARTMENT, API_URL, HEADER, NUMBER_STATE };
+const GENDER = {
+  MALE: "nam",
+  FEMALE: "nữ",
+};
+
+const ROLES = {
+  DOCTOR: "doctor",
+  NURSE: "nurse",
+  PATIENT: "patient",
+};
+
+module.exports = { DEPARTMENT, API_URL, HEADER, NUMBER_STATE, GENDER, ROLES };

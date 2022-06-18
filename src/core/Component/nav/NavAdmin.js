@@ -22,6 +22,18 @@ export const menuItems = [
     iconClassName: "bi bi-person-plus",
   },
   {
+    name: "Quản lý phòng bệnh",
+    exact: true,
+    to: `/admin/room/index`,
+    iconClassName: "bi bi-door-open",
+  },
+  {
+    name: "Quản lý bệnh nhân",
+    exact: true,
+    to: `/admin/patient/index`,
+    iconClassName: "bi bi-person-plus",
+  },
+  {
     name: "Quản lý dịch vụ",
     exact: true,
     to: `/admin/service`,
