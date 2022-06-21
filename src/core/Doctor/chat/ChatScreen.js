@@ -26,13 +26,10 @@ const ChatScreen = () => {
   const [receiverId, setReceiverId] = useState("");
   const [messages, setMessages] = useState([]);
   const [messageSend, setMessageSend] = useState("");
-  const [dateSends, setDateSends] = useState([]);
-  const [imgToSend, setImgToSend] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-
   const userId = getId;
   const [patients, setPatients] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [patient, setPatient] = useState();
   const MyChatLoader = () => <Facebook />;
   useEffect(() => {
     setIsLoading(true);
@@ -73,6 +70,11 @@ const ChatScreen = () => {
       });
     });
   }, [db]);
+
+  useEffect(() => {
+    if (patients?.length > 0) setPatient(patients[0]);
+  }, [patients]);
+
   useEffect(() => {
     onSnapshot(
       query(
@@ -104,6 +106,10 @@ const ChatScreen = () => {
     }
   };
 
+  const setPatientChooseSend = (patientChoosed) => {
+    setPatient(patientChoosed);
+  };
+
   const sendMessage = (isImage = false, url = null) => {
     if (messageSend || isImage === true) {
       addDoc(collection(db, "message"), {
@@ -124,11 +130,10 @@ const ChatScreen = () => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setImgToSend(reader.result);
+        // setImgToSend(reader.result);
       }
     };
     reader.readAsDataURL(event.target.files[0]);
-    setSelectedFile(event.target.files[0]);
     sendImage(event.target.files[0]);
   };
 
@@ -136,8 +141,6 @@ const ChatScreen = () => {
     const fd = new FormData();
     fd.append("image", image, image.name);
     sendImageToCloud(fd).then((url) => {
-      console.log({ url });
-
       if (url) {
         sendMessage(true, url);
       }
@@ -162,7 +165,7 @@ const ChatScreen = () => {
     );
   };
   const EmptyItem = () => {
-    if (isLoading === true && patients.length === 0) {
+    if (isLoading === true && patients?.length === 0) {
       return (
         <div>
           <MyChatLoader />
@@ -209,24 +212,41 @@ const ChatScreen = () => {
           <div className="list-chat-container">
             {/* <SearchComponent /> */}
             <EmptyItem />
-            {patients.map((patient) => (
-              <PatientChatComponent
-                name={patient.fullName}
-                lastSend={patient.lastSend?.message}
-                createdAt={
-                  convertTimestampToDate(patient.lastSend?.createdAt).time
-                }
-                avatar={patient.avatar}
-                isSelected={checkIsSelected(patient.id)}
-                setReceiverId={() => setReceiverId(patient.id)}
-              />
-            ))}
+            {patients.map((patient, index) => {
+              return (
+                <PatientChatComponent
+                  key={patient.id}
+                  patient={patient}
+                  setPatientChooseSend={setPatientChooseSend}
+                  name={patient.fullName}
+                  lastSend={patient.lastSend?.message}
+                  createdAt={
+                    convertTimestampToDate(patient.lastSend?.createdAt).time
+                  }
+                  avatar={patient.avatar}
+                  isSelected={checkIsSelected(patient.id)}
+                  setReceiverId={() => setReceiverId(patient.id)}
+                />
+              );
+            })}
           </div>
           <div className="chat-container">
-            <div className="header-chat"></div>
+            <div className="header-chat">
+              {patient ? (
+                <>
+                  <img
+                    src={patient?.avatar ?? ""}
+                    className="patient-avatar-chat"
+                  />
+                  <div className="name-patient-chat">
+                    {patient?.fullName ?? "...."}
+                  </div>
+                </>
+              ) : null}
+            </div>
             <ScrollToBottom className="chat-content-container">
-              {messages.length === 0 ? <EmptyChat /> : null}
-              {messages.map((mess) => {
+              {messages?.length === 0 ? <EmptyChat /> : null}
+              {messages?.map((mess) => {
                 return mess.senderId == userId ? (
                   <>
                     <SenderMessage

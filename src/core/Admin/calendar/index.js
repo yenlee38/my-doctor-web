@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import NavAdmin from "../../Component/nav/NavAdmin";
-import DoctorManagerHome from "./home";
+import CalendarManager from "./components.js/calendar-manager";
 
-const DoctorManagerment = (props) => {
+const CalendarManagerment = (props) => {
   const [inactive, setInactive] = useState(false);
 
   return (
@@ -15,7 +15,7 @@ const DoctorManagerment = (props) => {
       <div className={`container ${inactive ? "inactive" : ""}`}>
         <div className="home">
           <div className="main">
-            <DoctorManagerHome />
+            <CalendarManager />
           </div>
         </div>
       </div>
@@ -23,4 +23,4 @@ const DoctorManagerment = (props) => {
   );
 };
 
-export default DoctorManagerment;
+export default CalendarManagerment;

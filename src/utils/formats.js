@@ -15,6 +15,10 @@ export const formatDate = (date) => {
   return Moment(date).format("DD/MM/yyyy");
 };
 
+export const getDayInMonth = (year, month) => {
+  return new Date(year, month, 0).getDate();
+};
+
 export const balanceFormat = (price) => {
   var price_format = "";
   if (price === 0) return "0 Đ";
@@ -40,7 +44,9 @@ export const changeColorDoctorRegistration = (status) => {
   return "#fff";
 };
 
-export const shortMessage = (message) => {};
+export const shortMessage = (message) => {
+  return message.length > 30 ? `${message.slice(0, 30)}...` : message;
+};
 
 export const convertTimestampToDate = (timestamp) => {
   if (timestamp) {

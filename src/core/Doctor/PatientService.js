@@ -51,8 +51,7 @@ export default function PatientService() {
   };
 
   const findByPatientName = async (name) => {
-    return await dataStatic.filter(res => res.name.includes(name));
-
+    return await dataStatic.filter((res) => res.name.includes(name));
   };
 
   const getPhonePatientById = (lAccount, id) => {
@@ -174,13 +173,13 @@ export default function PatientService() {
                     borderBottomRightRadius: 12,
                   }}
                 >
-                  <tr className="label">
-                    <th>STT</th>
-                    <th>Người bệnh</th>
-                    <th>Số điện thoại</th>
-                    <th>Tên dịch vụ</th>
-                    <th>Ngày đăng ký</th>
-                    <th>Trạng thái</th>
+                  <tr className="col-name">
+                    <th className="txt-th">STT</th>
+                    <th className="txt-th">Người bệnh</th>
+                    <th className="txt-th">Số điện thoại</th>
+                    <th className="txt-th">Tên dịch vụ</th>
+                    <th className="txt-th">Ngày đăng ký</th>
+                    <th className="txt-th">Trạng thái</th>
                     <th></th>
                   </tr>
                   {paging()}

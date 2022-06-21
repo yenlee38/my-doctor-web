@@ -4,22 +4,28 @@ import MenuItem from "./MenuItem";
 import { isLogin, username } from "../../../model/account";
 export const menuItems = [
   {
-    name: "Trang chủ",
-    exact: true,
-    to: "/",
-    iconClassName: "bi bi-speedometer2",
-  },
-  {
     name: "Thanh toán dịch vụ",
     exact: true,
     to: `/`,
     iconClassName: "bi bi-wallet2",
   },
   {
+    name: "Quản lý dịch vụ",
+    exact: true,
+    to: `/admin/service`,
+    iconClassName: "bi bi-kanban",
+  },
+  {
     name: "Quản lý bác sĩ",
     exact: true,
     to: `/admin/doctor/index`,
-    iconClassName: "bi bi-person-plus",
+    iconClassName: "bi bi-person-workspace",
+  },
+  {
+    name: "Quản lý lịch khám bác sĩ",
+    exact: true,
+    to: `/admin/calendar`,
+    iconClassName: "bi bi-calendar2-plus",
   },
   {
     name: "Quản lý phòng bệnh",
@@ -32,12 +38,6 @@ export const menuItems = [
     exact: true,
     to: `/admin/patient/index`,
     iconClassName: "bi bi-person-plus",
-  },
-  {
-    name: "Quản lý dịch vụ",
-    exact: true,
-    to: `/admin/service`,
-    iconClassName: "bi bi-kanban",
   },
 ];
 
@@ -64,7 +64,6 @@ const NavDoctor = (props) => {
         removeActiveClassFromSubMenu();
         menuItems.forEach((el) => el.classList.remove("active"));
         el.classList.toggle("active");
-        console.log(next);
         if (next !== null) {
           next.classList.toggle("active");
         }

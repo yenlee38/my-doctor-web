@@ -1,21 +1,22 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import React, { useState } from "react";
 import Signin from "./auth/Signin";
 import Error from "./core/Error";
 import Home from "./core/Home/Home";
 
-import Record from "./core/Doctor/Record";
-import RecordDetail from "./core/Doctor/RecordDetail";
-import InsertRecord from "./core/Doctor/InsertRecord";
-import Position from "./core/Nurse/Position";
 import "./App.css";
-import PatientService from "./core/Doctor/PatientService";
-import PatientServiceDetail from "./core/Doctor/PatientServiceDetail";
-import ChatScreen from "./core/Doctor/chat/ChatScreen";
 import DoctorManagerment from "./core/Admin/accounts";
-import AdminServiceHome from "./core/Admin/service";
 import PatientManagerment from "./core/Admin/patient";
 import RoomManagerment from "./core/Admin/room";
+import AdminServiceHome from "./core/Admin/service";
+import ChatScreen from "./core/Doctor/chat/ChatScreen";
+import InsertRecord from "./core/Doctor/InsertRecord";
+import PatientService from "./core/Doctor/PatientService";
+import PatientServiceDetail from "./core/Doctor/PatientServiceDetail";
+import Record from "./core/Doctor/Record";
+import RecordDetail from "./core/Doctor/RecordDetail";
+import ScheduleDoctorHome from "./core/Doctor/schedule";
+import Position from "./core/Nurse/Position";
+import CalendarManagerment from "./core/Admin/calendar/index";
 export default function App() {
   return (
     <div className="App">
@@ -39,6 +40,11 @@ export default function App() {
           <Route path="/admin/room/index" element={<RoomManagerment />} />
           <Route path="/account" element={<PatientServiceDetail />} />
           <Route path="/admin/service" element={<AdminServiceHome />} />
+          <Route
+            path="/doctor/schedule-doctor"
+            element={<ScheduleDoctorHome />}
+          />
+          <Route path="/admin/calendar" element={<CalendarManagerment />} />
         </Routes>
       </Router>
     </div>

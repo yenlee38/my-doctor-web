@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./nav.css";
 import MenuItem from "./MenuItem";
-import { isLogin, username } from "../../../model/account";
+import { getId, isLogin, username } from "../../../model/account";
+import { getDoctorById } from "../../../model/doctor";
 export const menuItems = [
   {
     name: "Trang chủ",
@@ -27,10 +28,18 @@ export const menuItems = [
     to: `/doctor/patient/message`,
     iconClassName: "bi bi-chat-quote",
   },
+  {
+    name: "Lịch khám bệnh",
+    exact: true,
+    to: `/doctor/schedule-doctor`,
+    iconClassName: "bi bi-calendar3-week",
+  },
 ];
 
 const NavDoctor = (props) => {
   const [inactive, setInactive] = useState(false);
+  const [doctor, setDoctor] = useState();
+
   useEffect(() => {
     if (inactive) {
       removeActiveClassFromSubMenu();
@@ -38,6 +47,15 @@ const NavDoctor = (props) => {
 
     props.onCollapse(inactive);
   }, [inactive]);
+
+  useEffect(() => {
+    getDoctor();
+  }, []);
+
+  const getDoctor = () => {
+    let id = getId;
+    getDoctorById(id).then((res) => setDoctor(res));
+  };
 
   const removeActiveClassFromSubMenu = () => {
     document.querySelectorAll(".sub-menu").forEach((el) => {
@@ -53,7 +71,6 @@ const NavDoctor = (props) => {
         removeActiveClassFromSubMenu();
         menuItems.forEach((el) => el.classList.remove("active"));
         el.classList.toggle("active");
-        console.log(next);
         if (next !== null) {
           next.classList.toggle("active");
         }
@@ -69,9 +86,9 @@ const NavDoctor = (props) => {
         </div>
         <div onClick={() => setInactive(!inactive)} className="toggle-menu-btn">
           {inactive ? (
-            <i class="bi bi-arrow-right-square-fill box"></i>
+            <i className="bi bi-arrow-right-square-fill box"></i>
           ) : (
-            <i class="bi bi-arrow-left-square-fill box"></i>
+            <i className="bi bi-arrow-left-square-fill box"></i>
           )}
         </div>
       </div>
@@ -99,7 +116,10 @@ const NavDoctor = (props) => {
 
       <div className="side-menu-footer">
         <div className="avatar">
-          <img src="../../../../assets/imgs/logo.png" alt="user" />
+          <img
+            src={`${doctor?.avatar ?? "../../../../assets/imgs/logo.png"}`}
+            alt="user"
+          />
         </div>
         <div className="user-info">
           <h5>{username}</h5>
@@ -109,7 +129,7 @@ const NavDoctor = (props) => {
           href="/login"
           style={{ cursor: "pointer", color: "#212121", fontWeight: "bold" }}
         >
-          <i class="bi bi-box-arrow-right"></i>
+          <i className="bi bi-box-arrow-right"></i>
         </a>
       </div>
     </div>

@@ -1,7 +1,9 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { alpha } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -13,22 +15,20 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { visuallyHidden } from "@mui/utils";
+import { MDBCol, MDBIcon } from "mdbreact";
+import PropTypes from "prop-types";
+import * as React from "react";
+import { getAllAccount } from "../../model/account";
 import { getAllDoctor } from "../../model/doctor";
 import { getAllPatient } from "../../model/patient";
 import { getAllRegistration } from "../../model/registration";
 import { getAllService } from "../../model/service";
-import { getAllAccount } from "../../model/account";
 import {
   balanceFormat,
   changeColorDoctorRegistration,
   formatDateTime,
 } from "../../utils/formats";
 import AlertMessage from "../Component/AlertMessage";
-import { MDBCol, MDBIcon } from "mdbreact";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 export default function Payment() {
   const [regDatas, setRegDatas] = React.useState([]);
   const [list, setList] = React.useState([]);

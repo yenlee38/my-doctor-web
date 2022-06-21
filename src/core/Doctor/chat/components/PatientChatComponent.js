@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { shortMessage } from "../../../../utils/formats";
 
 const PatientChatComponent = ({
   name,
@@ -7,6 +8,8 @@ const PatientChatComponent = ({
   createdAt,
   isSelected,
   setReceiverId,
+  setPatientChooseSend,
+  patient,
 }) => {
   const [selected, setSelected] = useState(false);
   const onSeleted = () => {
@@ -15,6 +18,7 @@ const PatientChatComponent = ({
   const unSeleted = () => {
     setSelected(false);
   };
+
   return (
     <div
       className={`main-patient-container ${
@@ -23,6 +27,7 @@ const PatientChatComponent = ({
       onMouseDown={() => {
         onSeleted();
         setReceiverId();
+        setPatientChooseSend(patient);
       }}
       onMouseLeave={unSeleted}
       onMouseMove={onSeleted}
@@ -36,7 +41,7 @@ const PatientChatComponent = ({
       <div className="info-container">
         <div className="name-message-component">{name}</div>
         <div className="content-date-message-component">
-          <div>{lastSend}</div>
+          <div>{lastSend ? shortMessage(lastSend) : ""}</div>
           <div>{createdAt}</div>
         </div>
       </div>
