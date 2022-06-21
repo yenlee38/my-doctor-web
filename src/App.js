@@ -16,6 +16,7 @@ import Record from "./core/Doctor/Record";
 import RecordDetail from "./core/Doctor/RecordDetail";
 import ScheduleDoctorHome from "./core/Doctor/schedule";
 import Position from "./core/Nurse/Position";
+import CalendarManagerment from "./core/Admin/calendar/index";
 export default function App() {
   return (
     <div className="App">
@@ -43,6 +44,7 @@ export default function App() {
             path="/doctor/schedule-doctor"
             element={<ScheduleDoctorHome />}
           />
+          <Route path="/admin/calendar" element={<CalendarManagerment />} />
         </Routes>
       </Router>
     </div>

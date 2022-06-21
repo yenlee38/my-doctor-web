@@ -48,19 +48,20 @@ justify-content: flex-start;
 .day-schedule-container{
     width: 180px;
     height: 210px;
-    background-color: #1DC6CE;
-    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%) !important;
+    background-color: #ADCF9F;
+    /* box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%) !important; */
     border-radius: 5px;
     padding: 20px;
 }
 
  .is-schedule{
  background-color: white;
+ border: 0.5px solid #bbb9b9;
 
 }
 
  .is-not-schedule {
-background-color: #e1fbfc;
+background-color: #EFEFEF;
 }
 
 .session-container{
@@ -69,7 +70,7 @@ background-color: #e1fbfc;
     border: 1px solid #CDF0EA;
     margin: 5px 0px;
     border-radius: 3px;
-    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); */
     cursor: pointer;
     
 }

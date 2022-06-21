@@ -1,11 +1,7 @@
 import React from "react";
 import Session from "./session";
 import "../styles.css";
-const DaySchedule = ({
-  isScheduled = false,
-  dayNumber,
-  sessions = [1, 2, 3, 4],
-}) => {
+const DaySchedule = ({ isScheduled = false, dayNumber, sessions = [] }) => {
   return (
     <div
       className={`day-schedule-container ${
@@ -16,7 +12,7 @@ const DaySchedule = ({
       {isScheduled ? (
         <div className="body-day-schedule">
           {sessions?.map((item) => {
-            return <Session room={"Aeee"} session={"sang"} />;
+            return <Session room={item.room} session={item.session} />;
           })}
         </div>
       ) : null}

@@ -1,0 +1,146 @@
+.btn-add-schedule-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    text-align: center;
+}
+
+.btn-add-schedule{
+    background-color: #bbeaff;
+    color: #4D77FF;
+}
+
+.schedule-detail-container {
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #eaffdf;
+    color: #18978F;
+    display: flex;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 10px 10px;
+}
+
+.body-calendar-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.create-calendar-container{
+    width: 50%;
+    background-color: #fdfdfd;
+    margin: 0px 10px;
+    border-radius: scale(10);
+    
+}
+
+.day-schedule-item-container {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.txt-header-calendar {
+    color: darkcyan;
+    font-size: 18px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;   
+    text-align: center;
+    margin: 10px 0px; 
+}
+
+
+.dot-is-schedule {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: cornflowerblue;
+}
+
+.img-day{
+    width: 60px;
+}
+
+.calendar-container {
+    margin: 20px 0;
+    border: 0.5px solid #CCCDC6;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px;
+}
+
+.notifcation-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: darkcyan;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.react-search-box-dropdown-list-item {
+    font-size: 15px !important;
+    font-weight: 500;
+}
+
+.label-name {
+    font-size: 15px;
+}
+
+.name {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px 10px;
+}
+
+.avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+
+.name-avatar-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;  
+    padding: 10px 5px;  
+}
+
+.info-detail {
+    border-radius: 5px;
+    /* border: 0.5px solid #CCCDC6; */
+    padding: 10px 20px;
+    background-color: #DDFFBC;
+    
+}
+
+.info-container {
+   flex-direction: column;
+   display: flex;
+   width: 40%;
+  
+   justify-content: space-between;
+}
+
+.header-container {
+   justify-content: space-between;
+    flex-direction: row;
+    padding: 10px 0px;
+    display: flex;
+
+}
+
+.search-container {
+    width: 50vw;
+}
+
+.calendar-manager-container {
+    padding: 10px 20px;
+}

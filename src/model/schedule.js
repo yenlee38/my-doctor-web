@@ -15,3 +15,21 @@ export const getAllScheduleByDoctorId = async (doctorId) => {
       return [];
     });
 };
+
+export const createScheduleAPI = async (doctorId, roomId, session, day) => {
+  return await fetch(`${BASE_URL}`, {
+    method: "POST",
+    headers: HEADER,
+    body: JSON.stringify({ doctorId, roomId, session, day }),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log("ressssss", res);
+      if (res.count === 1) {
+        return true;
+      } else return false;
+    })
+    .catch((err) => {
+      return false;
+    });
+};

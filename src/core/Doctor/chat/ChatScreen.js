@@ -232,14 +232,17 @@ const ChatScreen = () => {
           </div>
           <div className="chat-container">
             <div className="header-chat">
-              <img
-                src={patient?.avatar ?? ""}
-                className="patient-avatar-chat"
-              />
-              <div className="name-patient-chat">
-                {" "}
-                {patient?.fullName ?? "...."}
-              </div>
+              {patient ? (
+                <>
+                  <img
+                    src={patient?.avatar ?? ""}
+                    className="patient-avatar-chat"
+                  />
+                  <div className="name-patient-chat">
+                    {patient?.fullName ?? "...."}
+                  </div>
+                </>
+              ) : null}
             </div>
             <ScrollToBottom className="chat-content-container">
               {messages?.length === 0 ? <EmptyChat /> : null}
