@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CanvasJSChart } from "canvasjs-react-charts";
-import {  NUMBER_STATE } from "../../constant";
+import { NUMBER_STATE } from "../../constant";
 import { chartByState, chartByDept } from "../../model/position";
 import NavSlide from "../Component/nav/NavSlide";
 
@@ -19,7 +19,7 @@ export default function NurseHome() {
       return acc;
     }, {});
   };
- 
+
   const table = () => {
     let content = [];
     for (const key in data) {
@@ -62,43 +62,43 @@ export default function NurseHome() {
 
   return (
     <>
-    <NavSlide onCollapse={(inactive) => {
-    setInactive(inactive);
-  }} />
+      <NavSlide
+        onCollapse={(inactive) => {
+          setInactive(inactive);
+        }}
+      />
       <div className={`container ${inactive ? "inactive" : ""}`}>
-      
-    <div className="home-nurse">
-     <div className="main-nurse">
-        <CanvasJSChart
-          options={{
-            title: { text: "Biểu đồ đặt lịch khám bệnh theo khoa" },
-            data: [
-              {
-                type: "pie",
-                legendText: "{label}",
-                indexLabel: "{label}: {y}%",
-                dataPoints: chart,
-              },
-            ],
-          }}
-        />
+        <div className="home-nurse">
+          <div className="main-nurse">
+            <CanvasJSChart
+              options={{
+                title: { text: "Biểu đồ đặt lịch khám bệnh theo khoa" },
+                data: [
+                  {
+                    type: "pie",
+                    legendText: "{label}",
+                    indexLabel: "{label}: {y}%",
+                    dataPoints: chart,
+                  },
+                ],
+              }}
+            />
 
-        <div className = "list">
-        <table>
-          <tr className="label">
-            <th>Khoa</th>
-            <th>Chưa khám</th>
-            <th>Đã khám</th>
-            <th>Hủy</th>
-            <th>Quá hạn</th>
-          </tr>
-          {table()}
-        </table>
+            <div className="list">
+              <table>
+                <tr className="col-name">
+                  <th>Khoa</th>
+                  <th>Chưa khám</th>
+                  <th>Đã khám</th>
+                  <th>Hủy</th>
+                  <th>Quá hạn</th>
+                </tr>
+                {table()}
+              </table>
+            </div>
+          </div>
         </div>
-
-     </div>
-    </div>
-    </div>
+      </div>
     </>
   );
 }

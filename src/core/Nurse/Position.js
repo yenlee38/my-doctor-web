@@ -118,7 +118,6 @@ export default function Position(props) {
                 </button>
               </div>
               <dialog className="dialog-add" open={show}>
-                {" "}
                 <div
                   style={{
                     display: "flex",
@@ -214,7 +213,7 @@ export default function Position(props) {
 
               <div className="list">
                 <table>
-                  <tr className="label">
+                  <tr className="col-name">
                     <th>STT</th>
                     <th>Phòng khám</th>
                     <th>Trạng thái</th>

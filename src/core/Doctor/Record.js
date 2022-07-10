@@ -51,7 +51,15 @@ export default function Record() {
         </tr>
       );
     }
-    return table;
+    if (table.length == 0)
+      return (
+        <tr>
+          <td colSpan={5} style={{ textAlign: "center" }}>
+            Không có dữ liệu
+          </td>
+        </tr>
+      );
+    else return table;
   };
 
   const call = async (position) => {
