@@ -1,3 +1,65 @@
+.txt-time {
+    
+}
+
+.txt-HA {
+font-weight: 500;
+font-size: 15px;
+color: #66BFBF;
+}
+
+.icon-red {
+    color: red;
+    padding: 0 5px;
+    font-weight: 500;
+}
+
+.txt-info-number {
+    font-size: 15px;
+    font-weight: 500;
+    color: crimson;
+}
+
+.status-time-container{
+    display: flex;
+    align-items: center;
+}
+
+.status-container {
+    border-radius: 5px;
+    padding: 5px 12px;
+    border-width: 2px;
+    /* border:2px solid #0888E4; */
+    background-color: #A3D8FF;
+    color: #0888E4;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    margin: 0px 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.line-container{
+    background-color: #e1d6d6;
+    height: 1px;
+    width: 300px;    
+    margin: 5px 0px;
+}
+
+.info-detail-container{
+    background-color: #eaeffd;
+    padding: 10px 15px;
+    width: 500px;
+    margin: 30px 15px;
+    border-radius: 8px;
+    box-shadow:
+    0 2px 8px 0 rgba(0, 0, 0, 0.8)}
+.txt-info {
+    color: black;
+    font-size: 14px;
+}
+
 .non-schedule-text{
     font-size: 15px;
     color: #42C2FF;
@@ -122,14 +184,24 @@
     justify-content: flex-start;
     margin: 5px;
     margin-right: 25px;
-  
 }
+
+.main-info-receiver-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 5px;
+    margin-right: 50px;
+}
+
+
 
 .message-sender-container {
     
     background-color: #42C2FF;
-    padding: 7px 10px;
-    border-radius: 30px;
+    padding: 7px 15px;
+        border-radius: 15px;
     color: 'white';
     flex-direction: row;
     justify-content: flex-start;
@@ -147,10 +219,19 @@
 .message-receiver-container {
     
     background-color: #F6F6F9;
-    padding: 7px 10px ;
-    border-radius: 30px;
+    padding: 7px 15px ;
+    border-radius: 15px;
     flex-direction: row;
     justify-content: flex-start;
+}
+
+.message-info-receiver-container {
+    background-color: #F6F6F9;
+    padding: 7px 15px;
+    border-radius: 15px;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-right: 100px;
 }
 
 .message-sender {

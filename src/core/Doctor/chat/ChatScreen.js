@@ -263,6 +263,8 @@ const ChatScreen = () => {
                 ) : (
                   <>
                     <ReceiverMessage
+                      isInfo={mess.isInfo}
+                      item={mess}
                       message={mess.message}
                       isImage={mess.isImage}
                       url={mess.urlImage}

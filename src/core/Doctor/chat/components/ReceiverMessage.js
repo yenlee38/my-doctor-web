@@ -1,13 +1,18 @@
 import React from "react";
 import "../styles/SenderMessageStyle.css";
 import Tooltip from "@mui/material/Tooltip";
+import InfoDetail from "./infoDetail";
 const ReceiverMessage = ({
   message,
   datetime,
   isImage = false,
   url = null,
+  item,
+  isInfo = false,
 }) => {
-  return !isImage ? (
+  return isInfo ? (
+    <InfoDetail message={item} datetime={datetime} />
+  ) : !isImage ? (
     <div className="main-receiver-container">
       <Tooltip title={datetime} placement="right">
         <div className="message-receiver-container">
