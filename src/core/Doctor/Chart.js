@@ -6,29 +6,38 @@ var chartMonth = [];
 var chartWeek = [];
 export default class Chart extends Component {
   render() {
-    return (
-      <div>
-        <CanvasJSChart
-          options={{
-            title: { text: "Trong 7 ngày" },
-            axisX: { valueFormatString: "DD/MM" },
-            axisY: { title: "(người)" },
-            data: [{ type: "column", dataPoints: chartWeek }],
-          }}
-          onRef={(ref) => (this.week = ref)}
-        />
-        <CanvasJSChart
-          options={{
-            title: { text: "Trong 30 ngày" },
-            // dataPointMaxWidth: 60,
-            axisX: { valueFormatString: "DD/MM" },
-            axisY: { title: "(người)" },
-            data: [{ type: "column", dataPoints: chartMonth }],
-          }}
-          onRef={(ref) => (this.month = ref)}
-        />
-      </div>
-    );
+    if (chartMonth.length === 0)
+      return (
+        <div style={{ minHeight: 100, textAlign: "center" }}>
+          Không có dữ liệu
+        </div>
+      );
+    else
+      return (
+        <div>
+          {chartWeek.length > 0 ? (
+            <CanvasJSChart
+              options={{
+                title: { text: "Trong 7 ngày" },
+                axisX: { valueFormatString: "DD/MM" },
+                axisY: { title: "(người)" },
+                data: [{ type: "column", dataPoints: chartWeek }],
+              }}
+              onRef={(ref) => (this.week = ref)}
+            />
+          ) : null}
+          <CanvasJSChart
+            options={{
+              title: { text: "Trong 30 ngày" },
+              // dataPointMaxWidth: 60,
+              axisX: { valueFormatString: "DD/MM" },
+              axisY: { title: "(người)" },
+              data: [{ type: "column", dataPoints: chartMonth }],
+            }}
+            onRef={(ref) => (this.month = ref)}
+          />
+        </div>
+      );
   }
 
   componentDidMount() {
