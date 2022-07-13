@@ -29,55 +29,58 @@ export default function RecordDetail() {
   if (isLogin !== "doctor") return <Error />;
   else
     return (
-    <>
-    <NavDoctor onCollapse={(inactive) => {
-    console.log(inactive);
-    setInactive(inactive);
-  }}
-    />
-   <div className={`container ${inactive ? "inactive" : ""}`}>
-    <div className="home">
-        <div className="main" id="print">
-        <div className="div-print">
-        <ReactToPrint
-          trigger={() => (
-            <a className="btn-print" href="#">
-              In
-            </a>
-          )}
-          content={() => document.getElementById("print")}
+      <>
+        <NavDoctor
+          onCollapse={(inactive) => {
+            console.log(inactive);
+            setInactive(inactive);
+          }}
         />
-        </div>
-          <div className="title">Bệnh án</div>
-          <div className="txt-header-table">Người bệnh: {record ? record.patientName : ""}</div>
-          <div className="txt-header-table">Tên bệnh: {record ? record.name : ""}</div>
-          <div className="txt-header-table">
-            Ngày khám:{" "}
-            {record ? new Date(record.date).toLocaleDateString() : ""}
+        <div className={`container ${inactive ? "inactive" : ""}`}>
+          <div className="home">
+            <div className="main" id="print">
+              <div className="div-print">
+                <ReactToPrint
+                  trigger={() => (
+                    <a className="btn-print" href="#">
+                      In
+                    </a>
+                  )}
+                  content={() => document.getElementById("print")}
+                />
+              </div>
+              <div className="title">Bệnh án</div>
+              <div className="txt-header-table">
+                Người bệnh: {record ? record.patientName : ""}
+              </div>
+              <div className="txt-header-table">
+                Tên bệnh: {record ? record.name : ""}
+              </div>
+              <div className="txt-header-table">
+                Ngày khám:{" "}
+                {record ? new Date(record.date).toLocaleDateString() : ""}
+              </div>
+              <div className="list">
+                <table>
+                  <tr className="col-name">
+                    <th>STT</th>
+                    <th>Tên thuốc</th>
+                    <th>Liều lượng</th>
+                    <th>Cách dùng</th>
+                  </tr>
+                  {prescription.map((medicine, index) => (
+                    <tr className="data">
+                      <th>{++index}</th>
+                      <th style={{ textAlign: "left" }}>{medicine.name}</th>
+                      <th>{medicine.amount}</th>
+                      <th style={{ textAlign: "left" }}>{medicine.use}</th>
+                    </tr>
+                  ))}
+                </table>
+              </div>
+            </div>
           </div>
-          <div className="list">
-            <table>
-              <tr className="label">
-                <th>STT</th>
-                <th>Tên thuốc</th>
-                <th>Liều lượng</th>
-                <th>Cách dùng</th>
-              </tr>
-              {prescription.map((medicine, index) => (
-                <tr className="data">
-                  <th>{++index}</th>
-                  <th style={{ textAlign: "left" }}>{medicine.name}</th>
-                  <th>{medicine.amount}</th>
-                  <th style={{ textAlign: "left" }}>{medicine.use}</th>
-                </tr>
-              ))}
-            </table>
-          </div>
-       
         </div>
-      
-      </div>
-    </div>
-    </>
+      </>
     );
 }

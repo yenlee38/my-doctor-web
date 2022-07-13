@@ -108,7 +108,7 @@ export default function InsertRecord() {
                   </div>
                 </div>
                 <table>
-                  <tr className="label">
+                  <tr className="col-name">
                     <th>STT</th>
                     <th>Tên thuốc</th>
                     <th>Liều lượng</th>
