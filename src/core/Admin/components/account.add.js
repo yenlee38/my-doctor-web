@@ -130,7 +130,6 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
               flexDirection: "column",
             }}
           >
-            {" "}
             <img
               className="img-avatar"
               src={
@@ -138,6 +137,7 @@ const ModalAddDoctor = function ({ isVisited, onCancel }) {
                   ? profileImg
                   : "../../../../../assets/imgs/add_doctor.png"
               }
+              alt="ảnh đại diện"
             />
             <input
               id="input"

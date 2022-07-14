@@ -14,9 +14,9 @@ export default function PatientService() {
   const [inactive, setInactive] = useState(false);
   const amount = 10;
 
-  let lPatients = [];
-  let lAccount = [];
   useEffect(() => {
+    let lPatients = [];
+    let lAccount = [];
     getAllPatient().then((res) => {
       lPatients = res;
       getAllAccount().then((res) => {

@@ -51,7 +51,7 @@ export default function Record() {
         </tr>
       );
     }
-    if (table.length == 0)
+    if (table.length === 0)
       return (
         <tr>
           <td colSpan={5} style={{ textAlign: "center" }}>
@@ -64,7 +64,6 @@ export default function Record() {
 
   const call = async (position) => {
     try {
-      await used(position.id);
       const response = await exist(
         position.room,
         position.date,
@@ -78,6 +77,7 @@ export default function Record() {
           position.number + 5
         );
       }
+      await used(position.id);
       window.location.href = "/insert-record/" + position.patientId;
     } catch (error) {
       console.error(error);
@@ -161,7 +161,7 @@ export default function Record() {
                 )}
                 {positions.map((position, index) => (
                   <button onClick={async () => call(position)}>
-                    <img src="../../assets/imgs/position.png" />
+                    <img src="../../assets/imgs/position.png" alt="số thứ tự" />
                     <br />
                     <font color="red">{position.number}</font>
                   </button>

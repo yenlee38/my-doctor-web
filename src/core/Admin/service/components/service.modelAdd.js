@@ -10,7 +10,6 @@ import { getDoctorById } from "../../../../model/doctor";
 import { addService } from "../../../../model/service";
 const ModalAddService = function ({ isVisited, onCancel }) {
   const [show, setShow] = React.useState(false);
-  const [isAdding, setIsAdding] = useState(false);
   const [nameDoctorAdd, setNameDoctorAdd] = useState("");
   const [doctorIdCheck, setDoctorIdCheck] = useState("");
   const [name, setName] = useState("");
@@ -99,7 +98,10 @@ const ModalAddService = function ({ isVisited, onCancel }) {
         >
           <div></div>
           <div className="title-add">Đăng ký dịch vụ bác sĩ</div>
-          <img src="../../../../../../assets/imgs/service_manager.png" />
+          <img
+            alt="dịch vụ"
+            src="../../../../../../assets/imgs/service_manager.png"
+          />
         </div>
         <div>
           <InputCustom

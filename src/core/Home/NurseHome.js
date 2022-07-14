@@ -58,7 +58,7 @@ export default function NurseHome() {
         setChart(percent);
       })
       .catch((err) => console.error(err));
-  });
+  }, []);
 
   return (
     <>

@@ -2,7 +2,6 @@ import { isLogin } from "../../model/account";
 import DoctorHome from "./DoctorHome";
 import NurseHome from "./NurseHome";
 import AdminHome from "../Admin/AdminHome";
-import Error from "../Error";
 import React from "react";
 import Signin from "../../auth/Signin";
 

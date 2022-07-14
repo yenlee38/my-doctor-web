@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/SenderMessageStyle.css";
 import Tooltip from "@mui/material/Tooltip";
+
 const SenderMessage = ({ message, datetime, isImage = false, url = null }) => {
   return !isImage ? (
     <div className="main-sender-container">
@@ -13,7 +14,7 @@ const SenderMessage = ({ message, datetime, isImage = false, url = null }) => {
   ) : (
     <div className="main-sender-container">
       <Tooltip title={datetime} placement="left">
-        <img className="image-send" src={url} />
+        <img className="image-send" src={url} alt="gửi" />
       </Tooltip>
     </div>
   );

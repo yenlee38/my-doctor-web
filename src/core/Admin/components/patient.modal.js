@@ -103,7 +103,7 @@ const ModalPatient = function ({ patient, show, close }) {
   const save = async () => {
     setIsAdding(true);
     if (patient) {
-      isHidden == 1 ? disableAccount(patient.id) : enableAccount(patient.id);
+      isHidden === 1 ? disableAccount(patient.id) : enableAccount(patient.id);
       if (password) resetPass(username, password);
       await update(patient.id);
     } else if (username && password) {
@@ -150,7 +150,7 @@ const ModalPatient = function ({ patient, show, close }) {
               flexDirection: "column",
             }}
           >
-            <img className="img-avatar" src={profileImg} />
+            <img className="img-avatar" src={profileImg} alt="ảnh đại diện" />
             <input
               id="input"
               accept="image/*"
@@ -255,7 +255,7 @@ const ModalPatient = function ({ patient, show, close }) {
                     <input
                       type="radio"
                       value={0}
-                      checked={isHidden == 0}
+                      checked={isHidden === 0}
                       onChange={onValueRadiusChange}
                     />
                   </div>
@@ -266,7 +266,7 @@ const ModalPatient = function ({ patient, show, close }) {
                     <input
                       type="radio"
                       value={1}
-                      checked={isHidden == 1}
+                      checked={isHidden === 1}
                       onChange={onValueRadiusChange}
                     />
                   </div>

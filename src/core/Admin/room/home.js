@@ -9,7 +9,6 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
-import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
@@ -310,6 +309,7 @@ export default function RoomManagerHome() {
           <img
             src={"../../../../assets/imgs/search.png"}
             style={{ width: 35, height: 35 }}
+            alt="tìm kiếm"
           />
         </div>
       </div>

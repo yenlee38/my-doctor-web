@@ -9,6 +9,7 @@ const DaySchedule = ({ day, isSchedule = false, onPressEdit, item }) => {
       }}
     >
       <img
+        alt="phiên trực"
         className="img-day"
         src={`../../../../../assets/imgs/calendar${day}.png`}
       />

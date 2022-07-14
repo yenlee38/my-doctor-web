@@ -93,11 +93,14 @@ export default function PatientManagerHome() {
   const CustomAccount = ({ doctorId }) => {
     return getAccountByDoctorId(doctorId)?.isHidden ? (
       <Tooltip title={"Ngừng hoạt động"} placement="right">
-        <img src="../../../../assets/imgs/account_unable.png" />
+        <img
+          src="../../../../assets/imgs/account_unable.png"
+          alt="Ngừng hoạt động"
+        />
       </Tooltip>
     ) : (
       <Tooltip title={"Còn hoạt động"} placement="right">
-        <img src="../../../../assets/imgs/account.png" />
+        <img src="../../../../assets/imgs/account.png" alt="Hoạt động" />
       </Tooltip>
     );
   };
@@ -274,6 +277,7 @@ export default function PatientManagerHome() {
           <img
             src={"../../../../assets/imgs/doctor.png"}
             style={{ width: 70, height: 70 }}
+            alt="bệnh nhân"
           />
           <div
             style={{
@@ -309,6 +313,7 @@ export default function PatientManagerHome() {
           <img
             src={"../../../../assets/imgs/search.png"}
             style={{ width: 35, height: 35 }}
+            alt="tìm kiếm"
           />
         </div>
       </div>
@@ -359,7 +364,8 @@ export default function PatientManagerHome() {
                                 margin: 5,
                               }}
                               src={row.avatar}
-                            />{" "}
+                              alt="ảnh đại diện"
+                            />
                             <div>{row.fullName}</div>
                           </div>
                         </TableCell>

@@ -64,7 +64,7 @@ const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
 
   const handleUpdateAvatarDoctor = () => {
     setIsAdding(true);
-    if (doctor.avatar != profileImg) {
+    if (doctor.avatar !== profileImg) {
       const fd = new FormData();
       fd.append("image", selectedFile, selectedFile.name);
       updateAvatarDoctor(doctorId, fd).then((res) => {
@@ -114,7 +114,7 @@ const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
     );
   };
   const editAccount = () => {
-    isHidden == 1 ? disableAccount(doctorId) : enableAccount(doctorId);
+    isHidden === 1 ? disableAccount(doctorId) : enableAccount(doctorId);
     if (handleCreateAccount()) {
       setIsAdding(true);
       if (changePass) {
@@ -182,8 +182,7 @@ const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
               flexDirection: "column",
             }}
           >
-            {" "}
-            <img className="img-avatar" src={profileImg} />
+            <img className="img-avatar" src={profileImg} alt="ảnh đại diện" />
             <input
               id="input"
               accept="image/*"
@@ -318,11 +317,10 @@ const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
             <form className="radio-form" onSubmit={formSubmit}>
               <div className="radio">
                 <div className="radio-container">
-                  {" "}
                   <input
                     type="radio"
                     value={0}
-                    checked={isHidden == 0}
+                    checked={isHidden === 0}
                     onChange={onValueRadiusChange}
                   />
                 </div>
@@ -333,7 +331,7 @@ const ModalEditDoctor = function ({ isVisited, onCancel, doctor }) {
                   <input
                     type="radio"
                     value={1}
-                    checked={isHidden == 1}
+                    checked={isHidden === 1}
                     onChange={onValueRadiusChange}
                   />
                 </div>

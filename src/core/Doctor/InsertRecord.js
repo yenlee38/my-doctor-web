@@ -12,6 +12,7 @@ export default function InsertRecord() {
   const [prescription, setprescription] = useState([]);
   const [patientName, setPatientName] = useState();
   const [name, setName] = useState();
+  const [commentByDoctor, setComment] = useState();
   const [inactive, setInactive] = useState(false);
 
   useEffect(() => {
@@ -31,6 +32,9 @@ export default function InsertRecord() {
         break;
       case "name":
         setName(event.target.value);
+        break;
+      case "commentByDoctor":
+        setComment(event.target.value);
         break;
       default:
         break;
@@ -73,12 +77,25 @@ export default function InsertRecord() {
                   />
                 </div>
               </div>
+              <div className="div-input" style={{ padding: 5 }}>
+                <div className="title">Đánh giá</div>
+                <input
+                  name="commentByDoctor"
+                  type="text"
+                  placeholder="Nhập đánh giá"
+                  value={name}
+                  onChange={onChange}
+                  className="txt-info-record"
+                  style={{ flex: 1 }}
+                />
+              </div>
               <div
                 style={{ display: "flex", flexDirection: "row", marginTop: 10 }}
               >
                 <div>
                   <input
                     // className="txt-info-record"
+                    style={{ width: "99%" }}
                     type="search"
                     onChange={(event) => {
                       getByName(event.target.value)
@@ -87,7 +104,9 @@ export default function InsertRecord() {
                     }}
                     placeholder="Nhập tên thuốc"
                   />
-                  <div style={{ width: 300, height: 400, overflow: "scroll" }}>
+                  <div
+                    style={{ width: "300", height: 400, overflow: "scroll" }}
+                  >
                     {medicines.map((medicine) => (
                       <button
                         className="dropdown"
@@ -108,7 +127,7 @@ export default function InsertRecord() {
                   </div>
                 </div>
                 <table>
-                  <tr className="label">
+                  <tr className="col-name">
                     <th>STT</th>
                     <th>Tên thuốc</th>
                     <th>Liều lượng</th>
@@ -147,14 +166,14 @@ export default function InsertRecord() {
               </div>
               {/* <div style={{ direction: "rtl" }}> */}
               <div className="div-btn-end">
-                {" "}
                 <div
                   className="btn-style"
                   onClick={() =>
                     create(
                       window.location.pathname.split("/")[2],
                       patientName,
-                      name
+                      name,
+                      commentByDoctor
                     )
                       .then((result) => {
                         prescription.forEach((element) => {

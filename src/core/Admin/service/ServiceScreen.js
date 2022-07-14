@@ -301,6 +301,7 @@ export default function ServiceManager() {
           <img
             src={"../../../../../assets/imgs/service.png"}
             style={{ width: 70, height: 70 }}
+            alt="dịch vụ"
           />
           <div
             style={{
@@ -336,6 +337,7 @@ export default function ServiceManager() {
           <img
             src={"../../../../assets/imgs/search.png"}
             style={{ width: 35, height: 35 }}
+            alt="tìm kiếm"
           />
         </div>
       </div>

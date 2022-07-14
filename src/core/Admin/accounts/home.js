@@ -19,6 +19,7 @@ import ModalAddDoctor from "../components/account.add";
 import ModalEditDoctor from "../components/account.edit";
 import ButtonCustom from "../components/button-custom";
 import "./styles.css";
+
 export default function DoctorManagerHome() {
   const [doctors, setDoctors] = React.useState([]);
   const [listDoctor, setListDoctor] = React.useState([]);
@@ -28,11 +29,11 @@ export default function DoctorManagerHome() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [status, setStatus] = React.useState("");
   const [isShowModal, setIsShowModal] = React.useState(false);
   const [isShowModalEdit, setIsShowModalEdit] = React.useState(false);
   const [doctorSelected, setDoctorSelected] = React.useState();
-  const dense = false;
+  const [dense, setDense] = React.useState(false);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -106,11 +107,14 @@ export default function DoctorManagerHome() {
   const CustomAccount = ({ doctorId }) => {
     return getAccountByDoctorId(doctorId)?.isHidden ? (
       <Tooltip title={"Ngừng hoạt động"} placement="right">
-        <img src="../../../../assets/imgs/account_unable.png" />
+        <img
+          src="../../../../assets/imgs/account_unable.png"
+          alt="Ngừng hoạt động"
+        />
       </Tooltip>
     ) : (
       <Tooltip title={"Còn hoạt động"} placement="right">
-        <img src="../../../../assets/imgs/account.png" />
+        <img src="../../../../assets/imgs/account.png" alt="Hoạt động" />
       </Tooltip>
     );
   };
@@ -289,6 +293,7 @@ export default function DoctorManagerHome() {
           }}
         >
           <img
+            alt="bác sĩ"
             src={"../../../../assets/imgs/doctor.png"}
             style={{ width: 70, height: 70 }}
           />
@@ -324,6 +329,7 @@ export default function DoctorManagerHome() {
             onChange={(event) => setDoctors(findByName(event.target.value))}
           />
           <img
+            alt="tìm kiếm"
             src={"../../../../assets/imgs/search.png"}
             style={{ width: 35, height: 35 }}
           />
@@ -370,6 +376,7 @@ export default function DoctorManagerHome() {
                             }}
                           >
                             <img
+                              alt="ảnh đại diện"
                               style={{
                                 height: 40,
                                 width: 40,
@@ -377,7 +384,7 @@ export default function DoctorManagerHome() {
                                 margin: 5,
                               }}
                               src={row.avatar}
-                            />{" "}
+                            />
                             <div>{row.fullname}</div>
                           </div>
                         </TableCell>

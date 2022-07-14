@@ -29,6 +29,7 @@ import {
   formatDateTime,
 } from "../../utils/formats";
 import AlertMessage from "../Component/AlertMessage";
+
 export default function Payment() {
   const [regDatas, setRegDatas] = React.useState([]);
   const [list, setList] = React.useState([]);
@@ -47,11 +48,11 @@ export default function Payment() {
     setOrderBy(property);
   };
 
-  let lPatients = [];
-  let lDoctors = [];
-  let lService = [];
-  let lAccount = [];
   React.useEffect(() => {
+    let lPatients = [];
+    let lDoctors = [];
+    let lService = [];
+    let lAccount = [];
     getAllDoctor().then((res) => {
       lDoctors = res;
       getAllPatient().then((res) => {
@@ -329,25 +330,25 @@ export default function Payment() {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+  // const handleClick = (event, name) => {
+  //   const selectedIndex = selected.indexOf(name);
+  //   let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
+  //   if (selectedIndex === -1) {
+  //     newSelected = newSelected.concat(selected, name);
+  //   } else if (selectedIndex === 0) {
+  //     newSelected = newSelected.concat(selected.slice(1));
+  //   } else if (selectedIndex === selected.length - 1) {
+  //     newSelected = newSelected.concat(selected.slice(0, -1));
+  //   } else if (selectedIndex > 0) {
+  //     newSelected = newSelected.concat(
+  //       selected.slice(0, selectedIndex),
+  //       selected.slice(selectedIndex + 1)
+  //     );
+  //   }
 
-    setSelected(newSelected);
-  };
+  //   setSelected(newSelected);
+  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
