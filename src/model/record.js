@@ -1,5 +1,17 @@
 import { API_URL, HEADER } from "../constant";
 
+export const getAllForPatientId = async (patientId) => {
+  try {
+    const response = await fetch(
+      API_URL + `/medical-record/${patientId}/patient`
+    );
+    const json = await response.json();
+    return json.record;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getAll = async () => {
   try {
     const response = await fetch(
@@ -62,7 +74,12 @@ export const getAmountByDate = async (date) => {
     .catch((error) => console.error(error));
 };
 
-export const create = async (patientId, patientName, name) => {
+export const create = async (
+  patientId,
+  patientName,
+  name,
+  commentByDoctor = "Không có thông tin gì thêm!"
+) => {
   return await fetch(API_URL + `/medical-record`, {
     method: "POST",
     headers: HEADER,
@@ -71,6 +88,7 @@ export const create = async (patientId, patientName, name) => {
       patientId: patientId,
       patientName: patientName,
       name: name,
+      commentByDoctor: commentByDoctor,
     }),
   })
     .then((response) => response.json())
