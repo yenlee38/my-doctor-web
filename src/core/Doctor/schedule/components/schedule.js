@@ -42,8 +42,8 @@ const ScheduleDoctor = () => {
   };
 
   const getNameRoom = (roomId, rooms) => {
-    let roomDetail = rooms.filter((r) => r.id === roomId)[0];
-    return roomDetail.name;
+    let roomDetail = rooms?.filter((r) => r.id === roomId)[0];
+    return roomDetail?.name;
   };
 
   const getSchedules = () => {

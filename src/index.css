@@ -1,3 +1,12 @@
+.icon-notifi{
+  margin: 0px 5px;
+}
+.none-is-used-app {
+  font-size: 15px;
+  font-weight: 500;
+  color: #76BA99
+}
+
 .txt-header-table {
   font-size: 15px;
   padding-left: 10px;
@@ -317,6 +326,17 @@ code {
   border-radius: 5px;
 }
 
+.btn-medical-add {
+  width: 100%;
+  font-size: 15px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #e3f2fd;
+  color: #2196f3;
+  font-weight: 500;
+  border-radius: 3px;
+}
+
 .dropdown {
   background-color: #282c34;
   width: 100%;
@@ -473,6 +493,19 @@ table {
 .item6 {
   grid-area: lblPosition;
   margin-top: 50%;
+}
+.feedback-container{
+  border: #ADCF9F 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 30px;
+}
+.list-record{
+    grid-area: table;
+      height: 150px;
+      overflow-y: auto;
+      width: 500;
+      background-color: red;
 }
 .item7 {
   grid-area: table;

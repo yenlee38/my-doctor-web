@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ReactToPrint from "react-to-print";
 import { isLogin } from "../../model/account";
 import { getAll } from "../../model/prescription";
@@ -25,6 +25,8 @@ export default function RecordDetail() {
       .then((result) => setPrescription(result.prescription))
       .catch((err) => console.error(err));
   }, []);
+  // const renderComment = useCallback(() => {
+  // }, []);
 
   if (isLogin !== "doctor") return <Error />;
   else

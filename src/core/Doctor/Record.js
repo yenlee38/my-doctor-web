@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-
+import { formatDate } from "../../utils/formats";
 import { isLogin } from "../../model/account";
 import { getPatient } from "../../model/patient";
 import {
@@ -37,9 +37,8 @@ export default function Record() {
           <th>{++i}</th>
           <th style={{ textAlign: "left" }}>{record.patientName}</th>
           <th style={{ textAlign: "left" }}>{record.name}</th>
-          <th style={{ textAlign: "right" }}>
-            {new Date(record.date).toLocaleDateString()}
-          </th>
+          <th style={{ textAlign: "right" }}>{formatDate(record.date)}</th>
+          <th style={{ textAlign: "left" }}>{record.commentByDoctor}</th>
           <th>
             <a
               style={{ textDecoration: "none" }}
@@ -172,7 +171,7 @@ export default function Record() {
                 <div>{currentPosition}</div>
               </div>
               <div class="item8">
-                <label style={{ fontSize: 10 }}>
+                <label style={{ fontSize: 14 }}>
                   <font color="red">*Lưu ý: </font>Sau khi chọn số thứ tự khám,
                   thì STT sau đó 5 số sẽ được nhận thông báo về app của bệnh
                   nhân là gần tới STT khác của mình
@@ -226,6 +225,7 @@ export default function Record() {
                     <th>Người bệnh</th>
                     <th>Tên bệnh</th>
                     <th>Ngày khám</th>
+                    <th>Đánh giá</th>
                     <th></th>
                   </tr>
                   {paging()}
