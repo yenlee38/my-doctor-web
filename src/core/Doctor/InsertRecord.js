@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { isLogin } from "../../model/account";
 import { getAll, getByName } from "../../model/medicine";
 import { getPatient } from "../../model/patient";
 import { createPrescription } from "../../model/prescription";
-import { create } from "../../model/record";
+import { create, getAllForPatientId } from "../../model/record";
 import NavDoctor from "../Component/nav/NavDoctor";
 import Error from "../Error";
+import Comment from "./components/comment";
+import { getDoctorById } from "../../model/doctor";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import AutoCompleteTextComponent from "./components/autoChangeUseMedical";
 
 export default function InsertRecord() {
   const [medicines, setMedicines] = useState([]);
@@ -13,14 +18,59 @@ export default function InsertRecord() {
   const [patientName, setPatientName] = useState();
   const [name, setName] = useState();
   const [inactive, setInactive] = useState(false);
+  const [commentByDoctor, setCommentByDoctor] = useState("");
+  const [comments, setComments] = useState([]);
+  const [doctor, setDoctor] = useState();
+  const [isUseApp, setIsUseApp] = useState(false);
+  const getCommentForPatient = (patientId) => {
+    setComments([]);
+    if (patientId) {
+      getAllForPatientId(patientId).then((res) => {
+        setComments(res);
+      });
+    }
+  };
+
+  const dataUseMedical = [
+    { label: "Uống thuốc sau ăn" },
+    { label: "Uống thuốc trước ăn" },
+    { label: "Uống thuốc đúng buổi - sáng - trưa - tối" },
+    { label: "Uống sau ăn, chỉ uống vào buổi tối" },
+    { label: "Uống trước ăn, chỉ uống vào buổi tối " },
+    { label: "Uống sau ăn, chỉ uống vào buổi sáng" },
+    { label: "Uống trước ăn, chỉ uống vào buổi sáng " },
+  ];
+
+  const getIndexMedicalSelect = (value) => {
+    let indexUse = { label: "Uống thuốc sau ăn" };
+    dataUseMedical.forEach((item, index) => {
+      if (item.label === value) {
+        indexUse = item;
+      }
+    });
+    return indexUse;
+  };
+
+  const getDoctorByIdForRecord = (doctorId) => {
+    getDoctorById(doctorId).then((res) => setDoctor(res));
+  };
 
   useEffect(() => {
+    setIsUseApp(false);
+    getDoctorByIdForRecord(sessionStorage.getItem("id"));
     getAll()
       .then((result) => setMedicines(result.medicine))
       .catch((err) => console.error(err));
-
     getPatient(window.location.pathname.split("/")[2])
-      .then((result) => setPatientName(result.patient.fullName))
+      .then((result) => {
+        setPatientName("");
+        if (result?.patient) {
+          getCommentForPatient(result.patient.id);
+          setPatientName(result.patient.fullName);
+
+          setIsUseApp(true);
+        }
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -35,6 +85,17 @@ export default function InsertRecord() {
       default:
         break;
     }
+  };
+
+  const onChangeTextComment = (event) => {
+    setCommentByDoctor(event.target.value);
+  };
+
+  const onChangeMedicalUser = (event, index) => {
+    let array = [...prescription];
+    array[index - 1].use = dataUseMedical[event.target.value].label;
+    setprescription(array);
+    console.log(dataUseMedical[event.target.value].label);
   };
 
   if (isLogin !== "doctor") return <Error />;
@@ -73,12 +134,14 @@ export default function InsertRecord() {
                   />
                 </div>
               </div>
+              <div></div>
               <div
                 style={{ display: "flex", flexDirection: "row", marginTop: 10 }}
               >
                 <div>
                   <input
                     // className="txt-info-record"
+                    style={{ fontSize: 18, width: 295 }}
                     type="search"
                     onChange={(event) => {
                       getByName(event.target.value)
@@ -90,7 +153,7 @@ export default function InsertRecord() {
                   <div style={{ width: 300, height: 400, overflow: "scroll" }}>
                     {medicines.map((medicine) => (
                       <button
-                        className="dropdown"
+                        className="btn-medical-add"
                         onClick={() =>
                           setprescription([
                             ...prescription,
@@ -131,7 +194,25 @@ export default function InsertRecord() {
                         />
                       </th>
                       <th>
-                        <input
+                        <Autocomplete
+                          inlist={dataUseMedical}
+                          onChange={(event) => {
+                            let array = [...prescription];
+                            array[index - 1].use = event.target.innerText;
+                            setprescription(array);
+                          }}
+                          disablePortal
+                          id="combo-box-demo"
+                          options={dataUseMedical}
+                          sx={{ width: 400 }}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label={dataUseMedical[0].label}
+                            />
+                          )}
+                        />
+                        {/* <input
                           value={medicine.use}
                           style={{ width: 400 }}
                           onChange={(event) => {
@@ -139,13 +220,44 @@ export default function InsertRecord() {
                             array[index - 1].use = event.target.value;
                             setprescription(array);
                           }}
-                        />
+                        /> */}
                       </th>
                     </tr>
                   ))}
                 </table>
               </div>
-              {/* <div style={{ direction: "rtl" }}> */}
+              <div style={{ borderRadius: 15, flexDirection: "column" }}>
+                <div style={{ flexDirection: "row" }}>
+                  <img
+                    src="../../assets/imgs/report.png"
+                    style={{ height: 50 }}
+                  />
+                  <span
+                    style={{
+                      color: "#238D8B",
+                      fontSize: 17,
+                      fontWeight: "500",
+                      marginLeft: 10,
+                    }}
+                  >
+                    Đánh giá cho lần khám này nha!
+                  </span>
+                </div>
+                <input
+                  onChange={onChangeTextComment}
+                  style={{
+                    borderColor: "#9708E4",
+                    backgroundColor: "#FFF5FA",
+                    borderRadius: 5,
+                    paddingInline: 10,
+                    outline: "none",
+                    fontSize: 18,
+                    width: 600,
+                    height: 100,
+                  }}
+                  multiple={true}
+                />
+              </div>
               <div className="div-btn-end">
                 {" "}
                 <div
@@ -154,7 +266,8 @@ export default function InsertRecord() {
                     create(
                       window.location.pathname.split("/")[2],
                       patientName,
-                      name
+                      name,
+                      commentByDoctor
                     )
                       .then((result) => {
                         prescription.forEach((element) => {
@@ -180,6 +293,57 @@ export default function InsertRecord() {
                 </div>
               </div>
               {/* </div> */}
+
+              <div style={{ borderRadius: 15, flexDirection: "column" }}>
+                <div
+                  style={{
+                    flexDirection: "row",
+                    backgroundColor: "#EEEEEE",
+                    marginTop: 10,
+                  }}
+                >
+                  <img
+                    src="../../assets/imgs/report_again.png"
+                    style={{ height: 50 }}
+                  />
+                  <span
+                    style={{
+                      color: "#238D8B",
+                      fontSize: 17,
+                      fontWeight: "500",
+                      marginLeft: 10,
+                    }}
+                  >
+                    Những lần đánh giá trước!
+                  </span>
+                </div>
+                <div>
+                  {!isUseApp ? (
+                    <div>
+                      <div className="none-is-used-app">
+                        <i class="bi bi-megaphone-fill icon-notifi"></i>
+                        Bệnh nhân không sử dụng ứng dụng để đăng ký số thứ tự
+                        khám bệnh
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+                <div>
+                  {!!comments
+                    ? comments.map((item) => (
+                        <Comment
+                          nameDoctor={doctor?.fullname}
+                          avatar={doctor?.avatar}
+                          nameSick={item?.name ?? "Không hiển thị tên bênh"}
+                          commment={
+                            item?.commentByDoctor ??
+                            "Không có nhắc nhở, đánh giá nào"
+                          }
+                        />
+                      ))
+                    : null}
+                </div>
+              </div>
             </div>
           </div>
         </div>

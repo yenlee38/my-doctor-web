@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 import { isLogin } from "../../model/account";
@@ -69,7 +69,7 @@ export default function Record() {
         position.room,
         position.date,
         position.number + 5
-      );
+      ).then((res) => console.log({ response }));
       if (response.count === 1) {
         const result = await getPatient(response.position.patientId);
         await notification(
@@ -172,7 +172,7 @@ export default function Record() {
                 <div>{currentPosition}</div>
               </div>
               <div class="item8">
-                <label style={{ fontSize: 10 }}>
+                <label style={{ fontSize: 14 }}>
                   <font color="red">*Lưu ý: </font>Sau khi chọn số thứ tự khám,
                   thì STT sau đó 5 số sẽ được nhận thông báo về app của bệnh
                   nhân là gần tới STT khác của mình
