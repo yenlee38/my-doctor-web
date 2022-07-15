@@ -1,10 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { isLogin } from "../../model/account";
 import { getAll } from "../../model/prescription";
 import { getRecord } from "../../model/record";
 import NavDoctor from "../Component/nav/NavDoctor";
 import Error from "../Error";
+import { formatDate } from "../../utils/formats";
 
 export default function RecordDetail() {
   const [record, setRecord] = useState();
@@ -25,8 +26,6 @@ export default function RecordDetail() {
       .then((result) => setPrescription(result.prescription))
       .catch((err) => console.error(err));
   }, []);
-  // const renderComment = useCallback(() => {
-  // }, []);
 
   if (isLogin !== "doctor") return <Error />;
   else
@@ -52,19 +51,33 @@ export default function RecordDetail() {
                 />
               </div>
               <div id="print">
+                <div style={{ flexDirection: "row", display: "flex" }}>
+                  <img
+                    src="../../../../assets/imgs/logo.png"
+                    alt="webscript"
+                    width="20%"
+                    height="20%"
+                  />
+                  <div>
+                    <h2>CƠ SỞ KHÁM BỆNH ... </h2>
+                    <h3>Địa chỉ: ... </h3>
+                  </div>
+                </div>
                 <div className="title">Bệnh án</div>
                 <div className="txt-header-table">
-                  Người bệnh: {record ? record.patientName : ""}
+                  Họ và tên: {record ? record.patientName : ""}
                 </div>
                 <div className="txt-header-table">
-                  Tên bệnh: {record ? record.name : ""}
+                  Chẩn đoán: {record ? record.name : ""}
                 </div>
                 <div className="txt-header-table">
-                  Đánh giá: {record ? record.commentByDoctor : ""}
+                  Ngày khám: {record ? formatDate(record.date) : ""}
                 </div>
-                <div className="txt-header-table">
-                  Ngày khám:{" "}
-                  {record ? new Date(record.date).toLocaleDateString() : ""}
+                <div
+                  className="txt-header-table"
+                  style={{ fontSize: 15, fontWeight: "bold", marginTop: 10 }}
+                >
+                  Thuốc điều trị{" "}
                 </div>
                 <div className="list">
                   <table>
@@ -84,8 +97,13 @@ export default function RecordDetail() {
                     ))}
                   </table>
                 </div>
-                <div className="txt-header-table" style={{ direction: "rtl" }}>
-                  Chữ ký của bác sĩ
+                <div className="txt-header-table">
+                  Lời dặn: {record ? record.commentByDoctor : ""}
+                </div>
+                <div className="txt-header-table" style={{ textAlign: "end" }}>
+                  <br />
+                  Bác sĩ khám bệnh <br />
+                  (Ký và ghi rõ họ tên)
                 </div>
               </div>
             </div>
