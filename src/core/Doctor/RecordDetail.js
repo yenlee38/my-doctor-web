@@ -1,10 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { isLogin } from "../../model/account";
 import { getAll } from "../../model/prescription";
 import { getRecord } from "../../model/record";
 import NavDoctor from "../Component/nav/NavDoctor";
 import Error from "../Error";
+import { formatDate } from "../../utils/formats";
 
 export default function RecordDetail() {
   const [record, setRecord] = useState();
@@ -25,8 +26,6 @@ export default function RecordDetail() {
       .then((result) => setPrescription(result.prescription))
       .catch((err) => console.error(err));
   }, []);
-  // const renderComment = useCallback(() => {
-  // }, []);
 
   if (isLogin !== "doctor") return <Error />;
   else
@@ -40,7 +39,7 @@ export default function RecordDetail() {
         />
         <div className={`container ${inactive ? "inactive" : ""}`}>
           <div className="home">
-            <div className="main" id="print">
+            <div className="main">
               <div className="div-print">
                 <ReactToPrint
                   trigger={() => (
@@ -51,34 +50,69 @@ export default function RecordDetail() {
                   content={() => document.getElementById("print")}
                 />
               </div>
-              <div className="title">Bệnh án</div>
-              <div className="txt-header-table">
-                Người bệnh: {record ? record.patientName : ""}
-              </div>
-              <div className="txt-header-table">
-                Tên bệnh: {record ? record.name : ""}
-              </div>
-              <div className="txt-header-table">
-                Ngày khám:{" "}
-                {record ? new Date(record.date).toLocaleDateString() : ""}
-              </div>
-              <div className="list">
-                <table>
-                  <tr className="col-name">
-                    <th>STT</th>
-                    <th>Tên thuốc</th>
-                    <th>Liều lượng</th>
-                    <th>Cách dùng</th>
-                  </tr>
-                  {prescription.map((medicine, index) => (
-                    <tr className="data">
-                      <th>{++index}</th>
-                      <th style={{ textAlign: "left" }}>{medicine.name}</th>
-                      <th>{medicine.amount}</th>
-                      <th style={{ textAlign: "left" }}>{medicine.use}</th>
+              <div id="print">
+                <div
+                  style={{
+                    flexDirection: "row",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src="../../../../assets/imgs/logo.png"
+                    alt="webscript"
+                    width="20%"
+                    height="20%"
+                  />
+                  <div>
+                    <h5>CƠ SỞ KHÁM BỆNH MYDOCTOR </h5>
+                    <h6>
+                      Địa chỉ: 499/15/10B Lê Quang Định, phường 1, quận Gò Vấp{" "}
+                    </h6>
+                  </div>
+                </div>
+                <div className="title">Bệnh án</div>
+                <div className="txt-header-table">
+                  Họ và tên: {record ? record.patientName : ""}
+                </div>
+                <div className="txt-header-table">
+                  Chẩn đoán: {record ? record.name : ""}
+                </div>
+                <div className="txt-header-table">
+                  Ngày khám: {record ? formatDate(record.date) : ""}
+                </div>
+                <div
+                  className="txt-header-table"
+                  style={{ fontSize: 15, fontWeight: "bold", marginTop: 10 }}
+                >
+                  Thuốc điều trị{" "}
+                </div>
+                <div className="list">
+                  <table>
+                    <tr className="col-name">
+                      <th>STT</th>
+                      <th>Tên thuốc</th>
+                      <th>Liều lượng</th>
+                      <th>Cách dùng</th>
                     </tr>
-                  ))}
-                </table>
+                    {prescription.map((medicine, index) => (
+                      <tr className="data">
+                        <th>{++index}</th>
+                        <th style={{ textAlign: "left" }}>{medicine.name}</th>
+                        <th>{medicine.amount}</th>
+                        <th style={{ textAlign: "left" }}>{medicine.use}</th>
+                      </tr>
+                    ))}
+                  </table>
+                </div>
+                <div className="txt-header-table">
+                  Lời dặn: {record ? record.commentByDoctor : ""}
+                </div>
+                <div className="txt-header-table" style={{ textAlign: "end" }}>
+                  <br />
+                  Bác sĩ khám bệnh <br />
+                  (Ký và ghi rõ họ tên)
+                </div>
               </div>
             </div>
           </div>

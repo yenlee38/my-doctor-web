@@ -10,7 +10,7 @@ import Comment from "./components/comment";
 import { getDoctorById } from "../../model/doctor";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import AutoCompleteTextComponent from "./components/autoChangeUseMedical";
+// import AutoCompleteTextComponent from "./components/autoChangeUseMedical";
 
 export default function InsertRecord() {
   const [medicines, setMedicines] = useState([]);
@@ -22,6 +22,7 @@ export default function InsertRecord() {
   const [comments, setComments] = useState([]);
   const [doctor, setDoctor] = useState();
   const [isUseApp, setIsUseApp] = useState(false);
+
   const getCommentForPatient = (patientId) => {
     setComments([]);
     if (patientId) {
@@ -41,15 +42,15 @@ export default function InsertRecord() {
     { label: "Uống trước ăn, chỉ uống vào buổi sáng " },
   ];
 
-  const getIndexMedicalSelect = (value) => {
-    let indexUse = { label: "Uống thuốc sau ăn" };
-    dataUseMedical.forEach((item, index) => {
-      if (item.label === value) {
-        indexUse = item;
-      }
-    });
-    return indexUse;
-  };
+  // const getIndexMedicalSelect = (value) => {
+  //   let indexUse = { label: "Uống thuốc sau ăn" };
+  //   dataUseMedical.forEach((item, index) => {
+  //     if (item.label === value) {
+  //       indexUse = item;
+  //     }
+  //   });
+  //   return indexUse;
+  // };
 
   const getDoctorByIdForRecord = (doctorId) => {
     getDoctorById(doctorId).then((res) => setDoctor(res));
@@ -82,21 +83,24 @@ export default function InsertRecord() {
       case "name":
         setName(event.target.value);
         break;
+      case "commentByDoctor":
+        setCommentByDoctor(event.target.value);
+        break;
       default:
         break;
     }
   };
 
-  const onChangeTextComment = (event) => {
-    setCommentByDoctor(event.target.value);
-  };
+  // const onChangeTextComment = (event) => {
+  //   setCommentByDoctor(event.target.value);
+  // };
 
-  const onChangeMedicalUser = (event, index) => {
-    let array = [...prescription];
-    array[index - 1].use = dataUseMedical[event.target.value].label;
-    setprescription(array);
-    console.log(dataUseMedical[event.target.value].label);
-  };
+  // const onChangeMedicalUser = (event, index) => {
+  //   let array = [...prescription];
+  //   array[index - 1].use = dataUseMedical[event.target.value].label;
+  //   setprescription(array);
+  //   console.log(dataUseMedical[event.target.value].label);
+  // };
 
   if (isLogin !== "doctor") return <Error />;
   else
@@ -134,14 +138,13 @@ export default function InsertRecord() {
                   />
                 </div>
               </div>
-              <div></div>
               <div
                 style={{ display: "flex", flexDirection: "row", marginTop: 10 }}
               >
                 <div>
                   <input
                     // className="txt-info-record"
-                    style={{ fontSize: 18, width: 295 }}
+                    style={{ fontSize: 18, width: "99%" }}
                     type="search"
                     onChange={(event) => {
                       getByName(event.target.value)
@@ -150,7 +153,7 @@ export default function InsertRecord() {
                     }}
                     placeholder="Nhập tên thuốc"
                   />
-                  <div style={{ width: 300, height: 400, overflow: "scroll" }}>
+                  <div style={{ width: 200, height: 400, overflow: "scroll" }}>
                     {medicines.map((medicine) => (
                       <button
                         className="btn-medical-add"
@@ -243,23 +246,22 @@ export default function InsertRecord() {
                     Đánh giá cho lần khám này nha!
                   </span>
                 </div>
-                <input
-                  onChange={onChangeTextComment}
+                <textarea
+                  name="commentByDoctor"
+                  onChange={onChange}
                   style={{
                     borderColor: "#9708E4",
                     backgroundColor: "#FFF5FA",
                     borderRadius: 5,
-                    paddingInline: 10,
-                    outline: "none",
                     fontSize: 18,
                     width: 600,
-                    height: 100,
+                    padding: 10,
+                    maxLines: 3,
                   }}
-                  multiple={true}
+                  value={commentByDoctor}
                 />
               </div>
               <div className="div-btn-end">
-                {" "}
                 <div
                   className="btn-style"
                   onClick={() =>
@@ -334,10 +336,14 @@ export default function InsertRecord() {
                         <Comment
                           nameDoctor={doctor?.fullname}
                           avatar={doctor?.avatar}
-                          nameSick={item?.name ?? "Không hiển thị tên bênh"}
+                          nameSick={item?.name ?? "Không hiển thị tên bệnh"}
                           commment={
                             item?.commentByDoctor ??
                             "Không có nhắc nhở, đánh giá nào"
+                          }
+                          date={item.date}
+                          onPressGotoRecordDetail={() =>
+                            (window.location.href = "/record-detail/" + item.id)
                           }
                         />
                       ))

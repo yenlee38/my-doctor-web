@@ -3,7 +3,7 @@ import ReactSearchBox from "react-search-box";
 import { getAllDoctor } from "../../../../model/doctor";
 import { Grid } from "@mui/material";
 import "../styles.css";
-import { formatDate, getDayInMonth } from "../../../../utils/formats";
+import { getDayInMonth } from "../../../../utils/formats";
 import DaySchedule from "./day-schedule";
 import {
   createScheduleAPI,
@@ -16,6 +16,7 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import ScheduleDetail from "./schedule-detail";
 import { ToastContainer, toast } from "react-toastify";
+
 const CalendarManagerHome = () => {
   const [doctors, setDoctors] = useState([]);
   const [doctorsForSearch, setDoctorsForSearch] = useState([]);
@@ -39,10 +40,10 @@ const CalendarManagerHome = () => {
   const checkIsExitSchedule = () => {
     let isExist = false;
     schedules.forEach((item) => {
-      if (item.day == daySelected) {
-        if (item.session == sessionCreate) {
+      if (item.day === daySelected) {
+        if (item.session === sessionCreate) {
           isExist = true;
-          if (item.roomId == roomSelect) {
+          if (item.roomId === roomSelect) {
             isExist = true;
           }
         }
@@ -88,7 +89,7 @@ const CalendarManagerHome = () => {
 
     for (let i = 0; i < numberOfMonth; i++) {
       for (let j = 0; j < lSchedule.length; j++) {
-        if (lSchedule[j].day == i + 1) {
+        if (lSchedule[j].day === i + 1) {
           list[i].schedule = lSchedule[j];
         }
       }
@@ -100,7 +101,7 @@ const CalendarManagerHome = () => {
   const listDefaultSession = ["AM", "PM"];
 
   const getNameRoom = (roomId, rooms) => {
-    let roomDetail = rooms.filter((r) => r.id == roomId)[0];
+    let roomDetail = rooms.filter((r) => r.id === roomId)[0];
     return roomDetail.name;
   };
 
@@ -136,16 +137,16 @@ const CalendarManagerHome = () => {
     [scheduleDoctors]
   );
 
-  const getNumberDayOfMonth = () => {
-    let date = new Date();
-    setNumberDay(getDayInMonth(date.getFullYear(), date.getMonth));
-    return getDayInMonth(date.getFullYear(), date.getMonth);
-  };
+  // const getNumberDayOfMonth = () => {
+  //   let date = new Date();
+  //   setNumberDay(getDayInMonth(date.getFullYear(), date.getMonth));
+  //   return getDayInMonth(date.getFullYear(), date.getMonth);
+  // };
 
   const isSameDay = (schedule1, schedule2) => {
     if (
       schedule1.day === schedule2.day &&
-      schedule1.session != schedule2.session
+      schedule1.session !== schedule2.session
     ) {
       return true;
     } else return false;
@@ -253,7 +254,10 @@ const CalendarManagerHome = () => {
     <div className="calendar-manager-container">
       <ToastContainer />
       <div className="header-container">
-        <img src="../../../../assets/imgs/create-calandar.png" />
+        <img
+          src="../../../../assets/imgs/create-calandar.png"
+          alt="tạo phiên trực"
+        />
         <div className="search-container">
           <ReactSearchBox
             placeholder="nhập tên bác sĩ"
@@ -273,6 +277,7 @@ const CalendarManagerHome = () => {
               <>
                 <div className="name-avatar-info">
                   <img
+                    alt="ảnh đại diện"
                     className="avatar"
                     src="https://res.cloudinary.com/yenltn/image/upload/v1655568093/gme6rv0ktxevszropcvk.jpg"
                   />

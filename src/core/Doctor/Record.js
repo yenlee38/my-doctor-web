@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-
+import { formatDate } from "../../utils/formats";
 import { isLogin } from "../../model/account";
 import { getPatient } from "../../model/patient";
 import {
@@ -37,9 +37,8 @@ export default function Record() {
           <th>{++i}</th>
           <th style={{ textAlign: "left" }}>{record.patientName}</th>
           <th style={{ textAlign: "left" }}>{record.name}</th>
-          <th style={{ textAlign: "right" }}>
-            {new Date(record.date).toLocaleDateString()}
-          </th>
+          <th style={{ textAlign: "right" }}>{formatDate(record.date)}</th>
+          <th style={{ textAlign: "left" }}>{record.commentByDoctor}</th>
           <th>
             <a
               style={{ textDecoration: "none" }}
@@ -51,7 +50,7 @@ export default function Record() {
         </tr>
       );
     }
-    if (table.length == 0)
+    if (table.length === 0)
       return (
         <tr>
           <td colSpan={5} style={{ textAlign: "center" }}>
@@ -64,12 +63,11 @@ export default function Record() {
 
   const call = async (position) => {
     try {
-      await used(position.id);
       const response = await exist(
         position.room,
         position.date,
         position.number + 5
-      ).then((res) => console.log({ response }));
+      );
       if (response.count === 1) {
         const result = await getPatient(response.position.patientId);
         await notification(
@@ -78,6 +76,7 @@ export default function Record() {
           position.number + 5
         );
       }
+      await used(position.id);
       window.location.href = "/insert-record/" + position.patientId;
     } catch (error) {
       console.error(error);
@@ -161,7 +160,7 @@ export default function Record() {
                 )}
                 {positions.map((position, index) => (
                   <button onClick={async () => call(position)}>
-                    <img src="../../assets/imgs/position.png" />
+                    <img src="../../assets/imgs/position.png" alt="số thứ tự" />
                     <br />
                     <font color="red">{position.number}</font>
                   </button>
@@ -226,6 +225,7 @@ export default function Record() {
                     <th>Người bệnh</th>
                     <th>Tên bệnh</th>
                     <th>Ngày khám</th>
+                    <th>Đánh giá</th>
                     <th></th>
                   </tr>
                   {paging()}

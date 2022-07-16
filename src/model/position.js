@@ -114,7 +114,7 @@ export const notification = async (token, room, number) => {
     }),
   })
     .then((response) => response.json())
-    .catch((error) => alert(error));
+    .catch((error) => console.log(error));
 };
 
 export const changeRoom = async (roomOld, roomNew) => {

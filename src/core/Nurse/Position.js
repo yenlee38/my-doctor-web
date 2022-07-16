@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import ReactToPrint from "react-to-print";
-
 import { DEPARTMENT, NUMBER_STATE } from "../../constant";
 import { isLogin } from "../../model/account";
 import { getAllByDept, create, getCurrent, filter } from "../../model/position";
@@ -21,18 +20,21 @@ export default function Position(props) {
   const [filterText, setFilter] = useState({ room: "", state: "" });
   const [inactive, setInactive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const Add = () => {
+  const [error, setError] = useState("");
+
+  const add = () => {
     create(number, room)
       .then((result) => {
         if (result.position === null) {
           setNumber(number + 1);
-          alert("STT đã được đặt");
+          setError("Trùng số thứ tự");
         } else {
           setShow(false);
           getAllByDept(department)
             .then((result) => setData(result.position))
             .catch((err) => console.error(err));
           setFilter({ room: "", state: "" });
+          setError("");
         }
       })
       .catch((err) => console.error(err));
@@ -91,6 +93,14 @@ export default function Position(props) {
               )}
               content={() => document.getElementById("print")}
             />
+            <div style={{ display: "none" }}>
+              <div id="print" style={{ textAlign: "center" }}>
+                <h6>Khoa {department}</h6>
+                <p>
+                  Phòng: {position.room} - STT: {position.number}
+                </p>
+              </div>
+            </div>
           </th>
         </tr>
       );
@@ -140,17 +150,28 @@ export default function Position(props) {
                     ))}
                   </select>
                 </div>
-                <div className="txt-header-table">STT</div>
-                <input
-                  className="txt-info-stt"
-                  name="number"
-                  type="number"
-                  value={number}
-                  onChange={(event) => setNumber(event.target.value)}
-                />
-                <br />
+                <div className="div-input">
+                  <div className="txt-header-table">STT</div>
+                  <input
+                    className="txt-info-stt"
+                    name="number"
+                    type="number"
+                    value={number}
+                    onChange={(event) => setNumber(event.target.value)}
+                  />
+                </div>
+                <div
+                  style={{
+                    direction: "rtl",
+                    color: "red",
+                    fontSize: 13,
+                    marginBottom: 10,
+                  }}
+                >
+                  {error}
+                </div>
                 <div className="header">
-                  <div className="btn-style" onClick={Add}>
+                  <div className="btn-style" onClick={add}>
                     Thêm
                   </div>
                   <div
@@ -163,7 +184,6 @@ export default function Position(props) {
               </dialog>
 
               <div style={{ padding: 15 }}>
-                {" "}
                 <span className="txt-header-table">Phòng khám</span>
                 <select
                   value={filterText.room}
@@ -229,6 +249,7 @@ export default function Position(props) {
                 {isLoading ? (
                   <div className="div-loading">
                     <img
+                      alt="Loading"
                       className="img-loading"
                       src="../../../assets/imgs/loadComponent.gif"
                     />

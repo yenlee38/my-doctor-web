@@ -1,4 +1,5 @@
 import React from "react";
+import { formatDate } from "../../../utils/formats";
 
 const Comment = ({
   avatar = "../../../assets/imgs/report_again.png",
@@ -23,7 +24,6 @@ const Comment = ({
       </div>
       <div>
         <span style={{ fontSize: 17 }}>
-          {" "}
           <i class="bi bi-quote"></i> {commment}
         </span>
       </div>
@@ -44,7 +44,7 @@ const Comment = ({
             marginRight: 5,
           }}
         >
-          <span>Khám ngày: {date}</span>
+          <span>Khám ngày: {formatDate(date)}</span>
         </div>
         <div onClick={onPressGotoRecordDetail} className="btn-style">
           Xem hồ sơ

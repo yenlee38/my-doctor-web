@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import NavAdmin from "../../Component/nav/NavAdmin";
 import PatientManagerHome from "./home";
-import DoctorManagerHome from "./home";
 
 const PatientManagerment = (props) => {
   const [inactive, setInactive] = useState(false);

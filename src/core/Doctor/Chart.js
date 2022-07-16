@@ -5,42 +5,17 @@ import { getAmountByDate } from "../../model/record";
 var chartMonth = [];
 var chartWeek = [];
 export default class Chart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      screen: null,
+    };
+  }
   render() {
-    if (chartMonth.length === 0)
-      return (
-        <div style={{ minHeight: 100, textAlign: "center" }}>
-          Không có dữ liệu
-        </div>
-      );
-    else
-      return (
-        <div>
-          {chartWeek.length > 0 ? (
-            <CanvasJSChart
-              options={{
-                title: { text: "Trong 7 ngày" },
-                axisX: { valueFormatString: "DD/MM" },
-                axisY: { title: "(người)" },
-                data: [{ type: "column", dataPoints: chartWeek }],
-              }}
-              onRef={(ref) => (this.week = ref)}
-            />
-          ) : null}
-          <CanvasJSChart
-            options={{
-              title: { text: "Trong 30 ngày" },
-              // dataPointMaxWidth: 60,
-              axisX: { valueFormatString: "DD/MM" },
-              axisY: { title: "(người)" },
-              data: [{ type: "column", dataPoints: chartMonth }],
-            }}
-            onRef={(ref) => (this.month = ref)}
-          />
-        </div>
-      );
+    return this.state.screen;
   }
 
-  componentDidMount() {
+  componentDidMount ()  {
     for (let index = 1; index <= 31; index++) {
       getAmountByDate(
         new Date(new Date().setDate(new Date().getDate() - index))
@@ -56,5 +31,45 @@ export default class Chart extends Component {
         })
         .catch((err) => console.log(err));
     }
+    this.setScreen(chartMonth, chartWeek);
   }
+
+  setScreen = (chartMonth, chartWeek) => {
+    if (chartMonth.length === 0)
+      this.setState({
+        screen: (
+          <div style={{ minHeight: 100, textAlign: "center" }}>
+            Không có dữ liệu
+          </div>
+        ),
+      });
+    else
+      this.setState({
+        screen: (
+          <div>
+            {chartWeek.length > 0 ? (
+              <CanvasJSChart
+                options={{
+                  title: { text: "Trong 7 ngày" },
+                  axisX: { valueFormatString: "DD/MM" },
+                  axisY: { title: "(người)" },
+                  data: [{ type: "column", dataPoints: chartWeek }],
+                }}
+                onRef={(ref) => (this.week = ref)}
+              />
+            ) : null}
+            <CanvasJSChart
+              options={{
+                title: { text: "Trong 30 ngày" },
+                // dataPointMaxWidth: 60,
+                axisX: { valueFormatString: "DD/MM" },
+                axisY: { title: "(người)" },
+                data: [{ type: "column", dataPoints: chartMonth }],
+              }}
+              onRef={(ref) => (this.month = ref)}
+            />
+          </div>
+        ),
+      });
+  };
 }

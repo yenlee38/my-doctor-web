@@ -36,6 +36,7 @@ const PatientChatComponent = ({
         <img
           className="img-patient"
           src={avatar ?? "../../../assets/imgs/logo.png"}
+          alt="ảnh đại diện"
         />
       </div>
       <div className="info-container">

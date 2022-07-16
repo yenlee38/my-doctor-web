@@ -6,6 +6,7 @@ import DaySchedule from "./day-schedule";
 import { Grid } from "@mui/material";
 import { formatDate, getDayInMonth } from "../../../../utils/formats";
 import { getAllRoom } from "../../../../model/room";
+
 const ScheduleDoctor = () => {
   const [schedules, setSchedules] = useState([]);
   const [numberDay, setNumberDay] = useState(0);
@@ -32,7 +33,7 @@ const ScheduleDoctor = () => {
 
     for (let i = 0; i < numberOfMonth; i++) {
       for (let j = 0; j < lSchedule.length; j++) {
-        if (lSchedule[j].day == i + 1) {
+        if (lSchedule[j].day === i + 1) {
           list[i].schedule = lSchedule[j];
         }
       }
@@ -70,7 +71,7 @@ const ScheduleDoctor = () => {
   const isSameDay = (schedule1, schedule2) => {
     if (
       schedule1.day === schedule2.day &&
-      schedule1.session != schedule2.session
+      schedule1.session !== schedule2.session
     ) {
       return true;
     } else return false;
@@ -142,9 +143,9 @@ const ScheduleDoctor = () => {
   const dateNow = formatDate(Date());
   return (
     <div className="main-screen">
-      {schedules.length == 0 ? (
+      {schedules.length === 0 ? (
         <div className="non-schedule-container">
-          <img src={"../../../../assets/imgs/calandar-empty.png"} />
+          <img src={"../../../../assets/imgs/calandar-empty.png"} alt="trống" />
           <div className="non-schedule-text">
             Bạn hiện tại không có lịch khám nào!
           </div>
@@ -152,7 +153,7 @@ const ScheduleDoctor = () => {
       ) : (
         <>
           <div className="context-container">
-            <img src="../../../../assets/imgs/calandar.png" />
+            <img src="../../../../assets/imgs/calandar.png" alt="lịch" />
           </div>
           <div className="context-container">
             <div

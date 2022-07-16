@@ -158,6 +158,7 @@ const ChatScreen = () => {
           <img
             style={{ height: 200, width: 200 }}
             src="../../../../../assets/imgs/patient.gif"
+            alt="trống"
           />
           <div className="txtEmpty">Hãy bắt đầu tin nhắn mới!</div>
         </div>
@@ -188,6 +189,7 @@ const ChatScreen = () => {
           <img
             style={{ height: 50, width: 50 }}
             src="../../../../../assets/imgs/icon_user.png"
+            alt="trống"
           />
           <div className="txtEmpty">Bạn hiện chưa có bệnh nhân đăng ký</div>
         </div>
@@ -196,7 +198,6 @@ const ChatScreen = () => {
   };
   return (
     <>
-      {" "}
       <NavDoctor
         onCollapse={(inactive) => {
           setInactive(inactive);
@@ -237,6 +238,7 @@ const ChatScreen = () => {
                   <img
                     src={patient?.avatar ?? ""}
                     className="patient-avatar-chat"
+                    alt="ảnh đại diện"
                   />
                   <div className="name-patient-chat">
                     {patient?.fullName ?? "...."}
@@ -247,7 +249,7 @@ const ChatScreen = () => {
             <ScrollToBottom className="chat-content-container">
               {messages?.length === 0 ? <EmptyChat /> : null}
               {messages?.map((mess) => {
-                return mess.senderId == userId ? (
+                return mess.senderId === userId ? (
                   <>
                     <SenderMessage
                       message={mess.message}
