@@ -51,7 +51,13 @@ export default function RecordDetail() {
                 />
               </div>
               <div id="print">
-                <div style={{ flexDirection: "row", display: "flex" }}>
+                <div
+                  style={{
+                    flexDirection: "row",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <img
                     src="../../../../assets/imgs/logo.png"
                     alt="webscript"
@@ -59,8 +65,10 @@ export default function RecordDetail() {
                     height="20%"
                   />
                   <div>
-                    <h2>CƠ SỞ KHÁM BỆNH ... </h2>
-                    <h3>Địa chỉ: ... </h3>
+                    <h5>CƠ SỞ KHÁM BỆNH MYDOCTOR </h5>
+                    <h6>
+                      Địa chỉ: 499/15/10B Lê Quang Định, phường 1, quận Gò Vấp{" "}
+                    </h6>
                   </div>
                 </div>
                 <div className="title">Bệnh án</div>
