@@ -9,16 +9,20 @@ export default function DoctorHome() {
   const [chartWeek, setWeek] = useState([]);
 
   useEffect(async () => {
+    let chartMonth = [];
+    let chartWeek = [];
     for (let index = 1; index <= 31; index++) {
       const result = await getAmountByDate(
         new Date(new Date().setDate(new Date().getDate() - index))
       );
       if (result.y > 0) {
         const item = { x: new Date(result.x), y: result.y };
-        setMonth([...chartMonth, item]);
-        if (index <= 8) setWeek([...chartWeek, item]);
+        chartMonth.push(item);
+        if (index <= 8) chartWeek.push(item);
       }
     }
+    setMonth(chartMonth);
+    setWeek(chartWeek);
   }, []);
 
   return (

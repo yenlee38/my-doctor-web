@@ -67,7 +67,7 @@ export default function RecordDetail() {
                   <div>
                     <h5>CƠ SỞ KHÁM BỆNH MYDOCTOR </h5>
                     <h6>
-                      Địa chỉ: 499/15/10B Lê Quang Định, phường 1, quận Gò Vấp{" "}
+                      Địa chỉ: 499/15/10B Lê Quang Định, phường 1, quận Gò Vấp
                     </h6>
                   </div>
                 </div>

@@ -236,7 +236,7 @@ export default function Record() {
                 <div className="txt-header-table">Tổng: {data.length}</div>
                 <div className="paging">
                   <div className="paging-icon" onClick={() => setPage(1)}>
-                    <i class="bi bi-chevron-left"></i>
+                    <i class="bi bi-chevron-double-left"></i>
                   </div>
 
                   <div
@@ -245,7 +245,7 @@ export default function Record() {
                       if (page > 1) setPage(page - 1);
                     }}
                   >
-                    <i class="bi bi-chevron-double-left"></i>
+                    <i class="bi bi-chevron-left"></i>
                   </div>
                   <input
                     className="txt-paging"
@@ -260,14 +260,14 @@ export default function Record() {
                       if (page < data.length / amount) setPage(page + 1);
                     }}
                   >
-                    <i class="bi bi-chevron-double-right"></i>
+                    <i class="bi bi-chevron-right"></i>
                   </div>
 
                   <div
                     className="paging-icon"
                     onClick={() => setPage(parseInt(data.length / amount) + 1)}
                   >
-                    <i class="bi bi-chevron-right"></i>
+                    <i class="bi bi-chevron-double-right"></i>
                   </div>
                 </div>
               </div>
